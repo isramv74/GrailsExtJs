@@ -1,2 +1,18 @@
 en webapp descomprimir extjs 4.1.1a y renombrar a extjs
 
+Para activar la optimizacion se requiere del Sencha SDK Tools
+
+http://www.sencha.com/products/sdk-tools
+
+Analiza la app para genera el jsb3
+sencha create jsb -a http://localhost:8080/GrailsExtJs/  -p app.jsb3
+
+Crea la app optimizada
+sencha build -p app.jsb3 -d .
+
+
+Para acceder la app optimizada:
+
+http://localhost:8080/GrailsExtJs/
+
+Tambien se instalo ui-performance, basicamente para comprimir los js y css
