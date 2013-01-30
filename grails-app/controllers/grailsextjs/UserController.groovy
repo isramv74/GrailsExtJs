@@ -20,4 +20,12 @@ class UserController {
         def listResult = [ total: User.count(), items: User.list(params)]
         render listResult as JSON
     }
+
+    def more = {
+        (1..100).each {
+            new User(name:'Sunil'+it, email: 'sunil@wtc.com', department: 'FIN').save()
+        }
+
+        render 'done'
+    }
 }
