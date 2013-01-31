@@ -10,7 +10,19 @@ class UserController {
 
     def saveJSON(){
 
-        println "Got request " + request.reader.text
+        String json = request.reader.text.toString()
+        println "Got request " + json
+
+        def o = JSON.parse(json)
+
+        def userInstance = User.get(o.data.id)
+
+        userInstance.properties = o.data
+
+        if (!userInstance.save(flush: true)) {
+            println "data: " +userInstance
+        }
+
         println 'Update: ' + params
 
         render '{success:"true"}'
