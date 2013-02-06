@@ -7,7 +7,20 @@ Ext.define('AM.view.user.List' ,{
         {header: 'Name',  dataIndex: 'name',  flex: 1},
         {header: 'Email', dataIndex: 'email', flex: 1}
     ],
-    tools:[{
+    dockedItems: [{
+        xtype: 'pagingtoolbar',
+        store: 'Users',   // same store GridPanel is using
+        dock: 'bottom',
+        displayInfo: true
+    }],
+    tools:[
+        {
+            type:'plus',
+            tooltip: 'Add User',
+            handler: function(){
+            }
+        },
+        {
         type:'refresh',
         tooltip: 'Refresh',
         handler: function(){

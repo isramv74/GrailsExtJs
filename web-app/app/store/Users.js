@@ -57,5 +57,5 @@ Ext.define('AM.store.Users', {
     },
     refresh: function() {
         this.clearFilter();
-        this.load();
+        this.loadPage(1);
     } });

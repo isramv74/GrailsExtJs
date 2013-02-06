@@ -29,6 +29,10 @@ class UserController {
     }
 
     def listJSON = {
+
+        println "Got request " + request.reader.text
+        println "params: "+params
+
         def listResult = [ total: User.count(), items: User.list(params)]
         render listResult as JSON
     }
