@@ -21,3 +21,5 @@ Tambien se instalo ui-performance, basicamente para comprimir los js y css
 Paginated Grid
 http://localhost:8080/GrailsExtJs/paginatedGrid/index.html
 
+Cargar 100 usuarios
+http://localhost:8080/GrailsExtJs/user/more
