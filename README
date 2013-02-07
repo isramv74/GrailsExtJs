@@ -16,3 +16,8 @@ Para acceder la app optimizada:
 http://localhost:8080/GrailsExtJs/
 
 Tambien se instalo ui-performance, basicamente para comprimir los js y css
+
+
+Paginated Grid
+http://localhost:8080/GrailsExtJs/paginatedGrid/index.html
+
