@@ -1212,155 +1212,6 @@ Ext.define('Ext.data.IdGenerator', {
 /**
  * @author Ed Spencer
  *
- * This singleton contains a set of validation functions that can be used to validate any type of data. They are most
- * often used in {@link Ext.data.Model Models}, where they are automatically set up and executed.
- */
-Ext.define('Ext.data.validations', {
-    singleton: true,
-    
-    /**
-     * @property {String} presenceMessage
-     * The default error message used when a presence validation fails.
-     */
-    presenceMessage: 'must be present',
-    
-    /**
-     * @property {String} lengthMessage
-     * The default error message used when a length validation fails.
-     */
-    lengthMessage: 'is the wrong length',
-    
-    /**
-     * @property {String} formatMessage
-     * The default error message used when a format validation fails.
-     */
-    formatMessage: 'is the wrong format',
-    
-    /**
-     * @property {String} inclusionMessage
-     * The default error message used when an inclusion validation fails.
-     */
-    inclusionMessage: 'is not included in the list of acceptable values',
-    
-    /**
-     * @property {String} exclusionMessage
-     * The default error message used when an exclusion validation fails.
-     */
-    exclusionMessage: 'is not an acceptable value',
-    
-    /**
-     * @property {String} emailMessage
-     * The default error message used when an email validation fails
-     */
-    emailMessage: 'is not a valid email address',
-    
-    /**
-     * @property {RegExp} emailRe
-     * The regular expression used to validate email addresses
-     */
-    emailRe: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
-    
-    /**
-     * Validates that the given value is present.
-     * For example:
-     *
-     *     validations: [{type: 'presence', field: 'age'}]
-     *
-     * @param {Object} config Config object
-     * @param {Object} value The value to validate
-     * @return {Boolean} True if validation passed
-     */
-    presence: function(config, value) {
-        // No configs read, so allow just value to be passed
-        if (arguments.length === 1) {
-            value = config;
-        }
-        
-        //we need an additional check for zero here because zero is an acceptable form of present data
-        return !!value || value === 0;
-    },
-    
-    /**
-     * Returns true if the given value is between the configured min and max values.
-     * For example:
-     *
-     *     validations: [{type: 'length', field: 'name', min: 2}]
-     *
-     * @param {Object} config Config object
-     * @param {String} value The value to validate
-     * @return {Boolean} True if the value passes validation
-     */
-    length: function(config, value) {
-        if (value === undefined || value === null) {
-            return false;
-        }
-        
-        var length = value.length,
-            min    = config.min,
-            max    = config.max;
-        
-        if ((min && length < min) || (max && length > max)) {
-            return false;
-        } else {
-            return true;
-        }
-    },
-    
-    /**
-     * Validates that an email string is in the correct format
-     * @param {Object} config Config object
-     * @param {String} email The email address
-     * @return {Boolean} True if the value passes validation
-     */
-    email: function(config, email) {
-        return Ext.data.validations.emailRe.test(email);
-    },
-    
-    /**
-     * Returns true if the given value passes validation against the configured `matcher` regex.
-     * For example:
-     *
-     *     validations: [{type: 'format', field: 'username', matcher: /([a-z]+)[0-9]{2,3}/}]
-     *
-     * @param {Object} config Config object
-     * @param {String} value The value to validate
-     * @return {Boolean} True if the value passes the format validation
-     */
-    format: function(config, value) {
-        return !!(config.matcher && config.matcher.test(value));
-    },
-    
-    /**
-     * Validates that the given value is present in the configured `list`.
-     * For example:
-     *
-     *     validations: [{type: 'inclusion', field: 'gender', list: ['Male', 'Female']}]
-     *
-     * @param {Object} config Config object
-     * @param {String} value The value to validate
-     * @return {Boolean} True if the value is present in the list
-     */
-    inclusion: function(config, value) {
-        return config.list && Ext.Array.indexOf(config.list,value) != -1;
-    },
-    
-    /**
-     * Validates that the given value is not present in the configured `list`.
-     * For example:
-     *
-     *     validations: [{type: 'exclusion', field: 'username', list: ['Admin', 'Operator']}]
-     *
-     * @param {Object} config Config object
-     * @param {String} value The value to validate
-     * @return {Boolean} True if the value is not present in the list
-     */
-    exclusion: function(config, value) {
-        return config.list && Ext.Array.indexOf(config.list,value) == -1;
-    }
-});
-/**
- * @author Ed Spencer
- *
  * Represents a single read or write operation performed by a {@link Ext.data.proxy.Proxy Proxy}. Operation objects are
  * used to enable communication between Stores and Proxies. Application developers should rarely need to interact with
  * Operation objects directly.
@@ -1709,6 +1560,155 @@ Ext.define('Ext.data.Operation', {
     }
 });
 
+/**
+ * @author Ed Spencer
+ *
+ * This singleton contains a set of validation functions that can be used to validate any type of data. They are most
+ * often used in {@link Ext.data.Model Models}, where they are automatically set up and executed.
+ */
+Ext.define('Ext.data.validations', {
+    singleton: true,
+    
+    /**
+     * @property {String} presenceMessage
+     * The default error message used when a presence validation fails.
+     */
+    presenceMessage: 'must be present',
+    
+    /**
+     * @property {String} lengthMessage
+     * The default error message used when a length validation fails.
+     */
+    lengthMessage: 'is the wrong length',
+    
+    /**
+     * @property {String} formatMessage
+     * The default error message used when a format validation fails.
+     */
+    formatMessage: 'is the wrong format',
+    
+    /**
+     * @property {String} inclusionMessage
+     * The default error message used when an inclusion validation fails.
+     */
+    inclusionMessage: 'is not included in the list of acceptable values',
+    
+    /**
+     * @property {String} exclusionMessage
+     * The default error message used when an exclusion validation fails.
+     */
+    exclusionMessage: 'is not an acceptable value',
+    
+    /**
+     * @property {String} emailMessage
+     * The default error message used when an email validation fails
+     */
+    emailMessage: 'is not a valid email address',
+    
+    /**
+     * @property {RegExp} emailRe
+     * The regular expression used to validate email addresses
+     */
+    emailRe: /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/,
+    
+    /**
+     * Validates that the given value is present.
+     * For example:
+     *
+     *     validations: [{type: 'presence', field: 'age'}]
+     *
+     * @param {Object} config Config object
+     * @param {Object} value The value to validate
+     * @return {Boolean} True if validation passed
+     */
+    presence: function(config, value) {
+        // No configs read, so allow just value to be passed
+        if (arguments.length === 1) {
+            value = config;
+        }
+        
+        //we need an additional check for zero here because zero is an acceptable form of present data
+        return !!value || value === 0;
+    },
+    
+    /**
+     * Returns true if the given value is between the configured min and max values.
+     * For example:
+     *
+     *     validations: [{type: 'length', field: 'name', min: 2}]
+     *
+     * @param {Object} config Config object
+     * @param {String} value The value to validate
+     * @return {Boolean} True if the value passes validation
+     */
+    length: function(config, value) {
+        if (value === undefined || value === null) {
+            return false;
+        }
+        
+        var length = value.length,
+            min    = config.min,
+            max    = config.max;
+        
+        if ((min && length < min) || (max && length > max)) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+    
+    /**
+     * Validates that an email string is in the correct format
+     * @param {Object} config Config object
+     * @param {String} email The email address
+     * @return {Boolean} True if the value passes validation
+     */
+    email: function(config, email) {
+        return Ext.data.validations.emailRe.test(email);
+    },
+    
+    /**
+     * Returns true if the given value passes validation against the configured `matcher` regex.
+     * For example:
+     *
+     *     validations: [{type: 'format', field: 'username', matcher: /([a-z]+)[0-9]{2,3}/}]
+     *
+     * @param {Object} config Config object
+     * @param {String} value The value to validate
+     * @return {Boolean} True if the value passes the format validation
+     */
+    format: function(config, value) {
+        return !!(config.matcher && config.matcher.test(value));
+    },
+    
+    /**
+     * Validates that the given value is present in the configured `list`.
+     * For example:
+     *
+     *     validations: [{type: 'inclusion', field: 'gender', list: ['Male', 'Female']}]
+     *
+     * @param {Object} config Config object
+     * @param {String} value The value to validate
+     * @return {Boolean} True if the value is present in the list
+     */
+    inclusion: function(config, value) {
+        return config.list && Ext.Array.indexOf(config.list,value) != -1;
+    },
+    
+    /**
+     * Validates that the given value is not present in the configured `list`.
+     * For example:
+     *
+     *     validations: [{type: 'exclusion', field: 'username', list: ['Admin', 'Operator']}]
+     *
+     * @param {Object} config Config object
+     * @param {String} value The value to validate
+     * @return {Boolean} True if the value is not present in the list
+     */
+    exclusion: function(config, value) {
+        return config.list && Ext.Array.indexOf(config.list,value) == -1;
+    }
+});
 /**
  * @author Ed Spencer
  *
@@ -2781,6 +2781,165 @@ Ext.define('Ext.util.Floating', {
 });
 
 /**
+ * Represents a filter that can be applied to a {@link Ext.util.MixedCollection MixedCollection}. Can either simply
+ * filter on a property/value pair or pass in a filter function with custom logic. Filters are always used in the
+ * context of MixedCollections, though {@link Ext.data.Store Store}s frequently create them when filtering and searching
+ * on their records. Example usage:
+ *
+ *     //set up a fictional MixedCollection containing a few people to filter on
+ *     var allNames = new Ext.util.MixedCollection();
+ *     allNames.addAll([
+ *         {id: 1, name: 'Ed',    age: 25},
+ *         {id: 2, name: 'Jamie', age: 37},
+ *         {id: 3, name: 'Abe',   age: 32},
+ *         {id: 4, name: 'Aaron', age: 26},
+ *         {id: 5, name: 'David', age: 32}
+ *     ]);
+ *
+ *     var ageFilter = new Ext.util.Filter({
+ *         property: 'age',
+ *         value   : 32
+ *     });
+ *
+ *     var longNameFilter = new Ext.util.Filter({
+ *         filterFn: function(item) {
+ *             return item.name.length > 4;
+ *         }
+ *     });
+ *
+ *     //a new MixedCollection with the 3 names longer than 4 characters
+ *     var longNames = allNames.filter(longNameFilter);
+ *
+ *     //a new MixedCollection with the 2 people of age 32:
+ *     var youngFolk = allNames.filter(ageFilter);
+ *
+ */
+Ext.define('Ext.util.Filter', {
+
+    /* Begin Definitions */
+
+    /* End Definitions */
+    /**
+     * @cfg {String} property
+     * The property to filter on. Required unless a {@link #filterFn} is passed
+     */
+    
+    /**
+     * @cfg {Function} filterFn
+     * A custom filter function which is passed each item in the {@link Ext.util.MixedCollection} in turn. Should return
+     * true to accept each item or false to reject it
+     */
+    
+    /**
+     * @cfg {Boolean} anyMatch
+     * True to allow any match - no regex start/end line anchors will be added.
+     */
+    anyMatch: false,
+    
+    /**
+     * @cfg {Boolean} exactMatch
+     * True to force exact match (^ and $ characters added to the regex). Ignored if anyMatch is true.
+     */
+    exactMatch: false,
+    
+    /**
+     * @cfg {Boolean} caseSensitive
+     * True to make the regex case sensitive (adds 'i' switch to regex).
+     */
+    caseSensitive: false,
+    
+    /**
+     * @cfg {String} root
+     * Optional root property. This is mostly useful when filtering a Store, in which case we set the root to 'data' to
+     * make the filter pull the {@link #property} out of the data object of each item
+     */
+
+    /**
+     * Creates new Filter.
+     * @param {Object} [config] Config object
+     */
+    constructor: function(config) {
+        var me = this;
+        Ext.apply(me, config);
+        
+        //we're aliasing filter to filterFn mostly for API cleanliness reasons, despite the fact it dirties the code here.
+        //Ext.util.Sorter takes a sorterFn property but allows .sort to be called - we do the same here
+        me.filter = me.filter || me.filterFn;
+        
+        if (me.filter === undefined) {
+            if (me.property === undefined || me.value === undefined) {
+                // Commented this out temporarily because it stops us using string ids in models. TODO: Remove this once
+                // Model has been updated to allow string ids
+                
+                // Ext.Error.raise("A Filter requires either a property or a filterFn to be set");
+            } else {
+                me.filter = me.createFilterFn();
+            }
+            
+            me.filterFn = me.filter;
+        }
+    },
+    
+    /**
+     * @private
+     * Creates a filter function for the configured property/value/anyMatch/caseSensitive options for this Filter
+     */
+    createFilterFn: function() {
+        var me       = this,
+            matcher  = me.createValueMatcher(),
+            property = me.property;
+        
+        return function(item) {
+            var value = me.getRoot.call(me, item)[property];
+            return matcher === null ? value === null : matcher.test(value);
+        };
+    },
+    
+    /**
+     * @private
+     * Returns the root property of the given item, based on the configured {@link #root} property
+     * @param {Object} item The item
+     * @return {Object} The root property of the object
+     */
+    getRoot: function(item) {
+        var root = this.root;
+        return root === undefined ? item : item[root];
+    },
+    
+    /**
+     * @private
+     * Returns a regular expression based on the given value and matching options
+     */
+    createValueMatcher : function() {
+        var me            = this,
+            value         = me.value,
+            anyMatch      = me.anyMatch,
+            exactMatch    = me.exactMatch,
+            caseSensitive = me.caseSensitive,
+            escapeRe      = Ext.String.escapeRegex;
+            
+        if (value === null) {
+            return value;
+        }
+        
+        if (!value.exec) { // not a regex
+            value = String(value);
+
+            if (anyMatch === true) {
+                value = escapeRe(value);
+            } else {
+                value = '^' + escapeRe(value);
+                if (exactMatch === true) {
+                    value += '$';
+                }
+            }
+            value = new RegExp(value, caseSensitive ? '' : 'i');
+         }
+         
+         return value;
+    }
+});
+/**
  * Represents a single sorter that can be applied to a Store. The sorter is used
  * to compare two values against each other for the purpose of ordering them. Ordering
  * is achieved by specifying either:
@@ -2955,165 +3114,6 @@ Ext.define('Ext.util.Sorter', {
         var me = this;
         fn = fn || me.sorterFn || me.defaultSorterFn;
         me.sort = me.createSortFunction(fn);
-    }
-});
-/**
- * Represents a filter that can be applied to a {@link Ext.util.MixedCollection MixedCollection}. Can either simply
- * filter on a property/value pair or pass in a filter function with custom logic. Filters are always used in the
- * context of MixedCollections, though {@link Ext.data.Store Store}s frequently create them when filtering and searching
- * on their records. Example usage:
- *
- *     //set up a fictional MixedCollection containing a few people to filter on
- *     var allNames = new Ext.util.MixedCollection();
- *     allNames.addAll([
- *         {id: 1, name: 'Ed',    age: 25},
- *         {id: 2, name: 'Jamie', age: 37},
- *         {id: 3, name: 'Abe',   age: 32},
- *         {id: 4, name: 'Aaron', age: 26},
- *         {id: 5, name: 'David', age: 32}
- *     ]);
- *
- *     var ageFilter = new Ext.util.Filter({
- *         property: 'age',
- *         value   : 32
- *     });
- *
- *     var longNameFilter = new Ext.util.Filter({
- *         filterFn: function(item) {
- *             return item.name.length > 4;
- *         }
- *     });
- *
- *     //a new MixedCollection with the 3 names longer than 4 characters
- *     var longNames = allNames.filter(longNameFilter);
- *
- *     //a new MixedCollection with the 2 people of age 32:
- *     var youngFolk = allNames.filter(ageFilter);
- *
- */
-Ext.define('Ext.util.Filter', {
-
-    /* Begin Definitions */
-
-    /* End Definitions */
-    /**
-     * @cfg {String} property
-     * The property to filter on. Required unless a {@link #filterFn} is passed
-     */
-    
-    /**
-     * @cfg {Function} filterFn
-     * A custom filter function which is passed each item in the {@link Ext.util.MixedCollection} in turn. Should return
-     * true to accept each item or false to reject it
-     */
-    
-    /**
-     * @cfg {Boolean} anyMatch
-     * True to allow any match - no regex start/end line anchors will be added.
-     */
-    anyMatch: false,
-    
-    /**
-     * @cfg {Boolean} exactMatch
-     * True to force exact match (^ and $ characters added to the regex). Ignored if anyMatch is true.
-     */
-    exactMatch: false,
-    
-    /**
-     * @cfg {Boolean} caseSensitive
-     * True to make the regex case sensitive (adds 'i' switch to regex).
-     */
-    caseSensitive: false,
-    
-    /**
-     * @cfg {String} root
-     * Optional root property. This is mostly useful when filtering a Store, in which case we set the root to 'data' to
-     * make the filter pull the {@link #property} out of the data object of each item
-     */
-
-    /**
-     * Creates new Filter.
-     * @param {Object} [config] Config object
-     */
-    constructor: function(config) {
-        var me = this;
-        Ext.apply(me, config);
-        
-        //we're aliasing filter to filterFn mostly for API cleanliness reasons, despite the fact it dirties the code here.
-        //Ext.util.Sorter takes a sorterFn property but allows .sort to be called - we do the same here
-        me.filter = me.filter || me.filterFn;
-        
-        if (me.filter === undefined) {
-            if (me.property === undefined || me.value === undefined) {
-                // Commented this out temporarily because it stops us using string ids in models. TODO: Remove this once
-                // Model has been updated to allow string ids
-                
-                // Ext.Error.raise("A Filter requires either a property or a filterFn to be set");
-            } else {
-                me.filter = me.createFilterFn();
-            }
-            
-            me.filterFn = me.filter;
-        }
-    },
-    
-    /**
-     * @private
-     * Creates a filter function for the configured property/value/anyMatch/caseSensitive options for this Filter
-     */
-    createFilterFn: function() {
-        var me       = this,
-            matcher  = me.createValueMatcher(),
-            property = me.property;
-        
-        return function(item) {
-            var value = me.getRoot.call(me, item)[property];
-            return matcher === null ? value === null : matcher.test(value);
-        };
-    },
-    
-    /**
-     * @private
-     * Returns the root property of the given item, based on the configured {@link #root} property
-     * @param {Object} item The item
-     * @return {Object} The root property of the object
-     */
-    getRoot: function(item) {
-        var root = this.root;
-        return root === undefined ? item : item[root];
-    },
-    
-    /**
-     * @private
-     * Returns a regular expression based on the given value and matching options
-     */
-    createValueMatcher : function() {
-        var me            = this,
-            value         = me.value,
-            anyMatch      = me.anyMatch,
-            exactMatch    = me.exactMatch,
-            caseSensitive = me.caseSensitive,
-            escapeRe      = Ext.String.escapeRegex;
-            
-        if (value === null) {
-            return value;
-        }
-        
-        if (!value.exec) { // not a regex
-            value = String(value);
-
-            if (anyMatch === true) {
-                value = escapeRe(value);
-            } else {
-                value = '^' + escapeRe(value);
-                if (exactMatch === true) {
-                    value += '$';
-                }
-            }
-            value = new RegExp(value, caseSensitive ? '' : 'i');
-         }
-         
-         return value;
     }
 });
 /**
@@ -5691,6 +5691,188 @@ Ext.define('Ext.util.Memento', (function () {
 }()));
 
 /**
+ * @class Ext.state.Provider
+ * <p>Abstract base class for state provider implementations. The provider is responsible
+ * for setting values  and extracting values to/from the underlying storage source. The 
+ * storage source can vary and the details should be implemented in a subclass. For example
+ * a provider could use a server side database or the browser localstorage where supported.</p>
+ *
+ * <p>This class provides methods for encoding and decoding <b>typed</b> variables including 
+ * dates and defines the Provider interface. By default these methods put the value and the
+ * type information into a delimited string that can be stored. These should be overridden in 
+ * a subclass if you want to change the format of the encoded value and subsequent decoding.</p>
+ */
+Ext.define('Ext.state.Provider', {
+    mixins: {
+        observable: 'Ext.util.Observable'
+    },
+    
+    /**
+     * @cfg {String} prefix A string to prefix to items stored in the underlying state store. 
+     * Defaults to <tt>'ext-'</tt>
+     */
+    prefix: 'ext-',
+    
+    constructor : function(config){
+        config = config || {};
+        var me = this;
+        Ext.apply(me, config);
+        /**
+         * @event statechange
+         * Fires when a state change occurs.
+         * @param {Ext.state.Provider} this This state provider
+         * @param {String} key The state key which was changed
+         * @param {String} value The encoded value for the state
+         */
+        me.addEvents("statechange");
+        me.state = {};
+        me.mixins.observable.constructor.call(me);
+    },
+    
+    /**
+     * Returns the current value for a key
+     * @param {String} name The key name
+     * @param {Object} defaultValue A default value to return if the key's value is not found
+     * @return {Object} The state data
+     */
+    get : function(name, defaultValue){
+        return typeof this.state[name] == "undefined" ?
+            defaultValue : this.state[name];
+    },
+
+    /**
+     * Clears a value from the state
+     * @param {String} name The key name
+     */
+    clear : function(name){
+        var me = this;
+        delete me.state[name];
+        me.fireEvent("statechange", me, name, null);
+    },
+
+    /**
+     * Sets the value for a key
+     * @param {String} name The key name
+     * @param {Object} value The value to set
+     */
+    set : function(name, value){
+        var me = this;
+        me.state[name] = value;
+        me.fireEvent("statechange", me, name, value);
+    },
+
+    /**
+     * Decodes a string previously encoded with {@link #encodeValue}.
+     * @param {String} value The value to decode
+     * @return {Object} The decoded value
+     */
+    decodeValue : function(value){
+
+        // a -> Array
+        // n -> Number
+        // d -> Date
+        // b -> Boolean
+        // s -> String
+        // o -> Object
+        // -> Empty (null)
+
+        var me = this,
+            re = /^(a|n|d|b|s|o|e)\:(.*)$/,
+            matches = re.exec(unescape(value)),
+            all,
+            type,
+            keyValue,
+            values,
+            vLen,
+            v;
+            
+        if(!matches || !matches[1]){
+            return; // non state
+        }
+        
+        type = matches[1];
+        value = matches[2];
+        switch (type) {
+            case 'e':
+                return null;
+            case 'n':
+                return parseFloat(value);
+            case 'd':
+                return new Date(Date.parse(value));
+            case 'b':
+                return (value == '1');
+            case 'a':
+                all = [];
+                if(value != ''){
+                    values = value.split('^');
+                    vLen   = values.length;
+
+                    for (v = 0; v < vLen; v++) {
+                        value = values[v];
+                        all.push(me.decodeValue(value));
+                    }
+                }
+                return all;
+           case 'o':
+                all = {};
+                if(value != ''){
+                    values = value.split('^');
+                    vLen   = values.length;
+
+                    for (v = 0; v < vLen; v++) {
+                        value = values[v];
+                        keyValue         = value.split('=');
+                        all[keyValue[0]] = me.decodeValue(keyValue[1]);
+                    }
+                }
+                return all;
+           default:
+                return value;
+        }
+    },
+
+    /**
+     * Encodes a value including type information.  Decode with {@link #decodeValue}.
+     * @param {Object} value The value to encode
+     * @return {String} The encoded value
+     */
+    encodeValue : function(value){
+        var flat = '',
+            i = 0,
+            enc,
+            len,
+            key;
+            
+        if (value == null) {
+            return 'e:1';    
+        } else if(typeof value == 'number') {
+            enc = 'n:' + value;
+        } else if(typeof value == 'boolean') {
+            enc = 'b:' + (value ? '1' : '0');
+        } else if(Ext.isDate(value)) {
+            enc = 'd:' + value.toGMTString();
+        } else if(Ext.isArray(value)) {
+            for (len = value.length; i < len; i++) {
+                flat += this.encodeValue(value[i]);
+                if (i != len - 1) {
+                    flat += '^';
+                }
+            }
+            enc = 'a:' + flat;
+        } else if (typeof value == 'object') {
+            for (key in value) {
+                if (typeof value[key] != 'function' && value[key] !== undefined) {
+                    flat += key + '=' + this.encodeValue(value[key]) + '^';
+                }
+            }
+            enc = 'o:' + flat.substring(0, flat.length-1);
+        } else {
+            enc = 's:' + value;
+        }
+        return escape(enc);
+    }
+});
+/**
  * @private
  */
 Ext.define('Ext.fx.CubicBezier', {
@@ -6232,188 +6414,6 @@ Ext.define('Ext.Template', {
 });
 
 /**
- * @class Ext.state.Provider
- * <p>Abstract base class for state provider implementations. The provider is responsible
- * for setting values  and extracting values to/from the underlying storage source. The 
- * storage source can vary and the details should be implemented in a subclass. For example
- * a provider could use a server side database or the browser localstorage where supported.</p>
- *
- * <p>This class provides methods for encoding and decoding <b>typed</b> variables including 
- * dates and defines the Provider interface. By default these methods put the value and the
- * type information into a delimited string that can be stored. These should be overridden in 
- * a subclass if you want to change the format of the encoded value and subsequent decoding.</p>
- */
-Ext.define('Ext.state.Provider', {
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
-    
-    /**
-     * @cfg {String} prefix A string to prefix to items stored in the underlying state store. 
-     * Defaults to <tt>'ext-'</tt>
-     */
-    prefix: 'ext-',
-    
-    constructor : function(config){
-        config = config || {};
-        var me = this;
-        Ext.apply(me, config);
-        /**
-         * @event statechange
-         * Fires when a state change occurs.
-         * @param {Ext.state.Provider} this This state provider
-         * @param {String} key The state key which was changed
-         * @param {String} value The encoded value for the state
-         */
-        me.addEvents("statechange");
-        me.state = {};
-        me.mixins.observable.constructor.call(me);
-    },
-    
-    /**
-     * Returns the current value for a key
-     * @param {String} name The key name
-     * @param {Object} defaultValue A default value to return if the key's value is not found
-     * @return {Object} The state data
-     */
-    get : function(name, defaultValue){
-        return typeof this.state[name] == "undefined" ?
-            defaultValue : this.state[name];
-    },
-
-    /**
-     * Clears a value from the state
-     * @param {String} name The key name
-     */
-    clear : function(name){
-        var me = this;
-        delete me.state[name];
-        me.fireEvent("statechange", me, name, null);
-    },
-
-    /**
-     * Sets the value for a key
-     * @param {String} name The key name
-     * @param {Object} value The value to set
-     */
-    set : function(name, value){
-        var me = this;
-        me.state[name] = value;
-        me.fireEvent("statechange", me, name, value);
-    },
-
-    /**
-     * Decodes a string previously encoded with {@link #encodeValue}.
-     * @param {String} value The value to decode
-     * @return {Object} The decoded value
-     */
-    decodeValue : function(value){
-
-        // a -> Array
-        // n -> Number
-        // d -> Date
-        // b -> Boolean
-        // s -> String
-        // o -> Object
-        // -> Empty (null)
-
-        var me = this,
-            re = /^(a|n|d|b|s|o|e)\:(.*)$/,
-            matches = re.exec(unescape(value)),
-            all,
-            type,
-            keyValue,
-            values,
-            vLen,
-            v;
-            
-        if(!matches || !matches[1]){
-            return; // non state
-        }
-        
-        type = matches[1];
-        value = matches[2];
-        switch (type) {
-            case 'e':
-                return null;
-            case 'n':
-                return parseFloat(value);
-            case 'd':
-                return new Date(Date.parse(value));
-            case 'b':
-                return (value == '1');
-            case 'a':
-                all = [];
-                if(value != ''){
-                    values = value.split('^');
-                    vLen   = values.length;
-
-                    for (v = 0; v < vLen; v++) {
-                        value = values[v];
-                        all.push(me.decodeValue(value));
-                    }
-                }
-                return all;
-           case 'o':
-                all = {};
-                if(value != ''){
-                    values = value.split('^');
-                    vLen   = values.length;
-
-                    for (v = 0; v < vLen; v++) {
-                        value = values[v];
-                        keyValue         = value.split('=');
-                        all[keyValue[0]] = me.decodeValue(keyValue[1]);
-                    }
-                }
-                return all;
-           default:
-                return value;
-        }
-    },
-
-    /**
-     * Encodes a value including type information.  Decode with {@link #decodeValue}.
-     * @param {Object} value The value to encode
-     * @return {String} The encoded value
-     */
-    encodeValue : function(value){
-        var flat = '',
-            i = 0,
-            enc,
-            len,
-            key;
-            
-        if (value == null) {
-            return 'e:1';    
-        } else if(typeof value == 'number') {
-            enc = 'n:' + value;
-        } else if(typeof value == 'boolean') {
-            enc = 'b:' + (value ? '1' : '0');
-        } else if(Ext.isDate(value)) {
-            enc = 'd:' + value.toGMTString();
-        } else if(Ext.isArray(value)) {
-            for (len = value.length; i < len; i++) {
-                flat += this.encodeValue(value[i]);
-                if (i != len - 1) {
-                    flat += '^';
-                }
-            }
-            enc = 'a:' + flat;
-        } else if (typeof value == 'object') {
-            for (key in value) {
-                if (typeof value[key] != 'function' && value[key] !== undefined) {
-                    flat += key + '=' + this.encodeValue(value[key]) + '^';
-                }
-            }
-            enc = 'o:' + flat.substring(0, flat.length-1);
-        } else {
-            enc = 's:' + value;
-        }
-        return escape(enc);
-    }
-});
-/**
  * @class Ext.fx.Queue
  * Animation Queue mixin to handle chaining and queueing by target.
  * @private
@@ -6784,347 +6784,6 @@ Ext.define('Ext.XTemplateParser', {
     propRe:    /prop=(?:(?:"([^"]*)")|(?:'([^']*)'))/,
     defaultRe: /^\s*default\s*$/,
     elseRe:    /^\s*else\s*$/
-});
-
-/**
- * @class Ext.fx.target.Target
-
-This class specifies a generic target for an animation. It provides a wrapper around a
-series of different types of objects to allow for a generic animation API.
-A target can be a single object or a Composite object containing other objects that are 
-to be animated. This class and it's subclasses are generally not created directly, the 
-underlying animation will create the appropriate Ext.fx.target.Target object by passing 
-the instance to be animated.
-
-The following types of objects can be animated:
-
-- {@link Ext.fx.target.Component Components}
-- {@link Ext.fx.target.Element Elements}
-- {@link Ext.fx.target.Sprite Sprites}
-
- * @markdown
- * @abstract
- */
-Ext.define('Ext.fx.target.Target', {
-
-    isAnimTarget: true,
-
-    /**
-     * Creates new Target.
-     * @param {Ext.Component/Ext.Element/Ext.draw.Sprite} target The object to be animated
-     */
-    constructor: function(target) {
-        this.target = target;
-        this.id = this.getId();
-    },
-    
-    getId: function() {
-        return this.target.id;
-    }
-});
-
-/**
- * Represents an RGB color and provides helper functions get
- * color components in HSL color space.
- */
-Ext.define('Ext.draw.Color', {
-
-    /* Begin Definitions */
-
-    /* End Definitions */
-
-    colorToHexRe: /(.*?)rgb\((\d+),\s*(\d+),\s*(\d+)\)/,
-    rgbRe: /\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*/,
-    hexRe: /\s*#([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/,
-
-    /**
-     * @cfg {Number} lightnessFactor
-     *
-     * The default factor to compute the lighter or darker color. Defaults to 0.2.
-     */
-    lightnessFactor: 0.2,
-
-    /**
-     * Creates new Color.
-     * @param {Number} red Red component (0..255)
-     * @param {Number} green Green component (0..255)
-     * @param {Number} blue Blue component (0..255)
-     */
-    constructor : function(red, green, blue) {
-        var me = this,
-            clamp = Ext.Number.constrain;
-        me.r = clamp(red, 0, 255);
-        me.g = clamp(green, 0, 255);
-        me.b = clamp(blue, 0, 255);
-    },
-
-    /**
-     * Get the red component of the color, in the range 0..255.
-     * @return {Number}
-     */
-    getRed: function() {
-        return this.r;
-    },
-
-    /**
-     * Get the green component of the color, in the range 0..255.
-     * @return {Number}
-     */
-    getGreen: function() {
-        return this.g;
-    },
-
-    /**
-     * Get the blue component of the color, in the range 0..255.
-     * @return {Number}
-     */
-    getBlue: function() {
-        return this.b;
-    },
-
-    /**
-     * Get the RGB values.
-     * @return {Number[]}
-     */
-    getRGB: function() {
-        var me = this;
-        return [me.r, me.g, me.b];
-    },
-
-    /**
-     * Get the equivalent HSL components of the color.
-     * @return {Number[]}
-     */
-    getHSL: function() {
-        var me = this,
-            r = me.r / 255,
-            g = me.g / 255,
-            b = me.b / 255,
-            max = Math.max(r, g, b),
-            min = Math.min(r, g, b),
-            delta = max - min,
-            h,
-            s = 0,
-            l = 0.5 * (max + min);
-
-        // min==max means achromatic (hue is undefined)
-        if (min != max) {
-            s = (l < 0.5) ? delta / (max + min) : delta / (2 - max - min);
-            if (r == max) {
-                h = 60 * (g - b) / delta;
-            } else if (g == max) {
-                h = 120 + 60 * (b - r) / delta;
-            } else {
-                h = 240 + 60 * (r - g) / delta;
-            }
-            if (h < 0) {
-                h += 360;
-            }
-            if (h >= 360) {
-                h -= 360;
-            }
-        }
-        return [h, s, l];
-    },
-
-    /**
-     * Return a new color that is lighter than this color.
-     * @param {Number} factor Lighter factor (0..1), default to 0.2
-     * @return Ext.draw.Color
-     */
-    getLighter: function(factor) {
-        var hsl = this.getHSL();
-        factor = factor || this.lightnessFactor;
-        hsl[2] = Ext.Number.constrain(hsl[2] + factor, 0, 1);
-        return this.fromHSL(hsl[0], hsl[1], hsl[2]);
-    },
-
-    /**
-     * Return a new color that is darker than this color.
-     * @param {Number} factor Darker factor (0..1), default to 0.2
-     * @return Ext.draw.Color
-     */
-    getDarker: function(factor) {
-        factor = factor || this.lightnessFactor;
-        return this.getLighter(-factor);
-    },
-
-    /**
-     * Return the color in the hex format, i.e. '#rrggbb'.
-     * @return {String}
-     */
-    toString: function() {
-        var me = this,
-            round = Math.round,
-            r = round(me.r).toString(16),
-            g = round(me.g).toString(16),
-            b = round(me.b).toString(16);
-        r = (r.length == 1) ? '0' + r : r;
-        g = (g.length == 1) ? '0' + g : g;
-        b = (b.length == 1) ? '0' + b : b;
-        return ['#', r, g, b].join('');
-    },
-
-    /**
-     * Convert a color to hexadecimal format.
-     *
-     * **Note:** This method is both static and instance.
-     *
-     * @param {String/String[]} color The color value (i.e 'rgb(255, 255, 255)', 'color: #ffffff').
-     * Can also be an Array, in this case the function handles the first member.
-     * @returns {String} The color in hexadecimal format.
-     * @static
-     */
-    toHex: function(color) {
-        if (Ext.isArray(color)) {
-            color = color[0];
-        }
-        if (!Ext.isString(color)) {
-            return '';
-        }
-        if (color.substr(0, 1) === '#') {
-            return color;
-        }
-        var digits = this.colorToHexRe.exec(color),
-            red,
-            green,
-            blue,
-            rgb;
-
-        if (Ext.isArray(digits)) {
-            red = parseInt(digits[2], 10);
-            green = parseInt(digits[3], 10);
-            blue = parseInt(digits[4], 10);
-            rgb = blue | (green << 8) | (red << 16);
-            return digits[1] + '#' + ("000000" + rgb.toString(16)).slice(-6);
-        }
-        else {
-            return color;
-        }
-    },
-
-    /**
-     * Parse the string and create a new color.
-     *
-     * Supported formats: '#rrggbb', '#rgb', and 'rgb(r,g,b)'.
-     *
-     * If the string is not recognized, an undefined will be returned instead.
-     *
-     * **Note:** This method is both static and instance.
-     *
-     * @param {String} str Color in string.
-     * @returns Ext.draw.Color
-     * @static
-     */
-    fromString: function(str) {
-        var values, r, g, b,
-            parse = parseInt;
-
-        if ((str.length == 4 || str.length == 7) && str.substr(0, 1) === '#') {
-            values = str.match(this.hexRe);
-            if (values) {
-                r = parse(values[1], 16) >> 0;
-                g = parse(values[2], 16) >> 0;
-                b = parse(values[3], 16) >> 0;
-                if (str.length == 4) {
-                    r += (r * 16);
-                    g += (g * 16);
-                    b += (b * 16);
-                }
-            }
-        }
-        else {
-            values = str.match(this.rgbRe);
-            if (values) {
-                r = values[1];
-                g = values[2];
-                b = values[3];
-            }
-        }
-
-        return (typeof r == 'undefined') ? undefined : new Ext.draw.Color(r, g, b);
-    },
-
-    /**
-     * Returns the gray value (0 to 255) of the color.
-     *
-     * The gray value is calculated using the formula r*0.3 + g*0.59 + b*0.11.
-     *
-     * @returns {Number}
-     */
-    getGrayscale: function() {
-        // http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
-        return this.r * 0.3 + this.g * 0.59 + this.b * 0.11;
-    },
-
-    /**
-     * Create a new color based on the specified HSL values.
-     *
-     * **Note:** This method is both static and instance.
-     *
-     * @param {Number} h Hue component (0..359)
-     * @param {Number} s Saturation component (0..1)
-     * @param {Number} l Lightness component (0..1)
-     * @returns Ext.draw.Color
-     * @static
-     */
-    fromHSL: function(h, s, l) {
-        var C, X, m, i, rgb = [],
-            abs = Math.abs,
-            floor = Math.floor;
-
-        if (s == 0 || h == null) {
-            // achromatic
-            rgb = [l, l, l];
-        }
-        else {
-            // http://en.wikipedia.org/wiki/HSL_and_HSV#From_HSL
-            // C is the chroma
-            // X is the second largest component
-            // m is the lightness adjustment
-            h /= 60;
-            C = s * (1 - abs(2 * l - 1));
-            X = C * (1 - abs(h - 2 * floor(h / 2) - 1));
-            m = l - C / 2;
-            switch (floor(h)) {
-                case 0:
-                    rgb = [C, X, 0];
-                    break;
-                case 1:
-                    rgb = [X, C, 0];
-                    break;
-                case 2:
-                    rgb = [0, C, X];
-                    break;
-                case 3:
-                    rgb = [0, X, C];
-                    break;
-                case 4:
-                    rgb = [X, 0, C];
-                    break;
-                case 5:
-                    rgb = [C, 0, X];
-                    break;
-            }
-            rgb = [rgb[0] + m, rgb[1] + m, rgb[2] + m];
-        }
-        return new Ext.draw.Color(rgb[0] * 255, rgb[1] * 255, rgb[2] * 255);
-    }
-}, function() {
-    var prototype = this.prototype;
-
-    //These functions are both static and instance. TODO: find a more elegant way of copying them
-    this.addStatics({
-        fromHSL: function() {
-            return prototype.fromHSL.apply(prototype, arguments);
-        },
-        fromString: function() {
-            return prototype.fromString.apply(prototype, arguments);
-        },
-        toHex: function() {
-            return prototype.toHex.apply(prototype, arguments);
-        }
-    });
 });
 
 /**
@@ -7663,6 +7322,347 @@ Ext.define('Ext.ZIndexManager', {
      * @singleton
      */
     Ext.WindowManager = Ext.WindowMgr = new this();
+});
+
+/**
+ * @class Ext.fx.target.Target
+
+This class specifies a generic target for an animation. It provides a wrapper around a
+series of different types of objects to allow for a generic animation API.
+A target can be a single object or a Composite object containing other objects that are 
+to be animated. This class and it's subclasses are generally not created directly, the 
+underlying animation will create the appropriate Ext.fx.target.Target object by passing 
+the instance to be animated.
+
+The following types of objects can be animated:
+
+- {@link Ext.fx.target.Component Components}
+- {@link Ext.fx.target.Element Elements}
+- {@link Ext.fx.target.Sprite Sprites}
+
+ * @markdown
+ * @abstract
+ */
+Ext.define('Ext.fx.target.Target', {
+
+    isAnimTarget: true,
+
+    /**
+     * Creates new Target.
+     * @param {Ext.Component/Ext.Element/Ext.draw.Sprite} target The object to be animated
+     */
+    constructor: function(target) {
+        this.target = target;
+        this.id = this.getId();
+    },
+    
+    getId: function() {
+        return this.target.id;
+    }
+});
+
+/**
+ * Represents an RGB color and provides helper functions get
+ * color components in HSL color space.
+ */
+Ext.define('Ext.draw.Color', {
+
+    /* Begin Definitions */
+
+    /* End Definitions */
+
+    colorToHexRe: /(.*?)rgb\((\d+),\s*(\d+),\s*(\d+)\)/,
+    rgbRe: /\s*rgb\s*\(\s*([0-9]+)\s*,\s*([0-9]+)\s*,\s*([0-9]+)\s*\)\s*/,
+    hexRe: /\s*#([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)([0-9a-fA-F][0-9a-fA-F]?)\s*/,
+
+    /**
+     * @cfg {Number} lightnessFactor
+     *
+     * The default factor to compute the lighter or darker color. Defaults to 0.2.
+     */
+    lightnessFactor: 0.2,
+
+    /**
+     * Creates new Color.
+     * @param {Number} red Red component (0..255)
+     * @param {Number} green Green component (0..255)
+     * @param {Number} blue Blue component (0..255)
+     */
+    constructor : function(red, green, blue) {
+        var me = this,
+            clamp = Ext.Number.constrain;
+        me.r = clamp(red, 0, 255);
+        me.g = clamp(green, 0, 255);
+        me.b = clamp(blue, 0, 255);
+    },
+
+    /**
+     * Get the red component of the color, in the range 0..255.
+     * @return {Number}
+     */
+    getRed: function() {
+        return this.r;
+    },
+
+    /**
+     * Get the green component of the color, in the range 0..255.
+     * @return {Number}
+     */
+    getGreen: function() {
+        return this.g;
+    },
+
+    /**
+     * Get the blue component of the color, in the range 0..255.
+     * @return {Number}
+     */
+    getBlue: function() {
+        return this.b;
+    },
+
+    /**
+     * Get the RGB values.
+     * @return {Number[]}
+     */
+    getRGB: function() {
+        var me = this;
+        return [me.r, me.g, me.b];
+    },
+
+    /**
+     * Get the equivalent HSL components of the color.
+     * @return {Number[]}
+     */
+    getHSL: function() {
+        var me = this,
+            r = me.r / 255,
+            g = me.g / 255,
+            b = me.b / 255,
+            max = Math.max(r, g, b),
+            min = Math.min(r, g, b),
+            delta = max - min,
+            h,
+            s = 0,
+            l = 0.5 * (max + min);
+
+        // min==max means achromatic (hue is undefined)
+        if (min != max) {
+            s = (l < 0.5) ? delta / (max + min) : delta / (2 - max - min);
+            if (r == max) {
+                h = 60 * (g - b) / delta;
+            } else if (g == max) {
+                h = 120 + 60 * (b - r) / delta;
+            } else {
+                h = 240 + 60 * (r - g) / delta;
+            }
+            if (h < 0) {
+                h += 360;
+            }
+            if (h >= 360) {
+                h -= 360;
+            }
+        }
+        return [h, s, l];
+    },
+
+    /**
+     * Return a new color that is lighter than this color.
+     * @param {Number} factor Lighter factor (0..1), default to 0.2
+     * @return Ext.draw.Color
+     */
+    getLighter: function(factor) {
+        var hsl = this.getHSL();
+        factor = factor || this.lightnessFactor;
+        hsl[2] = Ext.Number.constrain(hsl[2] + factor, 0, 1);
+        return this.fromHSL(hsl[0], hsl[1], hsl[2]);
+    },
+
+    /**
+     * Return a new color that is darker than this color.
+     * @param {Number} factor Darker factor (0..1), default to 0.2
+     * @return Ext.draw.Color
+     */
+    getDarker: function(factor) {
+        factor = factor || this.lightnessFactor;
+        return this.getLighter(-factor);
+    },
+
+    /**
+     * Return the color in the hex format, i.e. '#rrggbb'.
+     * @return {String}
+     */
+    toString: function() {
+        var me = this,
+            round = Math.round,
+            r = round(me.r).toString(16),
+            g = round(me.g).toString(16),
+            b = round(me.b).toString(16);
+        r = (r.length == 1) ? '0' + r : r;
+        g = (g.length == 1) ? '0' + g : g;
+        b = (b.length == 1) ? '0' + b : b;
+        return ['#', r, g, b].join('');
+    },
+
+    /**
+     * Convert a color to hexadecimal format.
+     *
+     * **Note:** This method is both static and instance.
+     *
+     * @param {String/String[]} color The color value (i.e 'rgb(255, 255, 255)', 'color: #ffffff').
+     * Can also be an Array, in this case the function handles the first member.
+     * @returns {String} The color in hexadecimal format.
+     * @static
+     */
+    toHex: function(color) {
+        if (Ext.isArray(color)) {
+            color = color[0];
+        }
+        if (!Ext.isString(color)) {
+            return '';
+        }
+        if (color.substr(0, 1) === '#') {
+            return color;
+        }
+        var digits = this.colorToHexRe.exec(color),
+            red,
+            green,
+            blue,
+            rgb;
+
+        if (Ext.isArray(digits)) {
+            red = parseInt(digits[2], 10);
+            green = parseInt(digits[3], 10);
+            blue = parseInt(digits[4], 10);
+            rgb = blue | (green << 8) | (red << 16);
+            return digits[1] + '#' + ("000000" + rgb.toString(16)).slice(-6);
+        }
+        else {
+            return color;
+        }
+    },
+
+    /**
+     * Parse the string and create a new color.
+     *
+     * Supported formats: '#rrggbb', '#rgb', and 'rgb(r,g,b)'.
+     *
+     * If the string is not recognized, an undefined will be returned instead.
+     *
+     * **Note:** This method is both static and instance.
+     *
+     * @param {String} str Color in string.
+     * @returns Ext.draw.Color
+     * @static
+     */
+    fromString: function(str) {
+        var values, r, g, b,
+            parse = parseInt;
+
+        if ((str.length == 4 || str.length == 7) && str.substr(0, 1) === '#') {
+            values = str.match(this.hexRe);
+            if (values) {
+                r = parse(values[1], 16) >> 0;
+                g = parse(values[2], 16) >> 0;
+                b = parse(values[3], 16) >> 0;
+                if (str.length == 4) {
+                    r += (r * 16);
+                    g += (g * 16);
+                    b += (b * 16);
+                }
+            }
+        }
+        else {
+            values = str.match(this.rgbRe);
+            if (values) {
+                r = values[1];
+                g = values[2];
+                b = values[3];
+            }
+        }
+
+        return (typeof r == 'undefined') ? undefined : new Ext.draw.Color(r, g, b);
+    },
+
+    /**
+     * Returns the gray value (0 to 255) of the color.
+     *
+     * The gray value is calculated using the formula r*0.3 + g*0.59 + b*0.11.
+     *
+     * @returns {Number}
+     */
+    getGrayscale: function() {
+        // http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
+        return this.r * 0.3 + this.g * 0.59 + this.b * 0.11;
+    },
+
+    /**
+     * Create a new color based on the specified HSL values.
+     *
+     * **Note:** This method is both static and instance.
+     *
+     * @param {Number} h Hue component (0..359)
+     * @param {Number} s Saturation component (0..1)
+     * @param {Number} l Lightness component (0..1)
+     * @returns Ext.draw.Color
+     * @static
+     */
+    fromHSL: function(h, s, l) {
+        var C, X, m, i, rgb = [],
+            abs = Math.abs,
+            floor = Math.floor;
+
+        if (s == 0 || h == null) {
+            // achromatic
+            rgb = [l, l, l];
+        }
+        else {
+            // http://en.wikipedia.org/wiki/HSL_and_HSV#From_HSL
+            // C is the chroma
+            // X is the second largest component
+            // m is the lightness adjustment
+            h /= 60;
+            C = s * (1 - abs(2 * l - 1));
+            X = C * (1 - abs(h - 2 * floor(h / 2) - 1));
+            m = l - C / 2;
+            switch (floor(h)) {
+                case 0:
+                    rgb = [C, X, 0];
+                    break;
+                case 1:
+                    rgb = [X, C, 0];
+                    break;
+                case 2:
+                    rgb = [0, C, X];
+                    break;
+                case 3:
+                    rgb = [0, X, C];
+                    break;
+                case 4:
+                    rgb = [X, 0, C];
+                    break;
+                case 5:
+                    rgb = [C, 0, X];
+                    break;
+            }
+            rgb = [rgb[0] + m, rgb[1] + m, rgb[2] + m];
+        }
+        return new Ext.draw.Color(rgb[0] * 255, rgb[1] * 255, rgb[2] * 255);
+    }
+}, function() {
+    var prototype = this.prototype;
+
+    //These functions are both static and instance. TODO: find a more elegant way of copying them
+    this.addStatics({
+        fromHSL: function() {
+            return prototype.fromHSL.apply(prototype, arguments);
+        },
+        fromString: function() {
+            return prototype.fromString.apply(prototype, arguments);
+        },
+        toHex: function() {
+            return prototype.toHex.apply(prototype, arguments);
+        }
+    });
 });
 
 /**
@@ -9634,275 +9634,6 @@ Ext.define('Ext.data.Field', {
 });
 
 /**
- * @docauthor Tommy Maintz <tommy@sencha.com>
- *
- * A mixin which allows a data component to be sorted. This is used by e.g. {@link Ext.data.Store} and {@link Ext.data.TreeStore}.
- *
- * **NOTE**: This mixin is mainly for internal use and most users should not need to use it directly. It
- * is more likely you will want to use one of the component classes that import this mixin, such as
- * {@link Ext.data.Store} or {@link Ext.data.TreeStore}.
- */
-Ext.define("Ext.util.Sortable", {
-    /**
-     * @property {Boolean} isSortable
-     * `true` in this class to identify an object as an instantiated Sortable, or subclass thereof.
-     */
-    isSortable: true,
-
-    /**
-     * @property {String} defaultSortDirection
-     * The default sort direction to use if one is not specified.
-     */
-    defaultSortDirection: "ASC",
-
-    requires: [
-        'Ext.util.Sorter'
-    ],
-
-    /**
-     * @property {String} sortRoot
-     * The property in each item that contains the data to sort.
-     */
-
-    /**
-     * Performs initialization of this mixin. Component classes using this mixin should call this method during their
-     * own initialization.
-     */
-    initSortable: function() {
-        var me = this,
-            sorters = me.sorters;
-
-        /**
-         * @property {Ext.util.MixedCollection} sorters
-         * The collection of {@link Ext.util.Sorter Sorters} currently applied to this Store
-         */
-        me.sorters = new Ext.util.AbstractMixedCollection(false, function(item) {
-            return item.id || item.property;
-        });
-
-        if (sorters) {
-            me.sorters.addAll(me.decodeSorters(sorters));
-        }
-    },
-
-    /**
-     * Sorts the data in the Store by one or more of its properties. Example usage:
-     *
-     *     //sort by a single field
-     *     myStore.sort('myField', 'DESC');
-     *
-     *     //sorting by multiple fields
-     *     myStore.sort([
-     *         {
-     *             property : 'age',
-     *             direction: 'ASC'
-     *         },
-     *         {
-     *             property : 'name',
-     *             direction: 'DESC'
-     *         }
-     *     ]);
-     *
-     * Internally, Store converts the passed arguments into an array of {@link Ext.util.Sorter} instances, and delegates
-     * the actual sorting to its internal {@link Ext.util.MixedCollection}.
-     *
-     * When passing a single string argument to sort, Store maintains a ASC/DESC toggler per field, so this code:
-     *
-     *     store.sort('myField');
-     *     store.sort('myField');
-     *
-     * Is equivalent to this code, because Store handles the toggling automatically:
-     *
-     *     store.sort('myField', 'ASC');
-     *     store.sort('myField', 'DESC');
-     *
-     * @param {String/Ext.util.Sorter[]} [sorters] Either a string name of one of the fields in this Store's configured
-     * {@link Ext.data.Model Model}, or an array of sorter configurations.
-     * @param {String} [direction="ASC"] The overall direction to sort the data by.
-     * @return {Ext.util.Sorter[]}
-     */
-    sort: function(sorters, direction, where, doSort) {
-        var me = this,
-            sorter, sorterFn,
-            newSorters;
-
-        if (Ext.isArray(sorters)) {
-            doSort = where;
-            where = direction;
-            newSorters = sorters;
-        }
-        else if (Ext.isObject(sorters)) {
-            doSort = where;
-            where = direction;
-            newSorters = [sorters];
-        }
-        else if (Ext.isString(sorters)) {
-            sorter = me.sorters.get(sorters);
-
-            if (!sorter) {
-                sorter = {
-                    property : sorters,
-                    direction: direction
-                };
-                newSorters = [sorter];
-            }
-            else if (direction === undefined) {
-                sorter.toggle();
-            }
-            else {
-                sorter.setDirection(direction);
-            }
-        }
-
-        if (newSorters && newSorters.length) {
-            newSorters = me.decodeSorters(newSorters);
-            if (Ext.isString(where)) {
-                if (where === 'prepend') {
-                    sorters = me.sorters.clone().items;
-
-                    me.sorters.clear();
-                    me.sorters.addAll(newSorters);
-                    me.sorters.addAll(sorters);
-                }
-                else {
-                    me.sorters.addAll(newSorters);
-                }
-            }
-            else {
-                me.sorters.clear();
-                me.sorters.addAll(newSorters);
-            }
-        }
-
-        if (doSort !== false) {
-            me.onBeforeSort(newSorters);
-            
-            sorters = me.sorters.items;
-            if (sorters.length) {
-                // Sort using a generated sorter function which combines all of the Sorters passed
-                me.doSort(me.generateComparator());
-            }
-        }
-
-        return sorters;
-    },
-
-    /**
-     * <p>Returns a comparator function which compares two items and returns -1, 0, or 1 depending
-     * on the currently defined set of {@link #sorters}.</p>
-     * <p>If there are no {@link #sorters} defined, it returns a function which returns <code>0</code> meaning that no sorting will occur.</p>
-     */
-    generateComparator: function() {
-        var sorters = this.sorters.getRange();
-        return sorters.length ? this.createComparator(sorters) : this.emptyComparator;
-    },
-    
-    createComparator: function(sorters) {
-        return function(r1, r2) {
-            var result = sorters[0].sort(r1, r2),
-                length = sorters.length,
-                i = 1;
-
-            // if we have more than one sorter, OR any additional sorter functions together
-            for (; i < length; i++) {
-                result = result || sorters[i].sort.call(this, r1, r2);
-            }
-            return result;
-        };
-    },
-    
-    emptyComparator: function(){
-        return 0;
-    },
-
-    onBeforeSort: Ext.emptyFn,
-
-    /**
-     * @private
-     * Normalizes an array of sorter objects, ensuring that they are all Ext.util.Sorter instances
-     * @param {Object[]} sorters The sorters array
-     * @return {Ext.util.Sorter[]} Array of Ext.util.Sorter objects
-     */
-    decodeSorters: function(sorters) {
-        if (!Ext.isArray(sorters)) {
-            if (sorters === undefined) {
-                sorters = [];
-            } else {
-                sorters = [sorters];
-            }
-        }
-
-        var length = sorters.length,
-            Sorter = Ext.util.Sorter,
-            fields = this.model ? this.model.prototype.fields : null,
-            field,
-            config, i;
-
-        for (i = 0; i < length; i++) {
-            config = sorters[i];
-
-            if (!(config instanceof Sorter)) {
-                if (Ext.isString(config)) {
-                    config = {
-                        property: config
-                    };
-                }
-
-                Ext.applyIf(config, {
-                    root     : this.sortRoot,
-                    direction: "ASC"
-                });
-
-                //support for 3.x style sorters where a function can be defined as 'fn'
-                if (config.fn) {
-                    config.sorterFn = config.fn;
-                }
-
-                //support a function to be passed as a sorter definition
-                if (typeof config == 'function') {
-                    config = {
-                        sorterFn: config
-                    };
-                }
-
-                // ensure sortType gets pushed on if necessary
-                if (fields && !config.transform) {
-                    field = fields.get(config.property);
-                    config.transform = field ? field.sortType : undefined;
-                }
-                sorters[i] = new Ext.util.Sorter(config);
-            }
-        }
-
-        return sorters;
-    },
-
-    getSorters: function() {
-        return this.sorters.items;
-    },
-    
-    /**
-     * Gets the first sorter from the sorters collection, excluding
-     * any groupers that may be in place
-     * @protected
-     * @return {Ext.util.Sorter} The sorter, null if none exist
-     */
-    getFirstSorter: function(){
-        var sorters = this.sorters.items,
-            len = sorters.length,
-            i = 0,
-            sorter;
-            
-        for (; i < len; ++i) {
-            sorter = sorters[i];
-            if (!sorter.isGrouper) {
-                return sorter;    
-            }
-        }
-        return null;
-    }
-});
-/**
  * @class Ext.util.AbstractMixedCollection
  * @private
  */
@@ -10692,6 +10423,275 @@ var middleAged = people.filter('age', 24);
     }
 });
 
+/**
+ * @docauthor Tommy Maintz <tommy@sencha.com>
+ *
+ * A mixin which allows a data component to be sorted. This is used by e.g. {@link Ext.data.Store} and {@link Ext.data.TreeStore}.
+ *
+ * **NOTE**: This mixin is mainly for internal use and most users should not need to use it directly. It
+ * is more likely you will want to use one of the component classes that import this mixin, such as
+ * {@link Ext.data.Store} or {@link Ext.data.TreeStore}.
+ */
+Ext.define("Ext.util.Sortable", {
+    /**
+     * @property {Boolean} isSortable
+     * `true` in this class to identify an object as an instantiated Sortable, or subclass thereof.
+     */
+    isSortable: true,
+
+    /**
+     * @property {String} defaultSortDirection
+     * The default sort direction to use if one is not specified.
+     */
+    defaultSortDirection: "ASC",
+
+    requires: [
+        'Ext.util.Sorter'
+    ],
+
+    /**
+     * @property {String} sortRoot
+     * The property in each item that contains the data to sort.
+     */
+
+    /**
+     * Performs initialization of this mixin. Component classes using this mixin should call this method during their
+     * own initialization.
+     */
+    initSortable: function() {
+        var me = this,
+            sorters = me.sorters;
+
+        /**
+         * @property {Ext.util.MixedCollection} sorters
+         * The collection of {@link Ext.util.Sorter Sorters} currently applied to this Store
+         */
+        me.sorters = new Ext.util.AbstractMixedCollection(false, function(item) {
+            return item.id || item.property;
+        });
+
+        if (sorters) {
+            me.sorters.addAll(me.decodeSorters(sorters));
+        }
+    },
+
+    /**
+     * Sorts the data in the Store by one or more of its properties. Example usage:
+     *
+     *     //sort by a single field
+     *     myStore.sort('myField', 'DESC');
+     *
+     *     //sorting by multiple fields
+     *     myStore.sort([
+     *         {
+     *             property : 'age',
+     *             direction: 'ASC'
+     *         },
+     *         {
+     *             property : 'name',
+     *             direction: 'DESC'
+     *         }
+     *     ]);
+     *
+     * Internally, Store converts the passed arguments into an array of {@link Ext.util.Sorter} instances, and delegates
+     * the actual sorting to its internal {@link Ext.util.MixedCollection}.
+     *
+     * When passing a single string argument to sort, Store maintains a ASC/DESC toggler per field, so this code:
+     *
+     *     store.sort('myField');
+     *     store.sort('myField');
+     *
+     * Is equivalent to this code, because Store handles the toggling automatically:
+     *
+     *     store.sort('myField', 'ASC');
+     *     store.sort('myField', 'DESC');
+     *
+     * @param {String/Ext.util.Sorter[]} [sorters] Either a string name of one of the fields in this Store's configured
+     * {@link Ext.data.Model Model}, or an array of sorter configurations.
+     * @param {String} [direction="ASC"] The overall direction to sort the data by.
+     * @return {Ext.util.Sorter[]}
+     */
+    sort: function(sorters, direction, where, doSort) {
+        var me = this,
+            sorter, sorterFn,
+            newSorters;
+
+        if (Ext.isArray(sorters)) {
+            doSort = where;
+            where = direction;
+            newSorters = sorters;
+        }
+        else if (Ext.isObject(sorters)) {
+            doSort = where;
+            where = direction;
+            newSorters = [sorters];
+        }
+        else if (Ext.isString(sorters)) {
+            sorter = me.sorters.get(sorters);
+
+            if (!sorter) {
+                sorter = {
+                    property : sorters,
+                    direction: direction
+                };
+                newSorters = [sorter];
+            }
+            else if (direction === undefined) {
+                sorter.toggle();
+            }
+            else {
+                sorter.setDirection(direction);
+            }
+        }
+
+        if (newSorters && newSorters.length) {
+            newSorters = me.decodeSorters(newSorters);
+            if (Ext.isString(where)) {
+                if (where === 'prepend') {
+                    sorters = me.sorters.clone().items;
+
+                    me.sorters.clear();
+                    me.sorters.addAll(newSorters);
+                    me.sorters.addAll(sorters);
+                }
+                else {
+                    me.sorters.addAll(newSorters);
+                }
+            }
+            else {
+                me.sorters.clear();
+                me.sorters.addAll(newSorters);
+            }
+        }
+
+        if (doSort !== false) {
+            me.onBeforeSort(newSorters);
+            
+            sorters = me.sorters.items;
+            if (sorters.length) {
+                // Sort using a generated sorter function which combines all of the Sorters passed
+                me.doSort(me.generateComparator());
+            }
+        }
+
+        return sorters;
+    },
+
+    /**
+     * <p>Returns a comparator function which compares two items and returns -1, 0, or 1 depending
+     * on the currently defined set of {@link #sorters}.</p>
+     * <p>If there are no {@link #sorters} defined, it returns a function which returns <code>0</code> meaning that no sorting will occur.</p>
+     */
+    generateComparator: function() {
+        var sorters = this.sorters.getRange();
+        return sorters.length ? this.createComparator(sorters) : this.emptyComparator;
+    },
+    
+    createComparator: function(sorters) {
+        return function(r1, r2) {
+            var result = sorters[0].sort(r1, r2),
+                length = sorters.length,
+                i = 1;
+
+            // if we have more than one sorter, OR any additional sorter functions together
+            for (; i < length; i++) {
+                result = result || sorters[i].sort.call(this, r1, r2);
+            }
+            return result;
+        };
+    },
+    
+    emptyComparator: function(){
+        return 0;
+    },
+
+    onBeforeSort: Ext.emptyFn,
+
+    /**
+     * @private
+     * Normalizes an array of sorter objects, ensuring that they are all Ext.util.Sorter instances
+     * @param {Object[]} sorters The sorters array
+     * @return {Ext.util.Sorter[]} Array of Ext.util.Sorter objects
+     */
+    decodeSorters: function(sorters) {
+        if (!Ext.isArray(sorters)) {
+            if (sorters === undefined) {
+                sorters = [];
+            } else {
+                sorters = [sorters];
+            }
+        }
+
+        var length = sorters.length,
+            Sorter = Ext.util.Sorter,
+            fields = this.model ? this.model.prototype.fields : null,
+            field,
+            config, i;
+
+        for (i = 0; i < length; i++) {
+            config = sorters[i];
+
+            if (!(config instanceof Sorter)) {
+                if (Ext.isString(config)) {
+                    config = {
+                        property: config
+                    };
+                }
+
+                Ext.applyIf(config, {
+                    root     : this.sortRoot,
+                    direction: "ASC"
+                });
+
+                //support for 3.x style sorters where a function can be defined as 'fn'
+                if (config.fn) {
+                    config.sorterFn = config.fn;
+                }
+
+                //support a function to be passed as a sorter definition
+                if (typeof config == 'function') {
+                    config = {
+                        sorterFn: config
+                    };
+                }
+
+                // ensure sortType gets pushed on if necessary
+                if (fields && !config.transform) {
+                    field = fields.get(config.property);
+                    config.transform = field ? field.sortType : undefined;
+                }
+                sorters[i] = new Ext.util.Sorter(config);
+            }
+        }
+
+        return sorters;
+    },
+
+    getSorters: function() {
+        return this.sorters.items;
+    },
+    
+    /**
+     * Gets the first sorter from the sorters collection, excluding
+     * any groupers that may be in place
+     * @protected
+     * @return {Ext.util.Sorter} The sorter, null if none exist
+     */
+    getFirstSorter: function(){
+        var sorters = this.sorters.items,
+            len = sorters.length,
+            i = 0,
+            sorter;
+            
+        for (; i < len; ++i) {
+            sorter = sorters[i];
+            if (!sorter.isGrouper) {
+                return sorter;    
+            }
+        }
+        return null;
+    }
+});
 /**
  * @class Ext.util.MixedCollection
  * <p>
@@ -13396,143 +13396,6 @@ Ext.define('Ext.ComponentQuery', {
                 operations: operations
             });
         }
-    });
-});
-//@define Ext.fx.Easing
-/**
- * @class Ext.fx.Easing
- *
- * This class contains a series of function definitions used to modify values during an animation.
- * They describe how the intermediate values used during a transition will be calculated. It allows for a transition to change
- * speed over its duration. The following options are available: 
- *
- * - linear The default easing type
- * - backIn
- * - backOut
- * - bounceIn
- * - bounceOut
- * - ease
- * - easeIn
- * - easeOut
- * - easeInOut
- * - elasticIn
- * - elasticOut
- * - cubic-bezier(x1, y1, x2, y2)
- *
- * Note that cubic-bezier will create a custom easing curve following the CSS3 [transition-timing-function][0]
- * specification.  The four values specify points P1 and P2 of the curve as (x1, y1, x2, y2). All values must
- * be in the range [0, 1] or the definition is invalid.
- *
- * [0]: http://www.w3.org/TR/css3-transitions/#transition-timing-function_tag
- *
- * @singleton
- */
-Ext.ns('Ext.fx');
-
-Ext.require('Ext.fx.CubicBezier', function() {
-    var math = Math,
-        pi = math.PI,
-        pow = math.pow,
-        sin = math.sin,
-        sqrt = math.sqrt,
-        abs = math.abs,
-        backInSeed = 1.70158;
-    Ext.fx.Easing = {
-        // ease: Ext.fx.CubicBezier.cubicBezier(0.25, 0.1, 0.25, 1),
-        // linear: Ext.fx.CubicBezier.cubicBezier(0, 0, 1, 1),
-        // 'ease-in': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 1, 1),
-        // 'ease-out': Ext.fx.CubicBezier.cubicBezier(0, 0.58, 1, 1),
-        // 'ease-in-out': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 0.58, 1),
-        // 'easeIn': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 1, 1),
-        // 'easeOut': Ext.fx.CubicBezier.cubicBezier(0, 0.58, 1, 1),
-        // 'easeInOut': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 0.58, 1)
-    };
-
-    Ext.apply(Ext.fx.Easing, {
-        linear: function(n) {
-            return n;
-        },
-        ease: function(n) {
-            var q = 0.07813 - n / 2,
-                alpha = -0.25,
-                Q = sqrt(0.0066 + q * q),
-                x = Q - q,
-                X = pow(abs(x), 1/3) * (x < 0 ? -1 : 1),
-                y = -Q - q,
-                Y = pow(abs(y), 1/3) * (y < 0 ? -1 : 1),
-                t = X + Y + 0.25;
-            return pow(1 - t, 2) * 3 * t * 0.1 + (1 - t) * 3 * t * t + t * t * t;
-        },
-        easeIn: function (n) {
-            return pow(n, 1.7);
-        },
-        easeOut: function (n) {
-            return pow(n, 0.48);
-        },
-        easeInOut: function(n) {
-            var q = 0.48 - n / 1.04,
-                Q = sqrt(0.1734 + q * q),
-                x = Q - q,
-                X = pow(abs(x), 1/3) * (x < 0 ? -1 : 1),
-                y = -Q - q,
-                Y = pow(abs(y), 1/3) * (y < 0 ? -1 : 1),
-                t = X + Y + 0.5;
-            return (1 - t) * 3 * t * t + t * t * t;
-        },
-        backIn: function (n) {
-            return n * n * ((backInSeed + 1) * n - backInSeed);
-        },
-        backOut: function (n) {
-            n = n - 1;
-            return n * n * ((backInSeed + 1) * n + backInSeed) + 1;
-        },
-        elasticIn: function (n) {
-            if (n === 0 || n === 1) {
-                return n;
-            }
-            var p = 0.3,
-                s = p / 4;
-            return pow(2, -10 * n) * sin((n - s) * (2 * pi) / p) + 1;
-        },
-        elasticOut: function (n) {
-            return 1 - Ext.fx.Easing.elasticIn(1 - n);
-        },
-        bounceIn: function (n) {
-            return 1 - Ext.fx.Easing.bounceOut(1 - n);
-        },
-        bounceOut: function (n) {
-            var s = 7.5625,
-                p = 2.75,
-                l;
-            if (n < (1 / p)) {
-                l = s * n * n;
-            } else {
-                if (n < (2 / p)) {
-                    n -= (1.5 / p);
-                    l = s * n * n + 0.75;
-                } else {
-                    if (n < (2.5 / p)) {
-                        n -= (2.25 / p);
-                        l = s * n * n + 0.9375;
-                    } else {
-                        n -= (2.625 / p);
-                        l = s * n * n + 0.984375;
-                    }
-                }
-            }
-            return l;
-        }
-    });
-    Ext.apply(Ext.fx.Easing, {
-        'back-in': Ext.fx.Easing.backIn,
-        'back-out': Ext.fx.Easing.backOut,
-        'ease-in': Ext.fx.Easing.easeIn,
-        'ease-out': Ext.fx.Easing.easeOut,
-        'elastic-in': Ext.fx.Easing.elasticIn,
-        'elastic-out': Ext.fx.Easing.elasticIn,
-        'bounce-in': Ext.fx.Easing.bounceIn,
-        'bounce-out': Ext.fx.Easing.bounceOut,
-        'ease-in-out': Ext.fx.Easing.easeInOut
     });
 });
 /**
@@ -19134,6 +18997,143 @@ Ext.define('Ext.container.DockingContainer', {
     }
 });
 
+//@define Ext.fx.Easing
+/**
+ * @class Ext.fx.Easing
+ *
+ * This class contains a series of function definitions used to modify values during an animation.
+ * They describe how the intermediate values used during a transition will be calculated. It allows for a transition to change
+ * speed over its duration. The following options are available: 
+ *
+ * - linear The default easing type
+ * - backIn
+ * - backOut
+ * - bounceIn
+ * - bounceOut
+ * - ease
+ * - easeIn
+ * - easeOut
+ * - easeInOut
+ * - elasticIn
+ * - elasticOut
+ * - cubic-bezier(x1, y1, x2, y2)
+ *
+ * Note that cubic-bezier will create a custom easing curve following the CSS3 [transition-timing-function][0]
+ * specification.  The four values specify points P1 and P2 of the curve as (x1, y1, x2, y2). All values must
+ * be in the range [0, 1] or the definition is invalid.
+ *
+ * [0]: http://www.w3.org/TR/css3-transitions/#transition-timing-function_tag
+ *
+ * @singleton
+ */
+Ext.ns('Ext.fx');
+
+Ext.require('Ext.fx.CubicBezier', function() {
+    var math = Math,
+        pi = math.PI,
+        pow = math.pow,
+        sin = math.sin,
+        sqrt = math.sqrt,
+        abs = math.abs,
+        backInSeed = 1.70158;
+    Ext.fx.Easing = {
+        // ease: Ext.fx.CubicBezier.cubicBezier(0.25, 0.1, 0.25, 1),
+        // linear: Ext.fx.CubicBezier.cubicBezier(0, 0, 1, 1),
+        // 'ease-in': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 1, 1),
+        // 'ease-out': Ext.fx.CubicBezier.cubicBezier(0, 0.58, 1, 1),
+        // 'ease-in-out': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 0.58, 1),
+        // 'easeIn': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 1, 1),
+        // 'easeOut': Ext.fx.CubicBezier.cubicBezier(0, 0.58, 1, 1),
+        // 'easeInOut': Ext.fx.CubicBezier.cubicBezier(0.42, 0, 0.58, 1)
+    };
+
+    Ext.apply(Ext.fx.Easing, {
+        linear: function(n) {
+            return n;
+        },
+        ease: function(n) {
+            var q = 0.07813 - n / 2,
+                alpha = -0.25,
+                Q = sqrt(0.0066 + q * q),
+                x = Q - q,
+                X = pow(abs(x), 1/3) * (x < 0 ? -1 : 1),
+                y = -Q - q,
+                Y = pow(abs(y), 1/3) * (y < 0 ? -1 : 1),
+                t = X + Y + 0.25;
+            return pow(1 - t, 2) * 3 * t * 0.1 + (1 - t) * 3 * t * t + t * t * t;
+        },
+        easeIn: function (n) {
+            return pow(n, 1.7);
+        },
+        easeOut: function (n) {
+            return pow(n, 0.48);
+        },
+        easeInOut: function(n) {
+            var q = 0.48 - n / 1.04,
+                Q = sqrt(0.1734 + q * q),
+                x = Q - q,
+                X = pow(abs(x), 1/3) * (x < 0 ? -1 : 1),
+                y = -Q - q,
+                Y = pow(abs(y), 1/3) * (y < 0 ? -1 : 1),
+                t = X + Y + 0.5;
+            return (1 - t) * 3 * t * t + t * t * t;
+        },
+        backIn: function (n) {
+            return n * n * ((backInSeed + 1) * n - backInSeed);
+        },
+        backOut: function (n) {
+            n = n - 1;
+            return n * n * ((backInSeed + 1) * n + backInSeed) + 1;
+        },
+        elasticIn: function (n) {
+            if (n === 0 || n === 1) {
+                return n;
+            }
+            var p = 0.3,
+                s = p / 4;
+            return pow(2, -10 * n) * sin((n - s) * (2 * pi) / p) + 1;
+        },
+        elasticOut: function (n) {
+            return 1 - Ext.fx.Easing.elasticIn(1 - n);
+        },
+        bounceIn: function (n) {
+            return 1 - Ext.fx.Easing.bounceOut(1 - n);
+        },
+        bounceOut: function (n) {
+            var s = 7.5625,
+                p = 2.75,
+                l;
+            if (n < (1 / p)) {
+                l = s * n * n;
+            } else {
+                if (n < (2 / p)) {
+                    n -= (1.5 / p);
+                    l = s * n * n + 0.75;
+                } else {
+                    if (n < (2.5 / p)) {
+                        n -= (2.25 / p);
+                        l = s * n * n + 0.9375;
+                    } else {
+                        n -= (2.625 / p);
+                        l = s * n * n + 0.984375;
+                    }
+                }
+            }
+            return l;
+        }
+    });
+    Ext.apply(Ext.fx.Easing, {
+        'back-in': Ext.fx.Easing.backIn,
+        'back-out': Ext.fx.Easing.backOut,
+        'ease-in': Ext.fx.Easing.easeIn,
+        'ease-out': Ext.fx.Easing.easeOut,
+        'elastic-in': Ext.fx.Easing.elasticIn,
+        'elastic-out': Ext.fx.Easing.elasticIn,
+        'bounce-in': Ext.fx.Easing.bounceIn,
+        'bounce-out': Ext.fx.Easing.bounceOut,
+        'ease-in-out': Ext.fx.Easing.easeInOut
+    });
+});
 /**
  * This class compiles the XTemplate syntax into a function object. The function is used
  * like so:
@@ -19951,6 +19951,34 @@ Ext.define('Ext.XTemplate', {
 });
 
 /**
+ * A non-rendering placeholder item which instructs the Toolbar's Layout to begin using
+ * the right-justified button container.
+ *
+ *     @example
+ *     Ext.create('Ext.panel.Panel', {
+ *          title: 'Toolbar Fill Example',
+ *          width: 300,
+ *          height: 200,
+ *          tbar : [
+ *              'Item 1',
+ *              { xtype: 'tbfill' },
+ *              'Item 2'
+ *          ],
+ *          renderTo: Ext.getBody()
+ *      });
+ */
+Ext.define('Ext.toolbar.Fill', {
+    extend: 'Ext.Component',
+    alias: 'widget.tbfill',
+    alternateClassName: 'Ext.Toolbar.Fill',
+    /**
+     * @property {Boolean} isFill
+     * `true` in this class to identify an object as an instantiated Fill, or subclass thereof.
+     */
+    isFill : true,
+    flex: 1
+});
+/**
  * @class Ext.fx.target.Element
  * 
  * This class represents a animation target for an {@link Ext.Element}. In general this class will not be
@@ -20159,6 +20187,125 @@ Ext.define('Ext.fx.target.CompositeElement', {
 });
 
 /**
+ * @class Ext.fx.target.Component
+ * 
+ * This class represents a animation target for a {@link Ext.Component}. In general this class will not be
+ * created directly, the {@link Ext.Component} will be passed to the animation and
+ * and the appropriate target will be created.
+ */
+Ext.define('Ext.fx.target.Component', {
+
+    /* Begin Definitions */
+   
+    extend: 'Ext.fx.target.Target',
+    
+    /* End Definitions */
+
+    type: 'component',
+
+    // Methods to call to retrieve unspecified "from" values from a target Component
+    getPropMethod: {
+        top: function() {
+            return this.getPosition(true)[1];
+        },
+        left: function() {
+            return this.getPosition(true)[0];
+        },
+        x: function() {
+            return this.getPosition()[0];
+        },
+        y: function() {
+            return this.getPosition()[1];
+        },
+        height: function() {
+            return this.getHeight();
+        },
+        width: function() {
+            return this.getWidth();
+        },
+        opacity: function() {
+            return this.el.getStyle('opacity');
+        }
+    },
+
+    compMethod: {
+        top: 'setPosition',
+        left: 'setPosition',
+        x: 'setPagePosition',
+        y: 'setPagePosition',
+        height: 'setSize',
+        width: 'setSize',
+        opacity: 'setOpacity'
+    },
+
+    // Read the named attribute from the target Component. Use the defined getter for the attribute
+    getAttr: function(attr, val) {
+        return [[this.target, val !== undefined ? val : this.getPropMethod[attr].call(this.target)]];
+    },
+
+    setAttr: function(targetData, isFirstFrame, isLastFrame) {
+        var me = this,
+            target = me.target,
+            ln = targetData.length,
+            attrs, attr, o, i, j, meth, targets, left, top, w, h;
+        for (i = 0; i < ln; i++) {
+            attrs = targetData[i].attrs;
+            for (attr in attrs) {
+                targets = attrs[attr].length;
+                meth = {
+                    setPosition: {},
+                    setPagePosition: {},
+                    setSize: {},
+                    setOpacity: {}
+                };
+                for (j = 0; j < targets; j++) {
+                    o = attrs[attr][j];
+                    // We REALLY want a single function call, so push these down to merge them: eg
+                    // meth.setPagePosition.target = <targetComponent>
+                    // meth.setPagePosition['x'] = 100
+                    // meth.setPagePosition['y'] = 100
+                    meth[me.compMethod[attr]].target = o[0];
+                    meth[me.compMethod[attr]][attr] = o[1];
+                }
+                if (meth.setPosition.target) {
+                    o = meth.setPosition;
+                    left = (o.left === undefined) ? undefined : parseFloat(o.left);
+                    top = (o.top === undefined) ? undefined : parseFloat(o.top);
+                    o.target.setPosition(left, top);
+                }
+                if (meth.setPagePosition.target) {
+                    o = meth.setPagePosition;
+                    o.target.setPagePosition(o.x, o.y);
+                }
+                if (meth.setSize.target) {
+                    o = meth.setSize;
+                    // Dimensions not being animated MUST NOT be autosized. They must remain at current value.
+                    w = (o.width === undefined) ? o.target.getWidth() : parseFloat(o.width);
+                    h = (o.height === undefined) ? o.target.getHeight() : parseFloat(o.height);
+
+                    // Only set the size of the Component on the last frame, or if the animation was
+                    // configured with dynamic: true.
+                    // In other cases, we just set the target element size.
+                    // This will result in either clipping if animating a reduction in size, or the revealing of
+                    // the inner elements of the Component if animating an increase in size.
+                    // Component's animate function initially resizes to the larger size before resizing the
+                    // outer element to clip the contents.
+                    if (isLastFrame || me.dynamic) {
+                        o.target.setSize(w, h);
+                    } else {
+                        o.target.el.setSize(w, h);
+                    }
+                }
+                if (meth.setOpacity.target) {
+                    o = meth.setOpacity;
+                    o.target.el.setStyle('opacity', o.opacity);
+                }
+            }
+        }
+    }
+});
+
+/**
  * @class Ext.fx.target.CompositeElementCSS
  * 
  * This class represents a animation target for a {@link Ext.CompositeElement}, where the
@@ -20341,125 +20488,6 @@ Ext.define('Ext.fx.target.CompositeSprite', {
         }
 
         return out;
-    }
-});
-
-/**
- * @class Ext.fx.target.Component
- * 
- * This class represents a animation target for a {@link Ext.Component}. In general this class will not be
- * created directly, the {@link Ext.Component} will be passed to the animation and
- * and the appropriate target will be created.
- */
-Ext.define('Ext.fx.target.Component', {
-
-    /* Begin Definitions */
-   
-    extend: 'Ext.fx.target.Target',
-    
-    /* End Definitions */
-
-    type: 'component',
-
-    // Methods to call to retrieve unspecified "from" values from a target Component
-    getPropMethod: {
-        top: function() {
-            return this.getPosition(true)[1];
-        },
-        left: function() {
-            return this.getPosition(true)[0];
-        },
-        x: function() {
-            return this.getPosition()[0];
-        },
-        y: function() {
-            return this.getPosition()[1];
-        },
-        height: function() {
-            return this.getHeight();
-        },
-        width: function() {
-            return this.getWidth();
-        },
-        opacity: function() {
-            return this.el.getStyle('opacity');
-        }
-    },
-
-    compMethod: {
-        top: 'setPosition',
-        left: 'setPosition',
-        x: 'setPagePosition',
-        y: 'setPagePosition',
-        height: 'setSize',
-        width: 'setSize',
-        opacity: 'setOpacity'
-    },
-
-    // Read the named attribute from the target Component. Use the defined getter for the attribute
-    getAttr: function(attr, val) {
-        return [[this.target, val !== undefined ? val : this.getPropMethod[attr].call(this.target)]];
-    },
-
-    setAttr: function(targetData, isFirstFrame, isLastFrame) {
-        var me = this,
-            target = me.target,
-            ln = targetData.length,
-            attrs, attr, o, i, j, meth, targets, left, top, w, h;
-        for (i = 0; i < ln; i++) {
-            attrs = targetData[i].attrs;
-            for (attr in attrs) {
-                targets = attrs[attr].length;
-                meth = {
-                    setPosition: {},
-                    setPagePosition: {},
-                    setSize: {},
-                    setOpacity: {}
-                };
-                for (j = 0; j < targets; j++) {
-                    o = attrs[attr][j];
-                    // We REALLY want a single function call, so push these down to merge them: eg
-                    // meth.setPagePosition.target = <targetComponent>
-                    // meth.setPagePosition['x'] = 100
-                    // meth.setPagePosition['y'] = 100
-                    meth[me.compMethod[attr]].target = o[0];
-                    meth[me.compMethod[attr]][attr] = o[1];
-                }
-                if (meth.setPosition.target) {
-                    o = meth.setPosition;
-                    left = (o.left === undefined) ? undefined : parseFloat(o.left);
-                    top = (o.top === undefined) ? undefined : parseFloat(o.top);
-                    o.target.setPosition(left, top);
-                }
-                if (meth.setPagePosition.target) {
-                    o = meth.setPagePosition;
-                    o.target.setPagePosition(o.x, o.y);
-                }
-                if (meth.setSize.target) {
-                    o = meth.setSize;
-                    // Dimensions not being animated MUST NOT be autosized. They must remain at current value.
-                    w = (o.width === undefined) ? o.target.getWidth() : parseFloat(o.width);
-                    h = (o.height === undefined) ? o.target.getHeight() : parseFloat(o.height);
-
-                    // Only set the size of the Component on the last frame, or if the animation was
-                    // configured with dynamic: true.
-                    // In other cases, we just set the target element size.
-                    // This will result in either clipping if animating a reduction in size, or the revealing of
-                    // the inner elements of the Component if animating an increase in size.
-                    // Component's animate function initially resizes to the larger size before resizing the
-                    // outer element to clip the contents.
-                    if (isLastFrame || me.dynamic) {
-                        o.target.setSize(w, h);
-                    } else {
-                        o.target.el.setSize(w, h);
-                    }
-                }
-                if (meth.setOpacity.target) {
-                    o = meth.setOpacity;
-                    o.target.el.setStyle('opacity', o.opacity);
-                }
-            }
-        }
     }
 });
 
@@ -23299,34 +23327,6 @@ Ext.define('Ext.fx.Anim', {
 // Set flag to indicate that Fx is available. Class might not be available immediately.
 Ext.enableFx = true;
 
-/**
- * A non-rendering placeholder item which instructs the Toolbar's Layout to begin using
- * the right-justified button container.
- *
- *     @example
- *     Ext.create('Ext.panel.Panel', {
- *          title: 'Toolbar Fill Example',
- *          width: 300,
- *          height: 200,
- *          tbar : [
- *              'Item 1',
- *              { xtype: 'tbfill' },
- *              'Item 2'
- *          ],
- *          renderTo: Ext.getBody()
- *      });
- */
-Ext.define('Ext.toolbar.Fill', {
-    extend: 'Ext.Component',
-    alias: 'widget.tbfill',
-    alternateClassName: 'Ext.Toolbar.Fill',
-    /**
-     * @property {Boolean} isFill
-     * `true` in this class to identify an object as an instantiated Fill, or subclass thereof.
-     */
-    isFill : true,
-    flex: 1
-});
 /**
  * A specialized floating Component that supports a drop status icon, {@link Ext.Layer} styles
  * and auto-repair.  This is the default drag proxy used by all Ext.dd components.
@@ -36705,6 +36705,147 @@ Ext.define('Ext.layout.container.Box', {
 });
 
 /**
+ * A layout that arranges items horizontally across a Container. This layout optionally divides available horizontal
+ * space between child items containing a numeric `flex` configuration.
+ *
+ * This layout may also be used to set the heights of child items by configuring it with the {@link #align} option.
+ *
+ *     @example
+ *     Ext.create('Ext.Panel', {
+ *         width: 500,
+ *         height: 300,
+ *         title: "HBoxLayout Panel",
+ *         layout: {
+ *             type: 'hbox',
+ *             align: 'stretch'
+ *         },
+ *         renderTo: document.body,
+ *         items: [{
+ *             xtype: 'panel',
+ *             title: 'Inner Panel One',
+ *             flex: 2
+ *         },{
+ *             xtype: 'panel',
+ *             title: 'Inner Panel Two',
+ *             flex: 1
+ *         },{
+ *             xtype: 'panel',
+ *             title: 'Inner Panel Three',
+ *             flex: 1
+ *         }]
+ *     });
+ */
+Ext.define('Ext.layout.container.HBox', {
+
+    /* Begin Definitions */
+
+    alias: ['layout.hbox'],
+    extend: 'Ext.layout.container.Box',
+    alternateClassName: 'Ext.layout.HBoxLayout',
+
+    /* End Definitions */
+
+    /**
+     * @cfg {String} align
+     * Controls how the child items of the container are aligned. Acceptable configuration values for this property are:
+     *
+     * - **top** : **Default** child items are aligned vertically at the **top** of the container
+     * - **middle** : child items are aligned vertically in the **middle** of the container
+     * - **stretch** : child items are stretched vertically to fill the height of the container
+     * - **stretchmax** : child items are stretched vertically to the height of the largest item.
+     */
+    align: 'top', // top, middle, stretch, strechmax
+
+    type : 'hbox',
+
+    direction: 'horizontal',
+
+    horizontal: true,
+
+    names: {
+        // parallel
+        lr: 'lr',
+        left: 'left',// 'before',
+        leftCap: 'Left',
+        right: 'right',// 'after',
+        position: 'left',
+        width: 'width',
+        contentWidth: 'contentWidth',
+        minWidth: 'minWidth',
+        maxWidth: 'maxWidth',
+        widthCap: 'Width',
+        widthModel: 'widthModel',
+        widthIndex: 0,
+        x: 'x',
+        scrollLeft: 'scrollLeft',
+        overflowX: 'overflowX',
+        hasOverflowX: 'hasOverflowX',
+        invalidateScrollX: 'invalidateScrollX',
+
+        // perpendicular
+        center: 'middle',
+        top: 'top',
+        topPosition: 'top',
+        bottom: 'bottom',
+        height: 'height',
+        contentHeight: 'contentHeight',
+        minHeight: 'minHeight',
+        maxHeight: 'maxHeight',
+        heightCap: 'Height',
+        heightModel: 'heightModel',
+        heightIndex: 1,
+        y: 'y',
+        scrollTop: 'scrollTop',
+        overflowY: 'overflowY',
+        hasOverflowY: 'hasOverflowY',
+        invalidateScrollY: 'invalidateScrollY',
+
+        // Methods
+        getWidth: 'getWidth',
+        getHeight: 'getHeight',
+        setWidth: 'setWidth',
+        setHeight: 'setHeight',
+        gotWidth: 'gotWidth',
+        gotHeight: 'gotHeight',
+        setContentWidth: 'setContentWidth',
+        setContentHeight: 'setContentHeight',
+        setWidthInDom: 'setWidthInDom',
+        setHeightInDom: 'setHeightInDom'
+    },
+
+    sizePolicy: {
+        flex: {
+            '': {
+                setsWidth: 1,
+                setsHeight: 0
+            },
+            stretch: {
+                setsWidth: 1,
+                setsHeight: 1
+            },
+            stretchmax: {
+                readsHeight: 1,
+                setsWidth: 1,
+                setsHeight: 1
+            }
+        },
+        '': {
+            setsWidth: 0,
+            setsHeight: 0
+        },
+        stretch: {
+            setsWidth: 0,
+            setsHeight: 1
+        },
+        stretchmax: {
+            readsHeight: 1,
+            setsWidth: 0,
+            setsHeight: 1
+        }
+    }            
+});
+
+/**
  * A layout that arranges items vertically down a Container. This layout optionally divides available vertical space
  * between child items containing a numeric `flex` configuration.
  *
@@ -36848,147 +36989,6 @@ Ext.define('Ext.layout.container.VBox', {
             setsHeight: 0
         }
     }
-});
-
-/**
- * A layout that arranges items horizontally across a Container. This layout optionally divides available horizontal
- * space between child items containing a numeric `flex` configuration.
- *
- * This layout may also be used to set the heights of child items by configuring it with the {@link #align} option.
- *
- *     @example
- *     Ext.create('Ext.Panel', {
- *         width: 500,
- *         height: 300,
- *         title: "HBoxLayout Panel",
- *         layout: {
- *             type: 'hbox',
- *             align: 'stretch'
- *         },
- *         renderTo: document.body,
- *         items: [{
- *             xtype: 'panel',
- *             title: 'Inner Panel One',
- *             flex: 2
- *         },{
- *             xtype: 'panel',
- *             title: 'Inner Panel Two',
- *             flex: 1
- *         },{
- *             xtype: 'panel',
- *             title: 'Inner Panel Three',
- *             flex: 1
- *         }]
- *     });
- */
-Ext.define('Ext.layout.container.HBox', {
-
-    /* Begin Definitions */
-
-    alias: ['layout.hbox'],
-    extend: 'Ext.layout.container.Box',
-    alternateClassName: 'Ext.layout.HBoxLayout',
-
-    /* End Definitions */
-
-    /**
-     * @cfg {String} align
-     * Controls how the child items of the container are aligned. Acceptable configuration values for this property are:
-     *
-     * - **top** : **Default** child items are aligned vertically at the **top** of the container
-     * - **middle** : child items are aligned vertically in the **middle** of the container
-     * - **stretch** : child items are stretched vertically to fill the height of the container
-     * - **stretchmax** : child items are stretched vertically to the height of the largest item.
-     */
-    align: 'top', // top, middle, stretch, strechmax
-
-    type : 'hbox',
-
-    direction: 'horizontal',
-
-    horizontal: true,
-
-    names: {
-        // parallel
-        lr: 'lr',
-        left: 'left',// 'before',
-        leftCap: 'Left',
-        right: 'right',// 'after',
-        position: 'left',
-        width: 'width',
-        contentWidth: 'contentWidth',
-        minWidth: 'minWidth',
-        maxWidth: 'maxWidth',
-        widthCap: 'Width',
-        widthModel: 'widthModel',
-        widthIndex: 0,
-        x: 'x',
-        scrollLeft: 'scrollLeft',
-        overflowX: 'overflowX',
-        hasOverflowX: 'hasOverflowX',
-        invalidateScrollX: 'invalidateScrollX',
-
-        // perpendicular
-        center: 'middle',
-        top: 'top',
-        topPosition: 'top',
-        bottom: 'bottom',
-        height: 'height',
-        contentHeight: 'contentHeight',
-        minHeight: 'minHeight',
-        maxHeight: 'maxHeight',
-        heightCap: 'Height',
-        heightModel: 'heightModel',
-        heightIndex: 1,
-        y: 'y',
-        scrollTop: 'scrollTop',
-        overflowY: 'overflowY',
-        hasOverflowY: 'hasOverflowY',
-        invalidateScrollY: 'invalidateScrollY',
-
-        // Methods
-        getWidth: 'getWidth',
-        getHeight: 'getHeight',
-        setWidth: 'setWidth',
-        setHeight: 'setHeight',
-        gotWidth: 'gotWidth',
-        gotHeight: 'gotHeight',
-        setContentWidth: 'setContentWidth',
-        setContentHeight: 'setContentHeight',
-        setWidthInDom: 'setWidthInDom',
-        setHeightInDom: 'setHeightInDom'
-    },
-
-    sizePolicy: {
-        flex: {
-            '': {
-                setsWidth: 1,
-                setsHeight: 0
-            },
-            stretch: {
-                setsWidth: 1,
-                setsHeight: 1
-            },
-            stretchmax: {
-                readsHeight: 1,
-                setsWidth: 1,
-                setsHeight: 1
-            }
-        },
-        '': {
-            setsWidth: 0,
-            setsHeight: 0
-        },
-        stretch: {
-            setsWidth: 0,
-            setsHeight: 1
-        },
-        stretchmax: {
-            readsHeight: 1,
-            setsWidth: 0,
-            setsHeight: 1
-        }
-    }            
 });
 
 /**
@@ -42871,273 +42871,6 @@ Ext.define('Ext.resizer.Resizer', {
 });
 
 /**
- * Utility class for manipulating CSS rules
- * @singleton
- */
-Ext.define('Ext.util.CSS', (function() {
-    var rules = null,
-        doc = document,
-        camelRe = /(-[a-z])/gi,
-        camelFn = function(m, a){ return a.charAt(1).toUpperCase(); };
-
-    return {
-
-        singleton: true,
-
-        constructor: function() {
-            this.rules = {};
-            this.initialized = false;
-        },
-
-        /**
-         * Creates a stylesheet from a text blob of rules.
-         * These rules will be wrapped in a STYLE tag and appended to the HEAD of the document.
-         * @param {String} cssText The text containing the css rules
-         * @param {String} id An id to add to the stylesheet for later removal
-         * @return {CSSStyleSheet}
-         */
-        createStyleSheet : function(cssText, id) {
-            var ss,
-                head = doc.getElementsByTagName("head")[0],
-                styleEl = doc.createElement("style");
-
-            styleEl.setAttribute("type", "text/css");
-            if (id) {
-               styleEl.setAttribute("id", id);
-            }
-
-            if (Ext.isIE) {
-               head.appendChild(styleEl);
-               ss = styleEl.styleSheet;
-               ss.cssText = cssText;
-            } else {
-                try{
-                    styleEl.appendChild(doc.createTextNode(cssText));
-                } catch(e) {
-                   styleEl.cssText = cssText;
-                }
-                head.appendChild(styleEl);
-                ss = styleEl.styleSheet ? styleEl.styleSheet : (styleEl.sheet || doc.styleSheets[doc.styleSheets.length-1]);
-            }
-            this.cacheStyleSheet(ss);
-            return ss;
-        },
-
-        /**
-         * Removes a style or link tag by id
-         * @param {String} id The id of the tag
-         */
-        removeStyleSheet : function(id) {
-            var existing = document.getElementById(id);
-            if (existing) {
-                existing.parentNode.removeChild(existing);
-            }
-        },
-
-        /**
-         * Dynamically swaps an existing stylesheet reference for a new one
-         * @param {String} id The id of an existing link tag to remove
-         * @param {String} url The href of the new stylesheet to include
-         */
-        swapStyleSheet : function(id, url) {
-            var doc = document,
-                ss;
-            this.removeStyleSheet(id);
-            ss = doc.createElement("link");
-            ss.setAttribute("rel", "stylesheet");
-            ss.setAttribute("type", "text/css");
-            ss.setAttribute("id", id);
-            ss.setAttribute("href", url);
-            doc.getElementsByTagName("head")[0].appendChild(ss);
-        },
-
-        /**
-         * Refresh the rule cache if you have dynamically added stylesheets
-         * @return {Object} An object (hash) of rules indexed by selector
-         */
-        refreshCache : function() {
-            return this.getRules(true);
-        },
-
-        // private
-        cacheStyleSheet : function(ss) {
-            if(!rules){
-                rules = {};
-            }
-            try {// try catch for cross domain access issue
-                var ssRules = ss.cssRules || ss.rules,
-                    selectorText,
-                    i = ssRules.length - 1,
-                    j,
-                    selectors;
-
-                for (; i >= 0; --i) {
-                    selectorText = ssRules[i].selectorText;
-                    if (selectorText) {
-
-                        // Split in case there are multiple, comma-delimited selectors
-                        selectorText = selectorText.split(',');
-                        selectors = selectorText.length;
-                        for (j = 0; j < selectors; j++) {
-                            rules[Ext.String.trim(selectorText[j]).toLowerCase()] = ssRules[i];
-                        }
-                    }
-                }
-            } catch(e) {}
-        },
-
-        /**
-         * Gets all css rules for the document
-         * @param {Boolean} refreshCache true to refresh the internal cache
-         * @return {Object} An object (hash) of rules indexed by selector
-         */
-        getRules : function(refreshCache) {
-            if (rules === null || refreshCache) {
-                rules = {};
-                var ds = doc.styleSheets,
-                    i = 0,
-                    len = ds.length;
-
-                for (; i < len; i++) {
-                    try {
-                        if (!ds[i].disabled) {
-                            this.cacheStyleSheet(ds[i]);
-                        }
-                    } catch(e) {}
-                }
-            }
-            return rules;
-        },
-
-        /**
-         * Gets an an individual CSS rule by selector(s)
-         * @param {String/String[]} selector The CSS selector or an array of selectors to try. The first selector that is found is returned.
-         * @param {Boolean} refreshCache true to refresh the internal cache if you have recently updated any rules or added styles dynamically
-         * @return {CSSStyleRule} The CSS rule or null if one is not found
-         */
-        getRule: function(selector, refreshCache) {
-            var rs = this.getRules(refreshCache),
-                i;
-            if (!Ext.isArray(selector)) {
-                return rs[selector.toLowerCase()];
-            }
-            for (i = 0; i < selector.length; i++) {
-                if (rs[selector[i]]) {
-                    return rs[selector[i].toLowerCase()];
-                }
-            }
-            return null;
-        },
-
-        /**
-         * Updates a rule property
-         * @param {String/String[]} selector If it's an array it tries each selector until it finds one. Stops immediately once one is found.
-         * @param {String} property The css property
-         * @param {String} value The new value for the property
-         * @return {Boolean} true If a rule was found and updated
-         */
-        updateRule : function(selector, property, value){
-            var rule, i;
-            if (!Ext.isArray(selector)) {
-                rule = this.getRule(selector);
-                if (rule) {
-                    rule.style[property.replace(camelRe, camelFn)] = value;
-                    return true;
-                }
-            } else {
-                for (i = 0; i < selector.length; i++) {
-                    if (this.updateRule(selector[i], property, value)) {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-    };
-}()));
-/**
- * Component layout for components which maintain an inner body element which must be resized to synchronize with the
- * Component size.
- * @private
- */
-Ext.define('Ext.layout.component.Body', {
-
-    /* Begin Definitions */
-
-    alias: ['layout.body'],
-
-    extend: 'Ext.layout.component.Auto',
-
-    /* End Definitions */
-
-    type: 'body',
-
-    beginLayout: function (ownerContext) {
-        this.callParent(arguments);
-
-        ownerContext.bodyContext = ownerContext.getEl('body');
-    },
-
-    // Padding is exciting here because we have 2 el's: owner.el and owner.body. Content
-    // size always includes the padding of the targetEl, which should be owner.body. But
-    // it is common to have padding on owner.el also (such as a panel header), so we need
-    // to do some more padding work if targetContext is not owner.el. The base class has
-    // already handled the ownerContext's frameInfo (border+framing) so all that is left
-    // is padding.
-
-    calculateOwnerHeightFromContentHeight: function (ownerContext, contentHeight) {
-        var height = this.callParent(arguments);
-
-        if (ownerContext.targetContext != ownerContext) {
-            height += ownerContext.getPaddingInfo().height;
-        }
-
-        return height;
-    },
-
-    calculateOwnerWidthFromContentWidth: function (ownerContext, contentWidth) {
-        var width = this.callParent(arguments);
-
-        if (ownerContext.targetContext != ownerContext) {
-            width += ownerContext.getPaddingInfo().width;
-        }
-
-        return width;
-    },
-
-    measureContentWidth: function (ownerContext) {
-        return ownerContext.bodyContext.setWidth(ownerContext.bodyContext.el.dom.offsetWidth, false);
-    },
-
-    measureContentHeight: function (ownerContext) {
-        return ownerContext.bodyContext.setHeight(ownerContext.bodyContext.el.dom.offsetHeight, false);
-    },
-
-    publishInnerHeight: function (ownerContext, height) {
-        var innerHeight = height - ownerContext.getFrameInfo().height,
-            targetContext = ownerContext.targetContext;
-
-        if (targetContext != ownerContext) {
-            innerHeight -= ownerContext.getPaddingInfo().height;
-        }
-
-        // return the value here, it may get used in a subclass
-        return ownerContext.bodyContext.setHeight(innerHeight, !ownerContext.heightModel.natural);
-    },
-
-    publishInnerWidth: function (ownerContext, width) {
-        var innerWidth = width - ownerContext.getFrameInfo().width,
-            targetContext = ownerContext.targetContext;
-
-        if (targetContext != ownerContext) {
-            innerWidth -= ownerContext.getPaddingInfo().width;
-        }
-
-        ownerContext.bodyContext.setWidth(innerWidth, !ownerContext.widthModel.natural);
-    }
-});
-
-/**
  * This class is used to display small visual icons in the header of a panel. There are a set of
  * 25 icons that can be specified by using the {@link #type} config. The {@link #handler} config
  * can be used to provide a function that will respond to any click events. In general, this class
@@ -43445,6 +43178,273 @@ Ext.define('Ext.panel.Tool', {
      */
     onMouseOut: function() {
         this.el.removeCls(this.toolOverCls);
+    }
+});
+
+/**
+ * Utility class for manipulating CSS rules
+ * @singleton
+ */
+Ext.define('Ext.util.CSS', (function() {
+    var rules = null,
+        doc = document,
+        camelRe = /(-[a-z])/gi,
+        camelFn = function(m, a){ return a.charAt(1).toUpperCase(); };
+
+    return {
+
+        singleton: true,
+
+        constructor: function() {
+            this.rules = {};
+            this.initialized = false;
+        },
+
+        /**
+         * Creates a stylesheet from a text blob of rules.
+         * These rules will be wrapped in a STYLE tag and appended to the HEAD of the document.
+         * @param {String} cssText The text containing the css rules
+         * @param {String} id An id to add to the stylesheet for later removal
+         * @return {CSSStyleSheet}
+         */
+        createStyleSheet : function(cssText, id) {
+            var ss,
+                head = doc.getElementsByTagName("head")[0],
+                styleEl = doc.createElement("style");
+
+            styleEl.setAttribute("type", "text/css");
+            if (id) {
+               styleEl.setAttribute("id", id);
+            }
+
+            if (Ext.isIE) {
+               head.appendChild(styleEl);
+               ss = styleEl.styleSheet;
+               ss.cssText = cssText;
+            } else {
+                try{
+                    styleEl.appendChild(doc.createTextNode(cssText));
+                } catch(e) {
+                   styleEl.cssText = cssText;
+                }
+                head.appendChild(styleEl);
+                ss = styleEl.styleSheet ? styleEl.styleSheet : (styleEl.sheet || doc.styleSheets[doc.styleSheets.length-1]);
+            }
+            this.cacheStyleSheet(ss);
+            return ss;
+        },
+
+        /**
+         * Removes a style or link tag by id
+         * @param {String} id The id of the tag
+         */
+        removeStyleSheet : function(id) {
+            var existing = document.getElementById(id);
+            if (existing) {
+                existing.parentNode.removeChild(existing);
+            }
+        },
+
+        /**
+         * Dynamically swaps an existing stylesheet reference for a new one
+         * @param {String} id The id of an existing link tag to remove
+         * @param {String} url The href of the new stylesheet to include
+         */
+        swapStyleSheet : function(id, url) {
+            var doc = document,
+                ss;
+            this.removeStyleSheet(id);
+            ss = doc.createElement("link");
+            ss.setAttribute("rel", "stylesheet");
+            ss.setAttribute("type", "text/css");
+            ss.setAttribute("id", id);
+            ss.setAttribute("href", url);
+            doc.getElementsByTagName("head")[0].appendChild(ss);
+        },
+
+        /**
+         * Refresh the rule cache if you have dynamically added stylesheets
+         * @return {Object} An object (hash) of rules indexed by selector
+         */
+        refreshCache : function() {
+            return this.getRules(true);
+        },
+
+        // private
+        cacheStyleSheet : function(ss) {
+            if(!rules){
+                rules = {};
+            }
+            try {// try catch for cross domain access issue
+                var ssRules = ss.cssRules || ss.rules,
+                    selectorText,
+                    i = ssRules.length - 1,
+                    j,
+                    selectors;
+
+                for (; i >= 0; --i) {
+                    selectorText = ssRules[i].selectorText;
+                    if (selectorText) {
+
+                        // Split in case there are multiple, comma-delimited selectors
+                        selectorText = selectorText.split(',');
+                        selectors = selectorText.length;
+                        for (j = 0; j < selectors; j++) {
+                            rules[Ext.String.trim(selectorText[j]).toLowerCase()] = ssRules[i];
+                        }
+                    }
+                }
+            } catch(e) {}
+        },
+
+        /**
+         * Gets all css rules for the document
+         * @param {Boolean} refreshCache true to refresh the internal cache
+         * @return {Object} An object (hash) of rules indexed by selector
+         */
+        getRules : function(refreshCache) {
+            if (rules === null || refreshCache) {
+                rules = {};
+                var ds = doc.styleSheets,
+                    i = 0,
+                    len = ds.length;
+
+                for (; i < len; i++) {
+                    try {
+                        if (!ds[i].disabled) {
+                            this.cacheStyleSheet(ds[i]);
+                        }
+                    } catch(e) {}
+                }
+            }
+            return rules;
+        },
+
+        /**
+         * Gets an an individual CSS rule by selector(s)
+         * @param {String/String[]} selector The CSS selector or an array of selectors to try. The first selector that is found is returned.
+         * @param {Boolean} refreshCache true to refresh the internal cache if you have recently updated any rules or added styles dynamically
+         * @return {CSSStyleRule} The CSS rule or null if one is not found
+         */
+        getRule: function(selector, refreshCache) {
+            var rs = this.getRules(refreshCache),
+                i;
+            if (!Ext.isArray(selector)) {
+                return rs[selector.toLowerCase()];
+            }
+            for (i = 0; i < selector.length; i++) {
+                if (rs[selector[i]]) {
+                    return rs[selector[i].toLowerCase()];
+                }
+            }
+            return null;
+        },
+
+        /**
+         * Updates a rule property
+         * @param {String/String[]} selector If it's an array it tries each selector until it finds one. Stops immediately once one is found.
+         * @param {String} property The css property
+         * @param {String} value The new value for the property
+         * @return {Boolean} true If a rule was found and updated
+         */
+        updateRule : function(selector, property, value){
+            var rule, i;
+            if (!Ext.isArray(selector)) {
+                rule = this.getRule(selector);
+                if (rule) {
+                    rule.style[property.replace(camelRe, camelFn)] = value;
+                    return true;
+                }
+            } else {
+                for (i = 0; i < selector.length; i++) {
+                    if (this.updateRule(selector[i], property, value)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+    };
+}()));
+/**
+ * Component layout for components which maintain an inner body element which must be resized to synchronize with the
+ * Component size.
+ * @private
+ */
+Ext.define('Ext.layout.component.Body', {
+
+    /* Begin Definitions */
+
+    alias: ['layout.body'],
+
+    extend: 'Ext.layout.component.Auto',
+
+    /* End Definitions */
+
+    type: 'body',
+
+    beginLayout: function (ownerContext) {
+        this.callParent(arguments);
+
+        ownerContext.bodyContext = ownerContext.getEl('body');
+    },
+
+    // Padding is exciting here because we have 2 el's: owner.el and owner.body. Content
+    // size always includes the padding of the targetEl, which should be owner.body. But
+    // it is common to have padding on owner.el also (such as a panel header), so we need
+    // to do some more padding work if targetContext is not owner.el. The base class has
+    // already handled the ownerContext's frameInfo (border+framing) so all that is left
+    // is padding.
+
+    calculateOwnerHeightFromContentHeight: function (ownerContext, contentHeight) {
+        var height = this.callParent(arguments);
+
+        if (ownerContext.targetContext != ownerContext) {
+            height += ownerContext.getPaddingInfo().height;
+        }
+
+        return height;
+    },
+
+    calculateOwnerWidthFromContentWidth: function (ownerContext, contentWidth) {
+        var width = this.callParent(arguments);
+
+        if (ownerContext.targetContext != ownerContext) {
+            width += ownerContext.getPaddingInfo().width;
+        }
+
+        return width;
+    },
+
+    measureContentWidth: function (ownerContext) {
+        return ownerContext.bodyContext.setWidth(ownerContext.bodyContext.el.dom.offsetWidth, false);
+    },
+
+    measureContentHeight: function (ownerContext) {
+        return ownerContext.bodyContext.setHeight(ownerContext.bodyContext.el.dom.offsetHeight, false);
+    },
+
+    publishInnerHeight: function (ownerContext, height) {
+        var innerHeight = height - ownerContext.getFrameInfo().height,
+            targetContext = ownerContext.targetContext;
+
+        if (targetContext != ownerContext) {
+            innerHeight -= ownerContext.getPaddingInfo().height;
+        }
+
+        // return the value here, it may get used in a subclass
+        return ownerContext.bodyContext.setHeight(innerHeight, !ownerContext.heightModel.natural);
+    },
+
+    publishInnerWidth: function (ownerContext, width) {
+        var innerWidth = width - ownerContext.getFrameInfo().width,
+            targetContext = ownerContext.targetContext;
+
+        if (targetContext != ownerContext) {
+            innerWidth -= ownerContext.getPaddingInfo().width;
+        }
+
+        ownerContext.bodyContext.setWidth(innerWidth, !ownerContext.widthModel.natural);
     }
 });
 
@@ -47506,6 +47506,170 @@ Ext.define('Ext.FocusManager', {
 /**
  * @author Ed Spencer
  *
+ * Base Writer class used by most subclasses of {@link Ext.data.proxy.Server}. This class is responsible for taking a
+ * set of {@link Ext.data.Operation} objects and a {@link Ext.data.Request} object and modifying that request based on
+ * the Operations.
+ *
+ * For example a Ext.data.writer.Json would format the Operations and their {@link Ext.data.Model} instances based on
+ * the config options passed to the JsonWriter's constructor.
+ *
+ * Writers are not needed for any kind of local storage - whether via a {@link Ext.data.proxy.WebStorage Web Storage
+ * proxy} (see {@link Ext.data.proxy.LocalStorage localStorage} and {@link Ext.data.proxy.SessionStorage
+ * sessionStorage}) or just in memory via a {@link Ext.data.proxy.Memory MemoryProxy}.
+ */
+Ext.define('Ext.data.writer.Writer', {
+    alias: 'writer.base',
+    alternateClassName: ['Ext.data.DataWriter', 'Ext.data.Writer'],
+    
+    /**
+     * @cfg {Boolean} writeAllFields
+     * True to write all fields from the record to the server. If set to false it will only send the fields that were
+     * modified. Note that any fields that have {@link Ext.data.Field#persist} set to false will still be ignored.
+     */
+    writeAllFields: true,
+    
+    /**
+     * @cfg {String} nameProperty
+     * This property is used to read the key for each value that will be sent to the server. For example:
+     *
+     *     Ext.define('Person', {
+     *         extend: 'Ext.data.Model',
+     *         fields: [{
+     *             name: 'first',
+     *             mapping: 'firstName'
+     *         }, {
+     *             name: 'last',
+     *             mapping: 'lastName'
+     *         }, {
+     *             name: 'age'
+     *         }]
+     *     });
+     *     new Ext.data.writer.Writer({
+     *         writeAllFields: true,
+     *         nameProperty: 'mapping'
+     *     });
+     *
+     *     // This will be sent to the server
+     *     {
+     *         firstName: 'first name value',
+     *         lastName: 'last name value',
+     *         age: 1
+     *     }
+     *
+     * If the value is not present, the field name will always be used.
+     */
+    nameProperty: 'name',
+
+    /*
+     * @property {Boolean} isWriter
+     * `true` in this class to identify an object as an instantiated Writer, or subclass thereof.
+     */
+    isWriter: true,
+
+    /**
+     * Creates new Writer.
+     * @param {Object} [config] Config object.
+     */
+    constructor: function(config) {
+        Ext.apply(this, config);
+    },
+
+    /**
+     * Prepares a Proxy's Ext.data.Request object
+     * @param {Ext.data.Request} request The request object
+     * @return {Ext.data.Request} The modified request object
+     */
+    write: function(request) {
+        var operation = request.operation,
+            records   = operation.records || [],
+            len       = records.length,
+            i         = 0,
+            data      = [];
+
+        for (; i < len; i++) {
+            data.push(this.getRecordData(records[i], operation));
+        }
+        return this.writeRecords(request, data);
+    },
+
+    /**
+     * Formats the data for each record before sending it to the server. This
+     * method should be overridden to format the data in a way that differs from the default.
+     * @param {Ext.data.Model} record The record that we are writing to the server.
+     * @param {Ext.data.Operation} [operation] An operation object.
+     * @return {Object} An object literal of name/value keys to be written to the server.
+     * By default this method returns the data property on the record.
+     */
+    getRecordData: function(record, operation) {
+        var isPhantom = record.phantom === true,
+            writeAll = this.writeAllFields || isPhantom,
+            nameProperty = this.nameProperty,
+            fields = record.fields,
+            fieldItems = fields.items,
+            data = {},
+            clientIdProperty = record.clientIdProperty,
+            changes,
+            name,
+            field,
+            key,
+            value,
+            f, fLen;
+
+        if (writeAll) {
+            fLen = fieldItems.length;
+
+            for (f = 0; f < fLen; f++) {
+                field = fieldItems[f];
+                if (field.persist) {
+                    name = field[nameProperty] || field.name;
+                    value = record.get(field.name);
+                    if (field.serialize) {
+                        data[name] = field.serialize(value, record);
+                    } else if (field.type === Ext.data.Types.DATE && field.dateFormat) {
+                        data[name] = Ext.Date.format(value, field.dateFormat);
+                    } else {
+                        data[name] = value;
+                    }
+                }
+            }
+        } else {
+            // Only write the changes
+            changes = record.getChanges();
+            for (key in changes) {
+                if (changes.hasOwnProperty(key)) {
+                    field = fields.get(key);
+                    if (field.persist) {
+                        name = field[nameProperty] || field.name;
+                        value = record.get(field.name);
+                        if (field.serialize) {
+                            data[name] = field.serialize(value, record);
+                        } else if (field.type === Ext.data.Types.DATE && field.dateFormat) {
+                            data[name] = Ext.Date.format(value, field.dateFormat);
+                        } else {
+                            data[name] = value;
+                        }
+                    }
+                }
+            }
+        }
+        if (isPhantom) {
+            if (clientIdProperty && operation && operation.records.length > 1) {
+                // include clientId for phantom records, if multiple records are being written to the server in one operation.
+                // The server can then return the clientId with each record so the operation can match the server records with the client records
+                data[clientIdProperty] = record.internalId;
+            }
+        } else {
+            // always include the id for non phantoms
+            data[record.idProperty] = record.getId();
+        }
+
+        return data;
+    }
+});
+
+/**
+ * @author Ed Spencer
+ *
  * Proxies are used by {@link Ext.data.Store Stores} to handle the loading and saving of {@link Ext.data.Model Model}
  * data. Usually developers will not need to create or interact with proxies directly.
  *
@@ -47948,707 +48112,6 @@ Ext.define('Ext.data.proxy.Proxy', {
     Ext.data.DataProxy = this;
 });
 
-/**
- * @author Ed Spencer
- *
- * Base Writer class used by most subclasses of {@link Ext.data.proxy.Server}. This class is responsible for taking a
- * set of {@link Ext.data.Operation} objects and a {@link Ext.data.Request} object and modifying that request based on
- * the Operations.
- *
- * For example a Ext.data.writer.Json would format the Operations and their {@link Ext.data.Model} instances based on
- * the config options passed to the JsonWriter's constructor.
- *
- * Writers are not needed for any kind of local storage - whether via a {@link Ext.data.proxy.WebStorage Web Storage
- * proxy} (see {@link Ext.data.proxy.LocalStorage localStorage} and {@link Ext.data.proxy.SessionStorage
- * sessionStorage}) or just in memory via a {@link Ext.data.proxy.Memory MemoryProxy}.
- */
-Ext.define('Ext.data.writer.Writer', {
-    alias: 'writer.base',
-    alternateClassName: ['Ext.data.DataWriter', 'Ext.data.Writer'],
-    
-    /**
-     * @cfg {Boolean} writeAllFields
-     * True to write all fields from the record to the server. If set to false it will only send the fields that were
-     * modified. Note that any fields that have {@link Ext.data.Field#persist} set to false will still be ignored.
-     */
-    writeAllFields: true,
-    
-    /**
-     * @cfg {String} nameProperty
-     * This property is used to read the key for each value that will be sent to the server. For example:
-     *
-     *     Ext.define('Person', {
-     *         extend: 'Ext.data.Model',
-     *         fields: [{
-     *             name: 'first',
-     *             mapping: 'firstName'
-     *         }, {
-     *             name: 'last',
-     *             mapping: 'lastName'
-     *         }, {
-     *             name: 'age'
-     *         }]
-     *     });
-     *     new Ext.data.writer.Writer({
-     *         writeAllFields: true,
-     *         nameProperty: 'mapping'
-     *     });
-     *
-     *     // This will be sent to the server
-     *     {
-     *         firstName: 'first name value',
-     *         lastName: 'last name value',
-     *         age: 1
-     *     }
-     *
-     * If the value is not present, the field name will always be used.
-     */
-    nameProperty: 'name',
-
-    /*
-     * @property {Boolean} isWriter
-     * `true` in this class to identify an object as an instantiated Writer, or subclass thereof.
-     */
-    isWriter: true,
-
-    /**
-     * Creates new Writer.
-     * @param {Object} [config] Config object.
-     */
-    constructor: function(config) {
-        Ext.apply(this, config);
-    },
-
-    /**
-     * Prepares a Proxy's Ext.data.Request object
-     * @param {Ext.data.Request} request The request object
-     * @return {Ext.data.Request} The modified request object
-     */
-    write: function(request) {
-        var operation = request.operation,
-            records   = operation.records || [],
-            len       = records.length,
-            i         = 0,
-            data      = [];
-
-        for (; i < len; i++) {
-            data.push(this.getRecordData(records[i], operation));
-        }
-        return this.writeRecords(request, data);
-    },
-
-    /**
-     * Formats the data for each record before sending it to the server. This
-     * method should be overridden to format the data in a way that differs from the default.
-     * @param {Ext.data.Model} record The record that we are writing to the server.
-     * @param {Ext.data.Operation} [operation] An operation object.
-     * @return {Object} An object literal of name/value keys to be written to the server.
-     * By default this method returns the data property on the record.
-     */
-    getRecordData: function(record, operation) {
-        var isPhantom = record.phantom === true,
-            writeAll = this.writeAllFields || isPhantom,
-            nameProperty = this.nameProperty,
-            fields = record.fields,
-            fieldItems = fields.items,
-            data = {},
-            clientIdProperty = record.clientIdProperty,
-            changes,
-            name,
-            field,
-            key,
-            value,
-            f, fLen;
-
-        if (writeAll) {
-            fLen = fieldItems.length;
-
-            for (f = 0; f < fLen; f++) {
-                field = fieldItems[f];
-                if (field.persist) {
-                    name = field[nameProperty] || field.name;
-                    value = record.get(field.name);
-                    if (field.serialize) {
-                        data[name] = field.serialize(value, record);
-                    } else if (field.type === Ext.data.Types.DATE && field.dateFormat) {
-                        data[name] = Ext.Date.format(value, field.dateFormat);
-                    } else {
-                        data[name] = value;
-                    }
-                }
-            }
-        } else {
-            // Only write the changes
-            changes = record.getChanges();
-            for (key in changes) {
-                if (changes.hasOwnProperty(key)) {
-                    field = fields.get(key);
-                    if (field.persist) {
-                        name = field[nameProperty] || field.name;
-                        value = record.get(field.name);
-                        if (field.serialize) {
-                            data[name] = field.serialize(value, record);
-                        } else if (field.type === Ext.data.Types.DATE && field.dateFormat) {
-                            data[name] = Ext.Date.format(value, field.dateFormat);
-                        } else {
-                            data[name] = value;
-                        }
-                    }
-                }
-            }
-        }
-        if (isPhantom) {
-            if (clientIdProperty && operation && operation.records.length > 1) {
-                // include clientId for phantom records, if multiple records are being written to the server in one operation.
-                // The server can then return the clientId with each record so the operation can match the server records with the client records
-                data[clientIdProperty] = record.internalId;
-            }
-        } else {
-            // always include the id for non phantoms
-            data[record.idProperty] = record.getId();
-        }
-
-        return data;
-    }
-});
-
-/**
- * @author Ed Spencer
- *
- * ServerProxy is a superclass of {@link Ext.data.proxy.JsonP JsonPProxy} and {@link Ext.data.proxy.Ajax AjaxProxy}, and
- * would not usually be used directly.
- *
- * ServerProxy should ideally be named HttpProxy as it is a superclass for all HTTP proxies - for Ext JS 4.x it has been
- * called ServerProxy to enable any 3.x applications that reference the HttpProxy to continue to work (HttpProxy is now
- * an alias of AjaxProxy).
- * @private
- */
-Ext.define('Ext.data.proxy.Server', {
-    extend: 'Ext.data.proxy.Proxy',
-    alias : 'proxy.server',
-    alternateClassName: 'Ext.data.ServerProxy',
-    uses  : ['Ext.data.Request'],
-
-    /**
-     * @cfg {String} url
-     * The URL from which to request the data object.
-     */
-
-    /**
-     * @cfg {String} pageParam
-     * The name of the 'page' parameter to send in a request. Defaults to 'page'. Set this to undefined if you don't
-     * want to send a page parameter.
-     */
-    pageParam: 'page',
-
-    /**
-     * @cfg {String} startParam
-     * The name of the 'start' parameter to send in a request. Defaults to 'start'. Set this to undefined if you don't
-     * want to send a start parameter.
-     */
-    startParam: 'start',
-
-    /**
-     * @cfg {String} limitParam
-     * The name of the 'limit' parameter to send in a request. Defaults to 'limit'. Set this to undefined if you don't
-     * want to send a limit parameter.
-     */
-    limitParam: 'limit',
-
-    /**
-     * @cfg {String} groupParam
-     * The name of the 'group' parameter to send in a request. Defaults to 'group'. Set this to undefined if you don't
-     * want to send a group parameter.
-     */
-    groupParam: 'group',
-
-    /**
-     * @cfg {String} groupDirectionParam
-     * The name of the direction parameter to send in a request. **This is only used when simpleGroupMode is set to
-     * true.** Defaults to 'groupDir'.
-     */
-    groupDirectionParam: 'groupDir',
-
-    /**
-     * @cfg {String} sortParam
-     * The name of the 'sort' parameter to send in a request. Defaults to 'sort'. Set this to undefined if you don't
-     * want to send a sort parameter.
-     */
-    sortParam: 'sort',
-
-    /**
-     * @cfg {String} filterParam
-     * The name of the 'filter' parameter to send in a request. Defaults to 'filter'. Set this to undefined if you don't
-     * want to send a filter parameter.
-     */
-    filterParam: 'filter',
-
-    /**
-     * @cfg {String} directionParam
-     * The name of the direction parameter to send in a request. **This is only used when simpleSortMode is set to
-     * true.** Defaults to 'dir'.
-     */
-    directionParam: 'dir',
-
-    /**
-     * @cfg {Boolean} simpleSortMode
-     * Enabling simpleSortMode in conjunction with remoteSort will only send one sort property and a direction when a
-     * remote sort is requested. The {@link #directionParam} and {@link #sortParam} will be sent with the property name
-     * and either 'ASC' or 'DESC'.
-     */
-    simpleSortMode: false,
-
-    /**
-     * @cfg {Boolean} simpleGroupMode
-     * Enabling simpleGroupMode in conjunction with remoteGroup will only send one group property and a direction when a
-     * remote group is requested. The {@link #groupDirectionParam} and {@link #groupParam} will be sent with the property name and either 'ASC'
-     * or 'DESC'.
-     */
-    simpleGroupMode: false,
-
-    /**
-     * @cfg {Boolean} noCache
-     * Disable caching by adding a unique parameter name to the request. Set to false to allow caching. Defaults to true.
-     */
-    noCache : true,
-
-    /**
-     * @cfg {String} cacheString
-     * The name of the cache param added to the url when using noCache. Defaults to "_dc".
-     */
-    cacheString: "_dc",
-
-    /**
-     * @cfg {Number} timeout
-     * The number of milliseconds to wait for a response. Defaults to 30000 milliseconds (30 seconds).
-     */
-    timeout : 30000,
-
-    /**
-     * @cfg {Object} api
-     * Specific urls to call on CRUD action methods "create", "read", "update" and "destroy". Defaults to:
-     *
-     *     api: {
-     *         create  : undefined,
-     *         read    : undefined,
-     *         update  : undefined,
-     *         destroy : undefined
-     *     }
-     *
-     * The url is built based upon the action being executed [create|read|update|destroy] using the commensurate
-     * {@link #api} property, or if undefined default to the configured
-     * {@link Ext.data.Store}.{@link Ext.data.proxy.Server#url url}.
-     *
-     * For example:
-     *
-     *     api: {
-     *         create  : '/controller/new',
-     *         read    : '/controller/load',
-     *         update  : '/controller/update',
-     *         destroy : '/controller/destroy_action'
-     *     }
-     *
-     * If the specific URL for a given CRUD action is undefined, the CRUD action request will be directed to the
-     * configured {@link Ext.data.proxy.Server#url url}.
-     */
-
-    constructor: function(config) {
-        var me = this;
-
-        config = config || {};
-        /**
-         * @event exception
-         * Fires when the server returns an exception
-         * @param {Ext.data.proxy.Proxy} this
-         * @param {Object} response The response from the AJAX request
-         * @param {Ext.data.Operation} operation The operation that triggered request
-         */
-        me.callParent([config]);
-
-        /**
-         * @cfg {Object} extraParams
-         * Extra parameters that will be included on every request. Individual requests with params of the same name
-         * will override these params when they are in conflict.
-         */
-        me.extraParams = config.extraParams || {};
-
-        me.api = Ext.apply({}, config.api || me.api);
-        
-
-        //backwards compatibility, will be deprecated in 5.0
-        me.nocache = me.noCache;
-    },
-
-    //in a ServerProxy all four CRUD operations are executed in the same manner, so we delegate to doRequest in each case
-    create: function() {
-        return this.doRequest.apply(this, arguments);
-    },
-
-    read: function() {
-        return this.doRequest.apply(this, arguments);
-    },
-
-    update: function() {
-        return this.doRequest.apply(this, arguments);
-    },
-
-    destroy: function() {
-        return this.doRequest.apply(this, arguments);
-    },
-
-    /**
-     * Sets a value in the underlying {@link #extraParams}.
-     * @param {String} name The key for the new value
-     * @param {Object} value The value
-     */
-    setExtraParam: function(name, value) {
-        this.extraParams[name] = value;
-    },
-
-    /**
-     * Creates an {@link Ext.data.Request Request} object from {@link Ext.data.Operation Operation}.
-     *
-     * This gets called from doRequest methods in subclasses of Server proxy.
-     * 
-     * @param {Ext.data.Operation} operation The operation to execute
-     * @return {Ext.data.Request} The request object
-     */
-    buildRequest: function(operation) {
-        var me = this,
-            params = Ext.applyIf(operation.params || {}, me.extraParams || {}),
-            request;
-
-        //copy any sorters, filters etc into the params so they can be sent over the wire
-        params = Ext.applyIf(params, me.getParams(operation));
-
-        if (operation.id !== undefined && params.id === undefined) {
-            params.id = operation.id;
-        }
-
-        request = new Ext.data.Request({
-            params   : params,
-            action   : operation.action,
-            records  : operation.records,
-            operation: operation,
-            url      : operation.url,
-
-            // this is needed by JsonSimlet in order to properly construct responses for
-            // requests from this proxy
-            proxy: me
-        });
-
-        request.url = me.buildUrl(request);
-
-        /*
-         * Save the request on the Operation. Operations don't usually care about Request and Response data, but in the
-         * ServerProxy and any of its subclasses we add both request and response as they may be useful for further processing
-         */
-        operation.request = request;
-
-        return request;
-    },
-
-    // Should this be documented as protected method?
-    processResponse: function(success, operation, request, response, callback, scope) {
-        var me = this,
-            reader,
-            result;
-
-        if (success === true) {
-            reader = me.getReader();
-
-            // Apply defaults to incoming data only for read operations.
-            // For create and update, there will already be a client-side record
-            // to match with which will contain any defaulted in values.
-            reader.applyDefaults = operation.action === 'read';
-
-            result = reader.read(me.extractResponseData(response));
-
-            if (result.success !== false) {
-                //see comment in buildRequest for why we include the response object here
-                Ext.apply(operation, {
-                    response: response,
-                    resultSet: result
-                });
-
-                operation.commitRecords(result.records);
-                operation.setCompleted();
-                operation.setSuccessful();
-            } else {
-                operation.setException(result.message);
-                me.fireEvent('exception', this, response, operation);
-            }
-        } else {
-            me.setException(operation, response);
-            me.fireEvent('exception', this, response, operation);
-        }
-
-        //this callback is the one that was passed to the 'read' or 'write' function above
-        if (typeof callback == 'function') {
-            callback.call(scope || me, operation);
-        }
-
-        me.afterRequest(request, success);
-    },
-
-    /**
-     * Sets up an exception on the operation
-     * @private
-     * @param {Ext.data.Operation} operation The operation
-     * @param {Object} response The response
-     */
-    setException: function(operation, response) {
-        operation.setException({
-            status: response.status,
-            statusText: response.statusText
-        });
-    },
-
-    /**
-     * Template method to allow subclasses to specify how to get the response for the reader.
-     * @template
-     * @private
-     * @param {Object} response The server response
-     * @return {Object} The response data to be used by the reader
-     */
-    extractResponseData: function(response) {
-        return response;
-    },
-
-    /**
-     * Encode any values being sent to the server. Can be overridden in subclasses.
-     * @private
-     * @param {Array} An array of sorters/filters.
-     * @return {Object} The encoded value
-     */
-    applyEncoding: function(value) {
-        return Ext.encode(value);
-    },
-
-    /**
-     * Encodes the array of {@link Ext.util.Sorter} objects into a string to be sent in the request url. By default,
-     * this simply JSON-encodes the sorter data
-     * @param {Ext.util.Sorter[]} sorters The array of {@link Ext.util.Sorter Sorter} objects
-     * @return {String} The encoded sorters
-     */
-    encodeSorters: function(sorters) {
-        var min = [],
-            length = sorters.length,
-            i = 0;
-
-        for (; i < length; i++) {
-            min[i] = {
-                property : sorters[i].property,
-                direction: sorters[i].direction
-            };
-        }
-        return this.applyEncoding(min);
-
-    },
-
-    /**
-     * Encodes the array of {@link Ext.util.Filter} objects into a string to be sent in the request url. By default,
-     * this simply JSON-encodes the filter data
-     * @param {Ext.util.Filter[]} filters The array of {@link Ext.util.Filter Filter} objects
-     * @return {String} The encoded filters
-     */
-    encodeFilters: function(filters) {
-        var min = [],
-            length = filters.length,
-            i = 0;
-
-        for (; i < length; i++) {
-            min[i] = {
-                property: filters[i].property,
-                value   : filters[i].value
-            };
-        }
-        return this.applyEncoding(min);
-    },
-
-    /**
-     * @private
-     * Copy any sorters, filters etc into the params so they can be sent over the wire
-     */
-    getParams: function(operation) {
-        var me = this,
-            params = {},
-            isDef = Ext.isDefined,
-            groupers = operation.groupers,
-            sorters = operation.sorters,
-            filters = operation.filters,
-            page = operation.page,
-            start = operation.start,
-            limit = operation.limit,
-            simpleSortMode = me.simpleSortMode,
-            simpleGroupMode = me.simpleGroupMode,
-            pageParam = me.pageParam,
-            startParam = me.startParam,
-            limitParam = me.limitParam,
-            groupParam = me.groupParam,
-            groupDirectionParam = me.groupDirectionParam,
-            sortParam = me.sortParam,
-            filterParam = me.filterParam,
-            directionParam = me.directionParam;
-
-        if (pageParam && isDef(page)) {
-            params[pageParam] = page;
-        }
-
-        if (startParam && isDef(start)) {
-            params[startParam] = start;
-        }
-
-        if (limitParam && isDef(limit)) {
-            params[limitParam] = limit;
-        }
-
-        if (groupParam && groupers && groupers.length > 0) {
-            // Grouper is a subclass of sorter, so we can just use the sorter method
-            if (simpleGroupMode) {
-                params[groupParam] = groupers[0].property;
-                params[groupDirectionParam] = groupers[0].direction || 'ASC';
-            } else {
-                params[groupParam] = me.encodeSorters(groupers);
-            }
-        }
-
-        if (sortParam && sorters && sorters.length > 0) {
-            if (simpleSortMode) {
-                params[sortParam] = sorters[0].property;
-                params[directionParam] = sorters[0].direction;
-            } else {
-                params[sortParam] = me.encodeSorters(sorters);
-            }
-
-        }
-
-        if (filterParam && filters && filters.length > 0) {
-            params[filterParam] = me.encodeFilters(filters);
-        }
-
-        return params;
-    },
-
-    /**
-     * Generates a url based on a given Ext.data.Request object. By default, ServerProxy's buildUrl will add the
-     * cache-buster param to the end of the url. Subclasses may need to perform additional modifications to the url.
-     * @param {Ext.data.Request} request The request object
-     * @return {String} The url
-     */
-    buildUrl: function(request) {
-        var me = this,
-            url = me.getUrl(request);
-
-        if (!url) {
-            Ext.Error.raise("You are using a ServerProxy but have not supplied it with a url.");
-        }
-
-        if (me.noCache) {
-            url = Ext.urlAppend(url, Ext.String.format("{0}={1}", me.cacheString, Ext.Date.now()));
-        }
-
-        return url;
-    },
-
-    /**
-     * Get the url for the request taking into account the order of priority,
-     * - The request
-     * - The api
-     * - The url
-     * @private
-     * @param {Ext.data.Request} request The request
-     * @return {String} The url
-     */
-    getUrl: function(request) {
-        return request.url || this.api[request.action] || this.url;
-    },
-
-    /**
-     * In ServerProxy subclasses, the {@link #create}, {@link #read}, {@link #update} and {@link #destroy} methods all
-     * pass through to doRequest. Each ServerProxy subclass must implement the doRequest method - see {@link
-     * Ext.data.proxy.JsonP} and {@link Ext.data.proxy.Ajax} for examples. This method carries the same signature as
-     * each of the methods that delegate to it.
-     *
-     * @param {Ext.data.Operation} operation The Ext.data.Operation object
-     * @param {Function} callback The callback function to call when the Operation has completed
-     * @param {Object} scope The scope in which to execute the callback
-     */
-    doRequest: function(operation, callback, scope) {
-        Ext.Error.raise("The doRequest function has not been implemented on your Ext.data.proxy.Server subclass. See src/data/ServerProxy.js for details");
-    },
-
-    /**
-     * Optional callback function which can be used to clean up after a request has been completed.
-     * @param {Ext.data.Request} request The Request object
-     * @param {Boolean} success True if the request was successful
-     * @protected
-     * @template
-     * @method
-     */
-    afterRequest: Ext.emptyFn,
-
-    onDestroy: function() {
-        Ext.destroy(this.reader, this.writer);
-    }
-});
-
-/**
- * @author Ed Spencer
- *
- * Simple wrapper class that represents a set of records returned by a Proxy.
- */
-Ext.define('Ext.data.ResultSet', {
-    /**
-     * @cfg {Boolean} loaded
-     * True if the records have already been loaded. This is only meaningful when dealing with
-     * SQL-backed proxies.
-     */
-    loaded: true,
-
-    /**
-     * @cfg {Number} count
-     * The number of records in this ResultSet. Note that total may differ from this number.
-     */
-    count: 0,
-
-    /**
-     * @cfg {Number} total
-     * The total number of records reported by the data source. This ResultSet may form a subset of
-     * those records (see {@link #count}).
-     */
-    total: 0,
-
-    /**
-     * @cfg {Boolean} success
-     * True if the ResultSet loaded successfully, false if any errors were encountered.
-     */
-    success: false,
-
-    /**
-     * @cfg {Ext.data.Model[]} records (required)
-     * The array of record instances.
-     */
-
-    /**
-     * Creates the resultSet
-     * @param {Object} [config] Config object.
-     */
-    constructor: function(config) {
-        Ext.apply(this, config);
-
-        /**
-         * @property {Number} totalRecords
-         * Copy of this.total.
-         * @deprecated Will be removed in Ext JS 5.0. Use {@link #total} instead.
-         */
-        this.totalRecords = this.total;
-
-        if (config.count === undefined) {
-            this.count = this.records.length;
-        }
-    }
-});
 /**
  * The Connection class encapsulates a connection to the page's originating domain, allowing requests to be made either
  * to a configured URL, or to a URL specified at request time.
@@ -49628,6 +49091,62 @@ Ext.define('Ext.data.Connection', {
     }
 });
 
+/**
+ * @author Ed Spencer
+ *
+ * Simple wrapper class that represents a set of records returned by a Proxy.
+ */
+Ext.define('Ext.data.ResultSet', {
+    /**
+     * @cfg {Boolean} loaded
+     * True if the records have already been loaded. This is only meaningful when dealing with
+     * SQL-backed proxies.
+     */
+    loaded: true,
+
+    /**
+     * @cfg {Number} count
+     * The number of records in this ResultSet. Note that total may differ from this number.
+     */
+    count: 0,
+
+    /**
+     * @cfg {Number} total
+     * The total number of records reported by the data source. This ResultSet may form a subset of
+     * those records (see {@link #count}).
+     */
+    total: 0,
+
+    /**
+     * @cfg {Boolean} success
+     * True if the ResultSet loaded successfully, false if any errors were encountered.
+     */
+    success: false,
+
+    /**
+     * @cfg {Ext.data.Model[]} records (required)
+     * The array of record instances.
+     */
+
+    /**
+     * Creates the resultSet
+     * @param {Object} [config] Config object.
+     */
+    constructor: function(config) {
+        Ext.apply(this, config);
+
+        /**
+         * @property {Number} totalRecords
+         * Copy of this.total.
+         * @deprecated Will be removed in Ext JS 5.0. Use {@link #total} instead.
+         */
+        this.totalRecords = this.total;
+
+        if (config.count === undefined) {
+            this.count = this.records.length;
+        }
+    }
+});
 /**
  * This class is used to load content via Ajax into a {@link Ext.Component}. In general 
  * this class will not be instanced directly, rather a loader configuration will be passed to the
@@ -56353,185 +55872,6 @@ Ext.define('Ext.menu.Menu', {
 /**
  * @author Ed Spencer
  *
- * Base class for any client-side storage. Used as a superclass for {@link Ext.data.proxy.Memory Memory} and
- * {@link Ext.data.proxy.WebStorage Web Storage} proxies. Do not use directly, use one of the subclasses instead.
- * @private
- */
-Ext.define('Ext.data.proxy.Client', {
-    extend: 'Ext.data.proxy.Proxy',
-    alternateClassName: 'Ext.data.ClientProxy',
-    
-    /**
-     * @property {Boolean} isSynchronous
-     * `true` in this class to identify that requests made on this proxy are
-     * performed synchronously
-     */
-    isSynchronous: true,
-
-    /**
-     * Abstract function that must be implemented by each ClientProxy subclass. This should purge all record data
-     * from the client side storage, as well as removing any supporting data (such as lists of record IDs)
-     */
-    clear: function() {
-        Ext.Error.raise("The Ext.data.proxy.Client subclass that you are using has not defined a 'clear' function. See src/data/ClientProxy.js for details.");
-    }
-});
-/**
- * @author Ed Spencer
- *
- * In-memory proxy. This proxy simply uses a local variable for data storage/retrieval, so its contents are lost on
- * every page refresh.
- *
- * Usually this Proxy isn't used directly, serving instead as a helper to a {@link Ext.data.Store Store} where a reader
- * is required to load data. For example, say we have a Store for a User model and have some inline data we want to
- * load, but this data isn't in quite the right format: we can use a MemoryProxy with a JsonReader to read it into our
- * Store:
- *
- *     //this is the model we will be using in the store
- *     Ext.define('User', {
- *         extend: 'Ext.data.Model',
- *         fields: [
- *             {name: 'id',    type: 'int'},
- *             {name: 'name',  type: 'string'},
- *             {name: 'phone', type: 'string', mapping: 'phoneNumber'}
- *         ]
- *     });
- *
- *     //this data does not line up to our model fields - the phone field is called phoneNumber
- *     var data = {
- *         users: [
- *             {
- *                 id: 1,
- *                 name: 'Ed Spencer',
- *                 phoneNumber: '555 1234'
- *             },
- *             {
- *                 id: 2,
- *                 name: 'Abe Elias',
- *                 phoneNumber: '666 1234'
- *             }
- *         ]
- *     };
- *
- *     //note how we set the 'root' in the reader to match the data structure above
- *     var store = Ext.create('Ext.data.Store', {
- *         autoLoad: true,
- *         model: 'User',
- *         data : data,
- *         proxy: {
- *             type: 'memory',
- *             reader: {
- *                 type: 'json',
- *                 root: 'users'
- *             }
- *         }
- *     });
- */
-Ext.define('Ext.data.proxy.Memory', {
-    extend: 'Ext.data.proxy.Client',
-    alias: 'proxy.memory',
-    alternateClassName: 'Ext.data.MemoryProxy',
-
-    /**
-     * @cfg {Object} data
-     * Optional data to pass to configured Reader.
-     */
-
-    constructor: function(config) {
-        this.callParent([config]);
-
-        //ensures that the reader has been instantiated properly
-        this.setReader(this.reader);
-    },
-    
-    /**
-     * @private
-     * Fake processing function to commit the records, set the current operation
-     * to successful and call the callback if provided. This function is shared
-     * by the create, update and destroy methods to perform the bare minimum
-     * processing required for the proxy to register a result from the action.
-     */
-    updateOperation: function(operation, callback, scope) {
-        var i = 0,
-            recs = operation.getRecords(),
-            len = recs.length;
-            
-        for (i; i < len; i++) {
-            recs[i].commit();
-        }
-        operation.setCompleted();
-        operation.setSuccessful();
-        
-        Ext.callback(callback, scope || this, [operation]);
-    },
-    
-    /**
-     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
-     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
-     * there is no real back end in this case there's not much else to do. This method can be easily overridden to 
-     * implement more complex logic if needed.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether
-     * successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    create: function() {
-        this.updateOperation.apply(this, arguments);
-    },
-    
-    /**
-     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
-     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
-     * there is no real back end in this case there's not much else to do. This method can be easily overridden to 
-     * implement more complex logic if needed.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether
-     * successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    update: function() {
-        this.updateOperation.apply(this, arguments);
-    },
-    
-    /**
-     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
-     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
-     * there is no real back end in this case there's not much else to do. This method can be easily overridden to 
-     * implement more complex logic if needed.
-     * @param {Ext.data.Operation} operation The Operation to perform
-     * @param {Function} callback Callback function to be called when the Operation has completed (whether
-     * successful or not)
-     * @param {Object} scope Scope to execute the callback function in
-     * @method
-     */
-    destroy: function() {
-        this.updateOperation.apply(this, arguments);
-    },
-
-    /**
-     * Reads data from the configured {@link #data} object. Uses the Proxy's {@link #reader}, if present.
-     * @param {Ext.data.Operation} operation The read Operation
-     * @param {Function} callback The callback to call when reading has completed
-     * @param {Object} scope The scope to call the callback function in
-     */
-    read: function(operation, callback, scope) {
-        var me = this;
-
-        operation.resultSet = me.getReader().read(me.data);
-
-        operation.setCompleted();
-        operation.setSuccessful();
-        Ext.callback(callback, scope || me, [operation]);
-    },
-
-    clear: Ext.emptyFn
-});
-
-/**
- * @author Ed Spencer
- *
  * AbstractStore is a superclass of {@link Ext.data.Store} and {@link Ext.data.TreeStore}. It's never used directly,
  * but offers a set of methods used by both of those subclasses.
  *
@@ -57548,6 +56888,1049 @@ Ext.define('Ext.data.writer.Json', {
         }
         return request;
     }
+});
+
+/**
+ * @author Ed Spencer
+ *
+ * Base class for any client-side storage. Used as a superclass for {@link Ext.data.proxy.Memory Memory} and
+ * {@link Ext.data.proxy.WebStorage Web Storage} proxies. Do not use directly, use one of the subclasses instead.
+ * @private
+ */
+Ext.define('Ext.data.proxy.Client', {
+    extend: 'Ext.data.proxy.Proxy',
+    alternateClassName: 'Ext.data.ClientProxy',
+    
+    /**
+     * @property {Boolean} isSynchronous
+     * `true` in this class to identify that requests made on this proxy are
+     * performed synchronously
+     */
+    isSynchronous: true,
+
+    /**
+     * Abstract function that must be implemented by each ClientProxy subclass. This should purge all record data
+     * from the client side storage, as well as removing any supporting data (such as lists of record IDs)
+     */
+    clear: function() {
+        Ext.Error.raise("The Ext.data.proxy.Client subclass that you are using has not defined a 'clear' function. See src/data/ClientProxy.js for details.");
+    }
+});
+/**
+ * @author Ed Spencer
+ *
+ * In-memory proxy. This proxy simply uses a local variable for data storage/retrieval, so its contents are lost on
+ * every page refresh.
+ *
+ * Usually this Proxy isn't used directly, serving instead as a helper to a {@link Ext.data.Store Store} where a reader
+ * is required to load data. For example, say we have a Store for a User model and have some inline data we want to
+ * load, but this data isn't in quite the right format: we can use a MemoryProxy with a JsonReader to read it into our
+ * Store:
+ *
+ *     //this is the model we will be using in the store
+ *     Ext.define('User', {
+ *         extend: 'Ext.data.Model',
+ *         fields: [
+ *             {name: 'id',    type: 'int'},
+ *             {name: 'name',  type: 'string'},
+ *             {name: 'phone', type: 'string', mapping: 'phoneNumber'}
+ *         ]
+ *     });
+ *
+ *     //this data does not line up to our model fields - the phone field is called phoneNumber
+ *     var data = {
+ *         users: [
+ *             {
+ *                 id: 1,
+ *                 name: 'Ed Spencer',
+ *                 phoneNumber: '555 1234'
+ *             },
+ *             {
+ *                 id: 2,
+ *                 name: 'Abe Elias',
+ *                 phoneNumber: '666 1234'
+ *             }
+ *         ]
+ *     };
+ *
+ *     //note how we set the 'root' in the reader to match the data structure above
+ *     var store = Ext.create('Ext.data.Store', {
+ *         autoLoad: true,
+ *         model: 'User',
+ *         data : data,
+ *         proxy: {
+ *             type: 'memory',
+ *             reader: {
+ *                 type: 'json',
+ *                 root: 'users'
+ *             }
+ *         }
+ *     });
+ */
+Ext.define('Ext.data.proxy.Memory', {
+    extend: 'Ext.data.proxy.Client',
+    alias: 'proxy.memory',
+    alternateClassName: 'Ext.data.MemoryProxy',
+
+    /**
+     * @cfg {Object} data
+     * Optional data to pass to configured Reader.
+     */
+
+    constructor: function(config) {
+        this.callParent([config]);
+
+        //ensures that the reader has been instantiated properly
+        this.setReader(this.reader);
+    },
+    
+    /**
+     * @private
+     * Fake processing function to commit the records, set the current operation
+     * to successful and call the callback if provided. This function is shared
+     * by the create, update and destroy methods to perform the bare minimum
+     * processing required for the proxy to register a result from the action.
+     */
+    updateOperation: function(operation, callback, scope) {
+        var i = 0,
+            recs = operation.getRecords(),
+            len = recs.length;
+            
+        for (i; i < len; i++) {
+            recs[i].commit();
+        }
+        operation.setCompleted();
+        operation.setSuccessful();
+        
+        Ext.callback(callback, scope || this, [operation]);
+    },
+    
+    /**
+     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
+     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
+     * there is no real back end in this case there's not much else to do. This method can be easily overridden to 
+     * implement more complex logic if needed.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether
+     * successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    create: function() {
+        this.updateOperation.apply(this, arguments);
+    },
+    
+    /**
+     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
+     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
+     * there is no real back end in this case there's not much else to do. This method can be easily overridden to 
+     * implement more complex logic if needed.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether
+     * successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    update: function() {
+        this.updateOperation.apply(this, arguments);
+    },
+    
+    /**
+     * Currently this is a hard-coded method that simply commits any records and sets the operation to successful,
+     * then calls the callback function, if provided. It is essentially mocking a server call in memory, but since
+     * there is no real back end in this case there's not much else to do. This method can be easily overridden to 
+     * implement more complex logic if needed.
+     * @param {Ext.data.Operation} operation The Operation to perform
+     * @param {Function} callback Callback function to be called when the Operation has completed (whether
+     * successful or not)
+     * @param {Object} scope Scope to execute the callback function in
+     * @method
+     */
+    destroy: function() {
+        this.updateOperation.apply(this, arguments);
+    },
+
+    /**
+     * Reads data from the configured {@link #data} object. Uses the Proxy's {@link #reader}, if present.
+     * @param {Ext.data.Operation} operation The read Operation
+     * @param {Function} callback The callback to call when reading has completed
+     * @param {Object} scope The scope to call the callback function in
+     */
+    read: function(operation, callback, scope) {
+        var me = this;
+
+        operation.resultSet = me.getReader().read(me.data);
+
+        operation.setCompleted();
+        operation.setSuccessful();
+        Ext.callback(callback, scope || me, [operation]);
+    },
+
+    clear: Ext.emptyFn
+});
+
+/**
+ * @author Ed Spencer
+ *
+ * ServerProxy is a superclass of {@link Ext.data.proxy.JsonP JsonPProxy} and {@link Ext.data.proxy.Ajax AjaxProxy}, and
+ * would not usually be used directly.
+ *
+ * ServerProxy should ideally be named HttpProxy as it is a superclass for all HTTP proxies - for Ext JS 4.x it has been
+ * called ServerProxy to enable any 3.x applications that reference the HttpProxy to continue to work (HttpProxy is now
+ * an alias of AjaxProxy).
+ * @private
+ */
+Ext.define('Ext.data.proxy.Server', {
+    extend: 'Ext.data.proxy.Proxy',
+    alias : 'proxy.server',
+    alternateClassName: 'Ext.data.ServerProxy',
+    uses  : ['Ext.data.Request'],
+
+    /**
+     * @cfg {String} url
+     * The URL from which to request the data object.
+     */
+
+    /**
+     * @cfg {String} pageParam
+     * The name of the 'page' parameter to send in a request. Defaults to 'page'. Set this to undefined if you don't
+     * want to send a page parameter.
+     */
+    pageParam: 'page',
+
+    /**
+     * @cfg {String} startParam
+     * The name of the 'start' parameter to send in a request. Defaults to 'start'. Set this to undefined if you don't
+     * want to send a start parameter.
+     */
+    startParam: 'start',
+
+    /**
+     * @cfg {String} limitParam
+     * The name of the 'limit' parameter to send in a request. Defaults to 'limit'. Set this to undefined if you don't
+     * want to send a limit parameter.
+     */
+    limitParam: 'limit',
+
+    /**
+     * @cfg {String} groupParam
+     * The name of the 'group' parameter to send in a request. Defaults to 'group'. Set this to undefined if you don't
+     * want to send a group parameter.
+     */
+    groupParam: 'group',
+
+    /**
+     * @cfg {String} groupDirectionParam
+     * The name of the direction parameter to send in a request. **This is only used when simpleGroupMode is set to
+     * true.** Defaults to 'groupDir'.
+     */
+    groupDirectionParam: 'groupDir',
+
+    /**
+     * @cfg {String} sortParam
+     * The name of the 'sort' parameter to send in a request. Defaults to 'sort'. Set this to undefined if you don't
+     * want to send a sort parameter.
+     */
+    sortParam: 'sort',
+
+    /**
+     * @cfg {String} filterParam
+     * The name of the 'filter' parameter to send in a request. Defaults to 'filter'. Set this to undefined if you don't
+     * want to send a filter parameter.
+     */
+    filterParam: 'filter',
+
+    /**
+     * @cfg {String} directionParam
+     * The name of the direction parameter to send in a request. **This is only used when simpleSortMode is set to
+     * true.** Defaults to 'dir'.
+     */
+    directionParam: 'dir',
+
+    /**
+     * @cfg {Boolean} simpleSortMode
+     * Enabling simpleSortMode in conjunction with remoteSort will only send one sort property and a direction when a
+     * remote sort is requested. The {@link #directionParam} and {@link #sortParam} will be sent with the property name
+     * and either 'ASC' or 'DESC'.
+     */
+    simpleSortMode: false,
+
+    /**
+     * @cfg {Boolean} simpleGroupMode
+     * Enabling simpleGroupMode in conjunction with remoteGroup will only send one group property and a direction when a
+     * remote group is requested. The {@link #groupDirectionParam} and {@link #groupParam} will be sent with the property name and either 'ASC'
+     * or 'DESC'.
+     */
+    simpleGroupMode: false,
+
+    /**
+     * @cfg {Boolean} noCache
+     * Disable caching by adding a unique parameter name to the request. Set to false to allow caching. Defaults to true.
+     */
+    noCache : true,
+
+    /**
+     * @cfg {String} cacheString
+     * The name of the cache param added to the url when using noCache. Defaults to "_dc".
+     */
+    cacheString: "_dc",
+
+    /**
+     * @cfg {Number} timeout
+     * The number of milliseconds to wait for a response. Defaults to 30000 milliseconds (30 seconds).
+     */
+    timeout : 30000,
+
+    /**
+     * @cfg {Object} api
+     * Specific urls to call on CRUD action methods "create", "read", "update" and "destroy". Defaults to:
+     *
+     *     api: {
+     *         create  : undefined,
+     *         read    : undefined,
+     *         update  : undefined,
+     *         destroy : undefined
+     *     }
+     *
+     * The url is built based upon the action being executed [create|read|update|destroy] using the commensurate
+     * {@link #api} property, or if undefined default to the configured
+     * {@link Ext.data.Store}.{@link Ext.data.proxy.Server#url url}.
+     *
+     * For example:
+     *
+     *     api: {
+     *         create  : '/controller/new',
+     *         read    : '/controller/load',
+     *         update  : '/controller/update',
+     *         destroy : '/controller/destroy_action'
+     *     }
+     *
+     * If the specific URL for a given CRUD action is undefined, the CRUD action request will be directed to the
+     * configured {@link Ext.data.proxy.Server#url url}.
+     */
+
+    constructor: function(config) {
+        var me = this;
+
+        config = config || {};
+        /**
+         * @event exception
+         * Fires when the server returns an exception
+         * @param {Ext.data.proxy.Proxy} this
+         * @param {Object} response The response from the AJAX request
+         * @param {Ext.data.Operation} operation The operation that triggered request
+         */
+        me.callParent([config]);
+
+        /**
+         * @cfg {Object} extraParams
+         * Extra parameters that will be included on every request. Individual requests with params of the same name
+         * will override these params when they are in conflict.
+         */
+        me.extraParams = config.extraParams || {};
+
+        me.api = Ext.apply({}, config.api || me.api);
+        
+
+        //backwards compatibility, will be deprecated in 5.0
+        me.nocache = me.noCache;
+    },
+
+    //in a ServerProxy all four CRUD operations are executed in the same manner, so we delegate to doRequest in each case
+    create: function() {
+        return this.doRequest.apply(this, arguments);
+    },
+
+    read: function() {
+        return this.doRequest.apply(this, arguments);
+    },
+
+    update: function() {
+        return this.doRequest.apply(this, arguments);
+    },
+
+    destroy: function() {
+        return this.doRequest.apply(this, arguments);
+    },
+
+    /**
+     * Sets a value in the underlying {@link #extraParams}.
+     * @param {String} name The key for the new value
+     * @param {Object} value The value
+     */
+    setExtraParam: function(name, value) {
+        this.extraParams[name] = value;
+    },
+
+    /**
+     * Creates an {@link Ext.data.Request Request} object from {@link Ext.data.Operation Operation}.
+     *
+     * This gets called from doRequest methods in subclasses of Server proxy.
+     * 
+     * @param {Ext.data.Operation} operation The operation to execute
+     * @return {Ext.data.Request} The request object
+     */
+    buildRequest: function(operation) {
+        var me = this,
+            params = Ext.applyIf(operation.params || {}, me.extraParams || {}),
+            request;
+
+        //copy any sorters, filters etc into the params so they can be sent over the wire
+        params = Ext.applyIf(params, me.getParams(operation));
+
+        if (operation.id !== undefined && params.id === undefined) {
+            params.id = operation.id;
+        }
+
+        request = new Ext.data.Request({
+            params   : params,
+            action   : operation.action,
+            records  : operation.records,
+            operation: operation,
+            url      : operation.url,
+
+            // this is needed by JsonSimlet in order to properly construct responses for
+            // requests from this proxy
+            proxy: me
+        });
+
+        request.url = me.buildUrl(request);
+
+        /*
+         * Save the request on the Operation. Operations don't usually care about Request and Response data, but in the
+         * ServerProxy and any of its subclasses we add both request and response as they may be useful for further processing
+         */
+        operation.request = request;
+
+        return request;
+    },
+
+    // Should this be documented as protected method?
+    processResponse: function(success, operation, request, response, callback, scope) {
+        var me = this,
+            reader,
+            result;
+
+        if (success === true) {
+            reader = me.getReader();
+
+            // Apply defaults to incoming data only for read operations.
+            // For create and update, there will already be a client-side record
+            // to match with which will contain any defaulted in values.
+            reader.applyDefaults = operation.action === 'read';
+
+            result = reader.read(me.extractResponseData(response));
+
+            if (result.success !== false) {
+                //see comment in buildRequest for why we include the response object here
+                Ext.apply(operation, {
+                    response: response,
+                    resultSet: result
+                });
+
+                operation.commitRecords(result.records);
+                operation.setCompleted();
+                operation.setSuccessful();
+            } else {
+                operation.setException(result.message);
+                me.fireEvent('exception', this, response, operation);
+            }
+        } else {
+            me.setException(operation, response);
+            me.fireEvent('exception', this, response, operation);
+        }
+
+        //this callback is the one that was passed to the 'read' or 'write' function above
+        if (typeof callback == 'function') {
+            callback.call(scope || me, operation);
+        }
+
+        me.afterRequest(request, success);
+    },
+
+    /**
+     * Sets up an exception on the operation
+     * @private
+     * @param {Ext.data.Operation} operation The operation
+     * @param {Object} response The response
+     */
+    setException: function(operation, response) {
+        operation.setException({
+            status: response.status,
+            statusText: response.statusText
+        });
+    },
+
+    /**
+     * Template method to allow subclasses to specify how to get the response for the reader.
+     * @template
+     * @private
+     * @param {Object} response The server response
+     * @return {Object} The response data to be used by the reader
+     */
+    extractResponseData: function(response) {
+        return response;
+    },
+
+    /**
+     * Encode any values being sent to the server. Can be overridden in subclasses.
+     * @private
+     * @param {Array} An array of sorters/filters.
+     * @return {Object} The encoded value
+     */
+    applyEncoding: function(value) {
+        return Ext.encode(value);
+    },
+
+    /**
+     * Encodes the array of {@link Ext.util.Sorter} objects into a string to be sent in the request url. By default,
+     * this simply JSON-encodes the sorter data
+     * @param {Ext.util.Sorter[]} sorters The array of {@link Ext.util.Sorter Sorter} objects
+     * @return {String} The encoded sorters
+     */
+    encodeSorters: function(sorters) {
+        var min = [],
+            length = sorters.length,
+            i = 0;
+
+        for (; i < length; i++) {
+            min[i] = {
+                property : sorters[i].property,
+                direction: sorters[i].direction
+            };
+        }
+        return this.applyEncoding(min);
+
+    },
+
+    /**
+     * Encodes the array of {@link Ext.util.Filter} objects into a string to be sent in the request url. By default,
+     * this simply JSON-encodes the filter data
+     * @param {Ext.util.Filter[]} filters The array of {@link Ext.util.Filter Filter} objects
+     * @return {String} The encoded filters
+     */
+    encodeFilters: function(filters) {
+        var min = [],
+            length = filters.length,
+            i = 0;
+
+        for (; i < length; i++) {
+            min[i] = {
+                property: filters[i].property,
+                value   : filters[i].value
+            };
+        }
+        return this.applyEncoding(min);
+    },
+
+    /**
+     * @private
+     * Copy any sorters, filters etc into the params so they can be sent over the wire
+     */
+    getParams: function(operation) {
+        var me = this,
+            params = {},
+            isDef = Ext.isDefined,
+            groupers = operation.groupers,
+            sorters = operation.sorters,
+            filters = operation.filters,
+            page = operation.page,
+            start = operation.start,
+            limit = operation.limit,
+            simpleSortMode = me.simpleSortMode,
+            simpleGroupMode = me.simpleGroupMode,
+            pageParam = me.pageParam,
+            startParam = me.startParam,
+            limitParam = me.limitParam,
+            groupParam = me.groupParam,
+            groupDirectionParam = me.groupDirectionParam,
+            sortParam = me.sortParam,
+            filterParam = me.filterParam,
+            directionParam = me.directionParam;
+
+        if (pageParam && isDef(page)) {
+            params[pageParam] = page;
+        }
+
+        if (startParam && isDef(start)) {
+            params[startParam] = start;
+        }
+
+        if (limitParam && isDef(limit)) {
+            params[limitParam] = limit;
+        }
+
+        if (groupParam && groupers && groupers.length > 0) {
+            // Grouper is a subclass of sorter, so we can just use the sorter method
+            if (simpleGroupMode) {
+                params[groupParam] = groupers[0].property;
+                params[groupDirectionParam] = groupers[0].direction || 'ASC';
+            } else {
+                params[groupParam] = me.encodeSorters(groupers);
+            }
+        }
+
+        if (sortParam && sorters && sorters.length > 0) {
+            if (simpleSortMode) {
+                params[sortParam] = sorters[0].property;
+                params[directionParam] = sorters[0].direction;
+            } else {
+                params[sortParam] = me.encodeSorters(sorters);
+            }
+
+        }
+
+        if (filterParam && filters && filters.length > 0) {
+            params[filterParam] = me.encodeFilters(filters);
+        }
+
+        return params;
+    },
+
+    /**
+     * Generates a url based on a given Ext.data.Request object. By default, ServerProxy's buildUrl will add the
+     * cache-buster param to the end of the url. Subclasses may need to perform additional modifications to the url.
+     * @param {Ext.data.Request} request The request object
+     * @return {String} The url
+     */
+    buildUrl: function(request) {
+        var me = this,
+            url = me.getUrl(request);
+
+        if (!url) {
+            Ext.Error.raise("You are using a ServerProxy but have not supplied it with a url.");
+        }
+
+        if (me.noCache) {
+            url = Ext.urlAppend(url, Ext.String.format("{0}={1}", me.cacheString, Ext.Date.now()));
+        }
+
+        return url;
+    },
+
+    /**
+     * Get the url for the request taking into account the order of priority,
+     * - The request
+     * - The api
+     * - The url
+     * @private
+     * @param {Ext.data.Request} request The request
+     * @return {String} The url
+     */
+    getUrl: function(request) {
+        return request.url || this.api[request.action] || this.url;
+    },
+
+    /**
+     * In ServerProxy subclasses, the {@link #create}, {@link #read}, {@link #update} and {@link #destroy} methods all
+     * pass through to doRequest. Each ServerProxy subclass must implement the doRequest method - see {@link
+     * Ext.data.proxy.JsonP} and {@link Ext.data.proxy.Ajax} for examples. This method carries the same signature as
+     * each of the methods that delegate to it.
+     *
+     * @param {Ext.data.Operation} operation The Ext.data.Operation object
+     * @param {Function} callback The callback function to call when the Operation has completed
+     * @param {Object} scope The scope in which to execute the callback
+     */
+    doRequest: function(operation, callback, scope) {
+        Ext.Error.raise("The doRequest function has not been implemented on your Ext.data.proxy.Server subclass. See src/data/ServerProxy.js for details");
+    },
+
+    /**
+     * Optional callback function which can be used to clean up after a request has been completed.
+     * @param {Ext.data.Request} request The Request object
+     * @param {Boolean} success True if the request was successful
+     * @protected
+     * @template
+     * @method
+     */
+    afterRequest: Ext.emptyFn,
+
+    onDestroy: function() {
+        Ext.destroy(this.reader, this.writer);
+    }
+});
+
+/**
+ * @class Ext.Ajax
+ * @singleton
+ * @markdown
+
+A singleton instance of an {@link Ext.data.Connection}. This class
+is used to communicate with your server side code. It can be used as follows:
+
+    Ext.Ajax.request({
+        url: 'page.php',
+        params: {
+            id: 1
+        },
+        success: function(response){
+            var text = response.responseText;
+            // process server response here
+        }
+    });
+
+Default options for all requests can be set by changing a property on the Ext.Ajax class:
+
+    Ext.Ajax.timeout = 60000; // 60 seconds
+
+Any options specified in the request method for the Ajax request will override any
+defaults set on the Ext.Ajax class. In the code sample below, the timeout for the
+request will be 60 seconds.
+
+    Ext.Ajax.timeout = 120000; // 120 seconds
+    Ext.Ajax.request({
+        url: 'page.aspx',
+        timeout: 60000
+    });
+
+In general, this class will be used for all Ajax requests in your application.
+The main reason for creating a separate {@link Ext.data.Connection} is for a
+series of requests that share common settings that are different to all other
+requests in the application.
+
+ */
+Ext.define('Ext.Ajax', {
+    extend: 'Ext.data.Connection',
+    singleton: true,
+
+    /**
+     * @cfg {Object} extraParams @hide
+     */
+    /**
+     * @cfg {Object} defaultHeaders @hide
+     */
+    /**
+     * @cfg {String} method @hide
+     */
+    /**
+     * @cfg {Number} timeout @hide
+     */
+    /**
+     * @cfg {Boolean} autoAbort @hide
+     */
+    /**
+     * @cfg {Boolean} disableCaching @hide
+     */
+
+    /**
+     * @property {Boolean} disableCaching
+     * True to add a unique cache-buster param to GET requests. Defaults to true.
+     */
+    /**
+     * @property {String} url
+     * The default URL to be used for requests to the server.
+     * If the server receives all requests through one URL, setting this once is easier than
+     * entering it on every request.
+     */
+    /**
+     * @property {Object} extraParams
+     * An object containing properties which are used as extra parameters to each request made
+     * by this object. Session information and other data that you need
+     * to pass with each request are commonly put here.
+     */
+    /**
+     * @property {Object} defaultHeaders
+     * An object containing request headers which are added to each request made by this object.
+     */
+    /**
+     * @property {String} method
+     * The default HTTP method to be used for requests. Note that this is case-sensitive and
+     * should be all caps (if not set but params are present will use
+     * <tt>"POST"</tt>, otherwise will use <tt>"GET"</tt>.)
+     */
+    /**
+     * @property {Number} timeout
+     * The timeout in milliseconds to be used for requests. Defaults to 30000.
+     */
+
+    /**
+     * @property {Boolean} autoAbort
+     * Whether a new request should abort any pending requests.
+     */
+    autoAbort : false
+});
+
+/**
+ * @author Ed Spencer
+ *
+ * AjaxProxy is one of the most widely-used ways of getting data into your application. It uses AJAX requests to load
+ * data from the server, usually to be placed into a {@link Ext.data.Store Store}. Let's take a look at a typical setup.
+ * Here we're going to set up a Store that has an AjaxProxy. To prepare, we'll also set up a {@link Ext.data.Model
+ * Model}:
+ *
+ *     Ext.define('User', {
+ *         extend: 'Ext.data.Model',
+ *         fields: ['id', 'name', 'email']
+ *     });
+ *
+ *     //The Store contains the AjaxProxy as an inline configuration
+ *     var store = Ext.create('Ext.data.Store', {
+ *         model: 'User',
+ *         proxy: {
+ *             type: 'ajax',
+ *             url : 'users.json'
+ *         }
+ *     });
+ *
+ *     store.load();
+ *
+ * Our example is going to load user data into a Store, so we start off by defining a {@link Ext.data.Model Model} with
+ * the fields that we expect the server to return. Next we set up the Store itself, along with a
+ * {@link Ext.data.Store#proxy proxy} configuration. This configuration was automatically turned into an
+ * Ext.data.proxy.Ajax instance, with the url we specified being passed into AjaxProxy's constructor.
+ * It's as if we'd done this:
+ *
+ *     new Ext.data.proxy.Ajax({
+ *         url: 'users.json',
+ *         model: 'User',
+ *         reader: 'json'
+ *     });
+ *
+ * A couple of extra configurations appeared here - {@link #model} and {@link #reader}. These are set by default when we
+ * create the proxy via the Store - the Store already knows about the Model, and Proxy's default {@link
+ * Ext.data.reader.Reader Reader} is {@link Ext.data.reader.Json JsonReader}.
+ *
+ * Now when we call store.load(), the AjaxProxy springs into action, making a request to the url we configured
+ * ('users.json' in this case). As we're performing a read, it sends a GET request to that url (see
+ * {@link #actionMethods} to customize this - by default any kind of read will be sent as a GET request and any kind of write
+ * will be sent as a POST request).
+ *
+ * # Limitations
+ *
+ * AjaxProxy cannot be used to retrieve data from other domains. If your application is running on http://domainA.com it
+ * cannot load data from http://domainB.com because browsers have a built-in security policy that prohibits domains
+ * talking to each other via AJAX.
+ *
+ * If you need to read data from another domain and can't set up a proxy server (some software that runs on your own
+ * domain's web server and transparently forwards requests to http://domainB.com, making it look like they actually came
+ * from http://domainA.com), you can use {@link Ext.data.proxy.JsonP} and a technique known as JSON-P (JSON with
+ * Padding), which can help you get around the problem so long as the server on http://domainB.com is set up to support
+ * JSON-P responses. See {@link Ext.data.proxy.JsonP JsonPProxy}'s introduction docs for more details.
+ *
+ * # Readers and Writers
+ *
+ * AjaxProxy can be configured to use any type of {@link Ext.data.reader.Reader Reader} to decode the server's response.
+ * If no Reader is supplied, AjaxProxy will default to using a {@link Ext.data.reader.Json JsonReader}. Reader
+ * configuration can be passed in as a simple object, which the Proxy automatically turns into a {@link
+ * Ext.data.reader.Reader Reader} instance:
+ *
+ *     var proxy = new Ext.data.proxy.Ajax({
+ *         model: 'User',
+ *         reader: {
+ *             type: 'xml',
+ *             root: 'users'
+ *         }
+ *     });
+ *
+ *     proxy.getReader(); //returns an {@link Ext.data.reader.Xml XmlReader} instance based on the config we supplied
+ *
+ * # Url generation
+ *
+ * AjaxProxy automatically inserts any sorting, filtering, paging and grouping options into the url it generates for
+ * each request. These are controlled with the following configuration options:
+ *
+ * - {@link #pageParam} - controls how the page number is sent to the server (see also {@link #startParam} and {@link #limitParam})
+ * - {@link #sortParam} - controls how sort information is sent to the server
+ * - {@link #groupParam} - controls how grouping information is sent to the server
+ * - {@link #filterParam} - controls how filter information is sent to the server
+ *
+ * Each request sent by AjaxProxy is described by an {@link Ext.data.Operation Operation}. To see how we can customize
+ * the generated urls, let's say we're loading the Proxy with the following Operation:
+ *
+ *     var operation = new Ext.data.Operation({
+ *         action: 'read',
+ *         page  : 2
+ *     });
+ *
+ * Now we'll issue the request for this Operation by calling {@link #read}:
+ *
+ *     var proxy = new Ext.data.proxy.Ajax({
+ *         url: '/users'
+ *     });
+ *
+ *     proxy.read(operation); //GET /users?page=2
+ *
+ * Easy enough - the Proxy just copied the page property from the Operation. We can customize how this page data is sent
+ * to the server:
+ *
+ *     var proxy = new Ext.data.proxy.Ajax({
+ *         url: '/users',
+ *         pageParam: 'pageNumber'
+ *     });
+ *
+ *     proxy.read(operation); //GET /users?pageNumber=2
+ *
+ * Alternatively, our Operation could have been configured to send start and limit parameters instead of page:
+ *
+ *     var operation = new Ext.data.Operation({
+ *         action: 'read',
+ *         start : 50,
+ *         limit : 25
+ *     });
+ *
+ *     var proxy = new Ext.data.proxy.Ajax({
+ *         url: '/users'
+ *     });
+ *
+ *     proxy.read(operation); //GET /users?start=50&limit;=25
+ *
+ * Again we can customize this url:
+ *
+ *     var proxy = new Ext.data.proxy.Ajax({
+ *         url: '/users',
+ *         startParam: 'startIndex',
+ *         limitParam: 'limitIndex'
+ *     });
+ *
+ *     proxy.read(operation); //GET /users?startIndex=50&limitIndex;=25
+ *
+ * AjaxProxy will also send sort and filter information to the server. Let's take a look at how this looks with a more
+ * expressive Operation object:
+ *
+ *     var operation = new Ext.data.Operation({
+ *         action: 'read',
+ *         sorters: [
+ *             new Ext.util.Sorter({
+ *                 property : 'name',
+ *                 direction: 'ASC'
+ *             }),
+ *             new Ext.util.Sorter({
+ *                 property : 'age',
+ *                 direction: 'DESC'
+ *             })
+ *         ],
+ *         filters: [
+ *             new Ext.util.Filter({
+ *                 property: 'eyeColor',
+ *                 value   : 'brown'
+ *             })
+ *         ]
+ *     });
+ *
+ * This is the type of object that is generated internally when loading a {@link Ext.data.Store Store} with sorters and
+ * filters defined. By default the AjaxProxy will JSON encode the sorters and filters, resulting in something like this
+ * (note that the url is escaped before sending the request, but is left unescaped here for clarity):
+ *
+ *     var proxy = new Ext.data.proxy.Ajax({
+ *         url: '/users'
+ *     });
+ *
+ *     proxy.read(operation); //GET /users?sort=[{"property":"name","direction":"ASC"},{"property":"age","direction":"DESC"}]&filter;=[{"property":"eyeColor","value":"brown"}]
+ *
+ * We can again customize how this is created by supplying a few configuration options. Let's say our server is set up
+ * to receive sorting information is a format like "sortBy=name#ASC,age#DESC". We can configure AjaxProxy to provide
+ * that format like this:
+ *
+ *      var proxy = new Ext.data.proxy.Ajax({
+ *          url: '/users',
+ *          sortParam: 'sortBy',
+ *          filterParam: 'filterBy',
+ *
+ *          //our custom implementation of sorter encoding - turns our sorters into "name#ASC,age#DESC"
+ *          encodeSorters: function(sorters) {
+ *              var length   = sorters.length,
+ *                  sortStrs = [],
+ *                  sorter, i;
+ *
+ *              for (i = 0; i < length; i++) {
+ *                  sorter = sorters[i];
+ *
+ *                  sortStrs[i] = sorter.property + '#' + sorter.direction
+ *              }
+ *
+ *              return sortStrs.join(",");
+ *          }
+ *      });
+ *
+ *      proxy.read(operation); //GET /users?sortBy=name#ASC,age#DESC&filterBy;=[{"property":"eyeColor","value":"brown"}]
+ *
+ * We can also provide a custom {@link #encodeFilters} function to encode our filters.
+ *
+ * @constructor
+ * Note that if this HttpProxy is being used by a {@link Ext.data.Store Store}, then the Store's call to
+ * {@link Ext.data.Store#method-load load} will override any specified callback and params options. In this case, use the
+ * {@link Ext.data.Store Store}'s events to modify parameters, or react to loading events.
+ *
+ * @param {Object} config (optional) Config object.
+ * If an options parameter is passed, the singleton {@link Ext.Ajax} object will be used to make the request.
+ */
+Ext.define('Ext.data.proxy.Ajax', {
+    requires: ['Ext.util.MixedCollection', 'Ext.Ajax'],
+    extend: 'Ext.data.proxy.Server',
+    alias: 'proxy.ajax',
+    alternateClassName: ['Ext.data.HttpProxy', 'Ext.data.AjaxProxy'],
+    
+    /**
+     * @property {Object} actionMethods
+     * Mapping of action name to HTTP request method. In the basic AjaxProxy these are set to 'GET' for 'read' actions
+     * and 'POST' for 'create', 'update' and 'destroy' actions. The {@link Ext.data.proxy.Rest} maps these to the
+     * correct RESTful methods.
+     */
+    actionMethods: {
+        create : 'POST',
+        read   : 'GET',
+        update : 'POST',
+        destroy: 'POST'
+    },
+    
+    /**
+     * @cfg {Object} headers
+     * Any headers to add to the Ajax request. Defaults to undefined.
+     */
+    
+    doRequest: function(operation, callback, scope) {
+        var writer  = this.getWriter(),
+            request = this.buildRequest(operation, callback, scope);
+            
+        if (operation.allowWrite()) {
+            request = writer.write(request);
+        }
+        
+        Ext.apply(request, {
+            headers       : this.headers,
+            timeout       : this.timeout,
+            scope         : this,
+            callback      : this.createRequestCallback(request, operation, callback, scope),
+            method        : this.getMethod(request),
+            disableCaching: false // explicitly set it to false, ServerProxy handles caching
+        });
+        
+        Ext.Ajax.request(request);
+        
+        return request;
+    },
+    
+    /**
+     * Returns the HTTP method name for a given request. By default this returns based on a lookup on
+     * {@link #actionMethods}.
+     * @param {Ext.data.Request} request The request object
+     * @return {String} The HTTP method to use (should be one of 'GET', 'POST', 'PUT' or 'DELETE')
+     */
+    getMethod: function(request) {
+        return this.actionMethods[request.action];
+    },
+    
+    /**
+     * @private
+     * TODO: This is currently identical to the JsonPProxy version except for the return function's signature. There is a lot
+     * of code duplication inside the returned function so we need to find a way to DRY this up.
+     * @param {Ext.data.Request} request The Request object
+     * @param {Ext.data.Operation} operation The Operation being executed
+     * @param {Function} callback The callback function to be called when the request completes. This is usually the callback
+     * passed to doRequest
+     * @param {Object} scope The scope in which to execute the callback function
+     * @return {Function} The callback function
+     */
+    createRequestCallback: function(request, operation, callback, scope) {
+        var me = this;
+        
+        return function(options, success, response) {
+            me.processResponse(success, operation, request, response, callback, scope);
+        };
+    }
+}, function() {
+    //backwards compatibility, remove in Ext JS 5.0
+    Ext.data.HttpProxy = this;
 });
 
 /**
@@ -58682,458 +59065,6 @@ Ext.define('Ext.data.reader.Json', {
             return result;
         };
     }())
-});
-
-/**
- * @author Ed Spencer
- * @class Ext.data.reader.Array
- * 
- * <p>Data reader class to create an Array of {@link Ext.data.Model} objects from an Array.
- * Each element of that Array represents a row of data fields. The
- * fields are pulled into a Record object using as a subscript, the <code>mapping</code> property
- * of the field definition if it exists, or the field's ordinal position in the definition.</p>
- * 
- * <p><u>Example code:</u></p>
- * 
-<pre><code>
-Employee = Ext.define('Employee', {
-    extend: 'Ext.data.Model',
-    fields: [
-        'id',
-        {name: 'name', mapping: 1},         // "mapping" only needed if an "id" field is present which
-        {name: 'occupation', mapping: 2}    // precludes using the ordinal position as the index.        
-    ]
-});
-
-var myReader = new Ext.data.reader.Array({
-    model: 'Employee'
-}, Employee);
-</code></pre>
- * 
- * <p>This would consume an Array like this:</p>
- * 
-<pre><code>
-[ [1, 'Bill', 'Gardener'], [2, 'Ben', 'Horticulturalist'] ]
-</code></pre>
- * 
- * @constructor
- * Create a new ArrayReader
- * @param {Object} meta Metadata configuration options.
- */
-Ext.define('Ext.data.reader.Array', {
-    extend: 'Ext.data.reader.Json',
-    alternateClassName: 'Ext.data.ArrayReader',
-    alias : 'reader.array',
-
-    // For Array Reader, methods in the base which use these properties must not see the defaults
-    totalProperty: undefined,
-    successProperty: undefined,
-
-    /**
-     * @private
-     * Returns an accessor expression for the passed Field from an Array using either the Field's mapping, or
-     * its ordinal position in the fields collsction as the index.
-     * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
-     */
-    createFieldAccessExpression: function(field, fieldVarName, dataName) {
-            // In the absence of a mapping property, use the original ordinal position
-            // at which the Model inserted the field into its collection.
-        var index  = (field.mapping == null) ? field.originalIndex : field.mapping,
-            result;
-
-        if (typeof index === 'function') {
-            result = fieldVarName + '.mapping(' + dataName + ', this)';
-        } else {
-            if (isNaN(index)) {
-                index = '"' + index + '"';
-            }
-            result = dataName + "[" + index + "]";
-        }
-        return result;
-    }
-});
-
-/**
- * @class Ext.Ajax
- * @singleton
- * @markdown
-
-A singleton instance of an {@link Ext.data.Connection}. This class
-is used to communicate with your server side code. It can be used as follows:
-
-    Ext.Ajax.request({
-        url: 'page.php',
-        params: {
-            id: 1
-        },
-        success: function(response){
-            var text = response.responseText;
-            // process server response here
-        }
-    });
-
-Default options for all requests can be set by changing a property on the Ext.Ajax class:
-
-    Ext.Ajax.timeout = 60000; // 60 seconds
-
-Any options specified in the request method for the Ajax request will override any
-defaults set on the Ext.Ajax class. In the code sample below, the timeout for the
-request will be 60 seconds.
-
-    Ext.Ajax.timeout = 120000; // 120 seconds
-    Ext.Ajax.request({
-        url: 'page.aspx',
-        timeout: 60000
-    });
-
-In general, this class will be used for all Ajax requests in your application.
-The main reason for creating a separate {@link Ext.data.Connection} is for a
-series of requests that share common settings that are different to all other
-requests in the application.
-
- */
-Ext.define('Ext.Ajax', {
-    extend: 'Ext.data.Connection',
-    singleton: true,
-
-    /**
-     * @cfg {Object} extraParams @hide
-     */
-    /**
-     * @cfg {Object} defaultHeaders @hide
-     */
-    /**
-     * @cfg {String} method @hide
-     */
-    /**
-     * @cfg {Number} timeout @hide
-     */
-    /**
-     * @cfg {Boolean} autoAbort @hide
-     */
-    /**
-     * @cfg {Boolean} disableCaching @hide
-     */
-
-    /**
-     * @property {Boolean} disableCaching
-     * True to add a unique cache-buster param to GET requests. Defaults to true.
-     */
-    /**
-     * @property {String} url
-     * The default URL to be used for requests to the server.
-     * If the server receives all requests through one URL, setting this once is easier than
-     * entering it on every request.
-     */
-    /**
-     * @property {Object} extraParams
-     * An object containing properties which are used as extra parameters to each request made
-     * by this object. Session information and other data that you need
-     * to pass with each request are commonly put here.
-     */
-    /**
-     * @property {Object} defaultHeaders
-     * An object containing request headers which are added to each request made by this object.
-     */
-    /**
-     * @property {String} method
-     * The default HTTP method to be used for requests. Note that this is case-sensitive and
-     * should be all caps (if not set but params are present will use
-     * <tt>"POST"</tt>, otherwise will use <tt>"GET"</tt>.)
-     */
-    /**
-     * @property {Number} timeout
-     * The timeout in milliseconds to be used for requests. Defaults to 30000.
-     */
-
-    /**
-     * @property {Boolean} autoAbort
-     * Whether a new request should abort any pending requests.
-     */
-    autoAbort : false
-});
-
-/**
- * @author Ed Spencer
- *
- * AjaxProxy is one of the most widely-used ways of getting data into your application. It uses AJAX requests to load
- * data from the server, usually to be placed into a {@link Ext.data.Store Store}. Let's take a look at a typical setup.
- * Here we're going to set up a Store that has an AjaxProxy. To prepare, we'll also set up a {@link Ext.data.Model
- * Model}:
- *
- *     Ext.define('User', {
- *         extend: 'Ext.data.Model',
- *         fields: ['id', 'name', 'email']
- *     });
- *
- *     //The Store contains the AjaxProxy as an inline configuration
- *     var store = Ext.create('Ext.data.Store', {
- *         model: 'User',
- *         proxy: {
- *             type: 'ajax',
- *             url : 'users.json'
- *         }
- *     });
- *
- *     store.load();
- *
- * Our example is going to load user data into a Store, so we start off by defining a {@link Ext.data.Model Model} with
- * the fields that we expect the server to return. Next we set up the Store itself, along with a
- * {@link Ext.data.Store#proxy proxy} configuration. This configuration was automatically turned into an
- * Ext.data.proxy.Ajax instance, with the url we specified being passed into AjaxProxy's constructor.
- * It's as if we'd done this:
- *
- *     new Ext.data.proxy.Ajax({
- *         url: 'users.json',
- *         model: 'User',
- *         reader: 'json'
- *     });
- *
- * A couple of extra configurations appeared here - {@link #model} and {@link #reader}. These are set by default when we
- * create the proxy via the Store - the Store already knows about the Model, and Proxy's default {@link
- * Ext.data.reader.Reader Reader} is {@link Ext.data.reader.Json JsonReader}.
- *
- * Now when we call store.load(), the AjaxProxy springs into action, making a request to the url we configured
- * ('users.json' in this case). As we're performing a read, it sends a GET request to that url (see
- * {@link #actionMethods} to customize this - by default any kind of read will be sent as a GET request and any kind of write
- * will be sent as a POST request).
- *
- * # Limitations
- *
- * AjaxProxy cannot be used to retrieve data from other domains. If your application is running on http://domainA.com it
- * cannot load data from http://domainB.com because browsers have a built-in security policy that prohibits domains
- * talking to each other via AJAX.
- *
- * If you need to read data from another domain and can't set up a proxy server (some software that runs on your own
- * domain's web server and transparently forwards requests to http://domainB.com, making it look like they actually came
- * from http://domainA.com), you can use {@link Ext.data.proxy.JsonP} and a technique known as JSON-P (JSON with
- * Padding), which can help you get around the problem so long as the server on http://domainB.com is set up to support
- * JSON-P responses. See {@link Ext.data.proxy.JsonP JsonPProxy}'s introduction docs for more details.
- *
- * # Readers and Writers
- *
- * AjaxProxy can be configured to use any type of {@link Ext.data.reader.Reader Reader} to decode the server's response.
- * If no Reader is supplied, AjaxProxy will default to using a {@link Ext.data.reader.Json JsonReader}. Reader
- * configuration can be passed in as a simple object, which the Proxy automatically turns into a {@link
- * Ext.data.reader.Reader Reader} instance:
- *
- *     var proxy = new Ext.data.proxy.Ajax({
- *         model: 'User',
- *         reader: {
- *             type: 'xml',
- *             root: 'users'
- *         }
- *     });
- *
- *     proxy.getReader(); //returns an {@link Ext.data.reader.Xml XmlReader} instance based on the config we supplied
- *
- * # Url generation
- *
- * AjaxProxy automatically inserts any sorting, filtering, paging and grouping options into the url it generates for
- * each request. These are controlled with the following configuration options:
- *
- * - {@link #pageParam} - controls how the page number is sent to the server (see also {@link #startParam} and {@link #limitParam})
- * - {@link #sortParam} - controls how sort information is sent to the server
- * - {@link #groupParam} - controls how grouping information is sent to the server
- * - {@link #filterParam} - controls how filter information is sent to the server
- *
- * Each request sent by AjaxProxy is described by an {@link Ext.data.Operation Operation}. To see how we can customize
- * the generated urls, let's say we're loading the Proxy with the following Operation:
- *
- *     var operation = new Ext.data.Operation({
- *         action: 'read',
- *         page  : 2
- *     });
- *
- * Now we'll issue the request for this Operation by calling {@link #read}:
- *
- *     var proxy = new Ext.data.proxy.Ajax({
- *         url: '/users'
- *     });
- *
- *     proxy.read(operation); //GET /users?page=2
- *
- * Easy enough - the Proxy just copied the page property from the Operation. We can customize how this page data is sent
- * to the server:
- *
- *     var proxy = new Ext.data.proxy.Ajax({
- *         url: '/users',
- *         pageParam: 'pageNumber'
- *     });
- *
- *     proxy.read(operation); //GET /users?pageNumber=2
- *
- * Alternatively, our Operation could have been configured to send start and limit parameters instead of page:
- *
- *     var operation = new Ext.data.Operation({
- *         action: 'read',
- *         start : 50,
- *         limit : 25
- *     });
- *
- *     var proxy = new Ext.data.proxy.Ajax({
- *         url: '/users'
- *     });
- *
- *     proxy.read(operation); //GET /users?start=50&limit;=25
- *
- * Again we can customize this url:
- *
- *     var proxy = new Ext.data.proxy.Ajax({
- *         url: '/users',
- *         startParam: 'startIndex',
- *         limitParam: 'limitIndex'
- *     });
- *
- *     proxy.read(operation); //GET /users?startIndex=50&limitIndex;=25
- *
- * AjaxProxy will also send sort and filter information to the server. Let's take a look at how this looks with a more
- * expressive Operation object:
- *
- *     var operation = new Ext.data.Operation({
- *         action: 'read',
- *         sorters: [
- *             new Ext.util.Sorter({
- *                 property : 'name',
- *                 direction: 'ASC'
- *             }),
- *             new Ext.util.Sorter({
- *                 property : 'age',
- *                 direction: 'DESC'
- *             })
- *         ],
- *         filters: [
- *             new Ext.util.Filter({
- *                 property: 'eyeColor',
- *                 value   : 'brown'
- *             })
- *         ]
- *     });
- *
- * This is the type of object that is generated internally when loading a {@link Ext.data.Store Store} with sorters and
- * filters defined. By default the AjaxProxy will JSON encode the sorters and filters, resulting in something like this
- * (note that the url is escaped before sending the request, but is left unescaped here for clarity):
- *
- *     var proxy = new Ext.data.proxy.Ajax({
- *         url: '/users'
- *     });
- *
- *     proxy.read(operation); //GET /users?sort=[{"property":"name","direction":"ASC"},{"property":"age","direction":"DESC"}]&filter;=[{"property":"eyeColor","value":"brown"}]
- *
- * We can again customize how this is created by supplying a few configuration options. Let's say our server is set up
- * to receive sorting information is a format like "sortBy=name#ASC,age#DESC". We can configure AjaxProxy to provide
- * that format like this:
- *
- *      var proxy = new Ext.data.proxy.Ajax({
- *          url: '/users',
- *          sortParam: 'sortBy',
- *          filterParam: 'filterBy',
- *
- *          //our custom implementation of sorter encoding - turns our sorters into "name#ASC,age#DESC"
- *          encodeSorters: function(sorters) {
- *              var length   = sorters.length,
- *                  sortStrs = [],
- *                  sorter, i;
- *
- *              for (i = 0; i < length; i++) {
- *                  sorter = sorters[i];
- *
- *                  sortStrs[i] = sorter.property + '#' + sorter.direction
- *              }
- *
- *              return sortStrs.join(",");
- *          }
- *      });
- *
- *      proxy.read(operation); //GET /users?sortBy=name#ASC,age#DESC&filterBy;=[{"property":"eyeColor","value":"brown"}]
- *
- * We can also provide a custom {@link #encodeFilters} function to encode our filters.
- *
- * @constructor
- * Note that if this HttpProxy is being used by a {@link Ext.data.Store Store}, then the Store's call to
- * {@link Ext.data.Store#method-load load} will override any specified callback and params options. In this case, use the
- * {@link Ext.data.Store Store}'s events to modify parameters, or react to loading events.
- *
- * @param {Object} config (optional) Config object.
- * If an options parameter is passed, the singleton {@link Ext.Ajax} object will be used to make the request.
- */
-Ext.define('Ext.data.proxy.Ajax', {
-    requires: ['Ext.util.MixedCollection', 'Ext.Ajax'],
-    extend: 'Ext.data.proxy.Server',
-    alias: 'proxy.ajax',
-    alternateClassName: ['Ext.data.HttpProxy', 'Ext.data.AjaxProxy'],
-    
-    /**
-     * @property {Object} actionMethods
-     * Mapping of action name to HTTP request method. In the basic AjaxProxy these are set to 'GET' for 'read' actions
-     * and 'POST' for 'create', 'update' and 'destroy' actions. The {@link Ext.data.proxy.Rest} maps these to the
-     * correct RESTful methods.
-     */
-    actionMethods: {
-        create : 'POST',
-        read   : 'GET',
-        update : 'POST',
-        destroy: 'POST'
-    },
-    
-    /**
-     * @cfg {Object} headers
-     * Any headers to add to the Ajax request. Defaults to undefined.
-     */
-    
-    doRequest: function(operation, callback, scope) {
-        var writer  = this.getWriter(),
-            request = this.buildRequest(operation, callback, scope);
-            
-        if (operation.allowWrite()) {
-            request = writer.write(request);
-        }
-        
-        Ext.apply(request, {
-            headers       : this.headers,
-            timeout       : this.timeout,
-            scope         : this,
-            callback      : this.createRequestCallback(request, operation, callback, scope),
-            method        : this.getMethod(request),
-            disableCaching: false // explicitly set it to false, ServerProxy handles caching
-        });
-        
-        Ext.Ajax.request(request);
-        
-        return request;
-    },
-    
-    /**
-     * Returns the HTTP method name for a given request. By default this returns based on a lookup on
-     * {@link #actionMethods}.
-     * @param {Ext.data.Request} request The request object
-     * @return {String} The HTTP method to use (should be one of 'GET', 'POST', 'PUT' or 'DELETE')
-     */
-    getMethod: function(request) {
-        return this.actionMethods[request.action];
-    },
-    
-    /**
-     * @private
-     * TODO: This is currently identical to the JsonPProxy version except for the return function's signature. There is a lot
-     * of code duplication inside the returned function so we need to find a way to DRY this up.
-     * @param {Ext.data.Request} request The Request object
-     * @param {Ext.data.Operation} operation The Operation being executed
-     * @param {Function} callback The callback function to be called when the request completes. This is usually the callback
-     * passed to doRequest
-     * @param {Object} scope The scope in which to execute the callback function
-     * @return {Function} The callback function
-     */
-    createRequestCallback: function(request, operation, callback, scope) {
-        var me = this;
-        
-        return function(options, success, response) {
-            me.processResponse(success, operation, request, response, callback, scope);
-        };
-    }
-}, function() {
-    //backwards compatibility, remove in Ext JS 5.0
-    Ext.data.HttpProxy = this;
 });
 
 /**
@@ -61953,6 +61884,75 @@ Ext.define('Ext.data.Store', {
 
 /**
  * @author Ed Spencer
+ * @class Ext.data.reader.Array
+ * 
+ * <p>Data reader class to create an Array of {@link Ext.data.Model} objects from an Array.
+ * Each element of that Array represents a row of data fields. The
+ * fields are pulled into a Record object using as a subscript, the <code>mapping</code> property
+ * of the field definition if it exists, or the field's ordinal position in the definition.</p>
+ * 
+ * <p><u>Example code:</u></p>
+ * 
+<pre><code>
+Employee = Ext.define('Employee', {
+    extend: 'Ext.data.Model',
+    fields: [
+        'id',
+        {name: 'name', mapping: 1},         // "mapping" only needed if an "id" field is present which
+        {name: 'occupation', mapping: 2}    // precludes using the ordinal position as the index.        
+    ]
+});
+
+var myReader = new Ext.data.reader.Array({
+    model: 'Employee'
+}, Employee);
+</code></pre>
+ * 
+ * <p>This would consume an Array like this:</p>
+ * 
+<pre><code>
+[ [1, 'Bill', 'Gardener'], [2, 'Ben', 'Horticulturalist'] ]
+</code></pre>
+ * 
+ * @constructor
+ * Create a new ArrayReader
+ * @param {Object} meta Metadata configuration options.
+ */
+Ext.define('Ext.data.reader.Array', {
+    extend: 'Ext.data.reader.Json',
+    alternateClassName: 'Ext.data.ArrayReader',
+    alias : 'reader.array',
+
+    // For Array Reader, methods in the base which use these properties must not see the defaults
+    totalProperty: undefined,
+    successProperty: undefined,
+
+    /**
+     * @private
+     * Returns an accessor expression for the passed Field from an Array using either the Field's mapping, or
+     * its ordinal position in the fields collsction as the index.
+     * This is used by buildExtractors to create optimized on extractor function which converts raw data into model instances.
+     */
+    createFieldAccessExpression: function(field, fieldVarName, dataName) {
+            // In the absence of a mapping property, use the original ordinal position
+            // at which the Model inserted the field into its collection.
+        var index  = (field.mapping == null) ? field.originalIndex : field.mapping,
+            result;
+
+        if (typeof index === 'function') {
+            result = fieldVarName + '.mapping(' + dataName + ', this)';
+        } else {
+            if (isNaN(index)) {
+                index = '"' + index + '"';
+            }
+            result = dataName + "[" + index + "]";
+        }
+        return result;
+    }
+});
+
+/**
+ * @author Ed Spencer
  *
  * Small helper class to make creating {@link Ext.data.Store}s from Array data easier. An ArrayStore will be
  * automatically configured with a {@link Ext.data.reader.Array}.
@@ -62025,44 +62025,241 @@ Ext.define('Ext.data.ArrayStore', {
 });
 /**
  * @author Ed Spencer
- * 
- * Simple class that represents a Request that will be made by any {@link Ext.data.proxy.Server} subclass.
- * All this class does is standardize the representation of a Request as used by any ServerProxy subclass,
- * it does not contain any actual logic or perform the request itself.
+ * @class Ext.data.Batch
+ *
+ * <p>Provides a mechanism to run one or more {@link Ext.data.Operation operations} in a given order. Fires the 'operationcomplete' event
+ * after the completion of each Operation, and the 'complete' event when all Operations have been successfully executed. Fires an 'exception'
+ * event if any of the Operations encounter an exception.</p>
+ *
+ * <p>Usually these are only used internally by {@link Ext.data.proxy.Proxy} classes</p>
+ *
  */
-Ext.define('Ext.data.Request', {
-    /**
-     * @cfg {String} action
-     * The name of the action this Request represents. Usually one of 'create', 'read', 'update' or 'destroy'.
-     */
-    action: undefined,
-    
-    /**
-     * @cfg {Object} params
-     * HTTP request params. The Proxy and its Writer have access to and can modify this object.
-     */
-    params: undefined,
-    
-    /**
-     * @cfg {String} method
-     * The HTTP method to use on this Request. Should be one of 'GET', 'POST', 'PUT' or 'DELETE'.
-     */
-    method: 'GET',
-    
-    /**
-     * @cfg {String} url
-     * The url to access on this Request
-     */
-    url: undefined,
+Ext.define('Ext.data.Batch', {
+    mixins: {
+        observable: 'Ext.util.Observable'
+    },
 
     /**
-     * Creates the Request object.
-     * @param {Object} [config] Config object.
+     * @cfg {Boolean} autoStart
+     * True to immediately start processing the batch as soon as it is constructed (defaults to false)
+     */
+    autoStart: false,
+    
+    /**
+     * @cfg {Boolean} pauseOnException
+     * True to pause the execution of the batch if any operation encounters an exception
+     * (defaults to false). If you set this to true you are responsible for implementing the appropriate
+     * handling logic and restarting or discarding the batch as needed. There are different ways you could 
+     * do this, e.g. by handling the batch's {@link #exception} event directly, or perhaps by overriding
+     * {@link Ext.data.AbstractStore#onBatchException onBatchException} at the store level. If you do pause
+     * and attempt to handle the exception you can call {@link #retry} to process the same operation again. 
+     * 
+     * Note that {@link Ext.data.Operation operations} are atomic, so any operations that may have succeeded
+     * prior to an exception (and up until pausing the batch) will be finalized at the server level and will
+     * not be automatically reversible. Any transactional / rollback behavior that might be desired would have
+     * to be implemented at the application level. Pausing on exception will likely be most beneficial when
+     * used in coordination with such a scheme, where an exception might actually affect subsequent operations
+     * in the same batch and so should be handled before continuing with the next operation.
+     * 
+     * If you have not implemented transactional operation handling then this option should typically be left 
+     * to the default of false (e.g. process as many operations as possible, and handle any exceptions 
+     * asynchronously without holding up the rest of the batch).
+     */
+    pauseOnException: false,
+
+    /**
+     * @property {Number} current
+     * The index of the current operation being executed. Read only
+     */
+    current: -1,
+
+    /**
+     * @property {Number} total
+     * The total number of operations in this batch. Read only
+     */
+    total: 0,
+
+    /**
+     * @property {Boolean} isRunning
+     * True if the batch is currently running. Read only
+     */
+    isRunning: false,
+
+    /**
+     * @property {Boolean} isComplete
+     * True if this batch has been executed completely. Read only
+     */
+    isComplete: false,
+
+    /**
+     * @property {Boolean} hasException
+     * True if this batch has encountered an exception. This is cleared at the start of each operation. Read only
+     */
+    hasException: false,
+
+    /**
+     * Creates new Batch object.
+     * @param {Object} [config] Config object
      */
     constructor: function(config) {
-        Ext.apply(this, config);
+        var me = this;
+
+        /**
+         * @event complete
+         * Fired when all operations of this batch have been completed
+         * @param {Ext.data.Batch} batch The batch object
+         * @param {Object} operation The last operation that was executed
+         */
+
+        /**
+         * @event exception
+         * Fired when a operation encountered an exception
+         * @param {Ext.data.Batch} batch The batch object
+         * @param {Object} operation The operation that encountered the exception
+         */
+
+        /**
+         * @event operationcomplete
+         * Fired when each operation of the batch completes
+         * @param {Ext.data.Batch} batch The batch object
+         * @param {Object} operation The operation that just completed
+         */
+
+        me.mixins.observable.constructor.call(me, config);
+
+        /**
+         * Ordered array of operations that will be executed by this batch
+         * @property {Ext.data.Operation[]} operations
+         */
+        me.operations = [];
+        
+        /**
+         * Ordered array of operations that raised an exception during the most recent
+         * batch execution and did not successfully complete
+         * @property {Ext.data.Operation[]} exceptions
+         */
+        me.exceptions = [];
+    },
+
+    /**
+     * Adds a new operation to this batch at the end of the {@link #operations} array
+     * @param {Object} operation The {@link Ext.data.Operation Operation} object
+     * @return {Ext.data.Batch} this
+     */
+    add: function(operation) {
+        this.total++;
+
+        operation.setBatch(this);
+
+        this.operations.push(operation);
+        
+        return this;
+    },
+
+    /**
+     * Kicks off execution of the batch, continuing from the next operation if the previous
+     * operation encountered an exception, or if execution was paused. Use this method to start
+     * the batch for the first time or to restart a paused batch by skipping the current
+     * unsuccessful operation.
+     * 
+     * To retry processing the current operation before continuing to the rest of the batch (e.g.
+     * because you explicitly handled the operation's exception), call {@link #retry} instead.
+     * 
+     * Note that if the batch is already running any call to start will be ignored.
+     * 
+     * @return {Ext.data.Batch} this
+     */
+    start: function(/* private */ index) {
+        var me = this;
+        
+        if (me.isRunning) {
+            return me;
+        }
+        
+        me.exceptions.length = 0;
+        me.hasException = false;
+        me.isRunning = true;
+
+        return me.runOperation(Ext.isDefined(index) ? index : me.current + 1);
+    },
+    
+    /**
+     * Kicks off execution of the batch, continuing from the current operation. This is intended
+     * for restarting a {@link #pause paused} batch after an exception, and the operation that raised
+     * the exception will now be retried. The batch will then continue with its normal processing until
+     * all operations are complete or another exception is encountered.
+     * 
+     * Note that if the batch is already running any call to retry will be ignored.
+     * 
+     * @return {Ext.data.Batch} this
+     */
+    retry: function() {
+        return this.start(this.current);
+    },
+
+    /**
+     * @private
+     * Runs the next operation, relative to this.current.
+     * @return {Ext.data.Batch} this
+     */
+    runNextOperation: function() {
+        return this.runOperation(this.current + 1);
+    },
+
+    /**
+     * Pauses execution of the batch, but does not cancel the current operation
+     * @return {Ext.data.Batch} this
+     */
+    pause: function() {
+        this.isRunning = false;
+        return this;
+    },
+
+    /**
+     * Executes an operation by its numeric index in the {@link #operations} array
+     * @param {Number} index The operation index to run
+     * @return {Ext.data.Batch} this
+     */
+    runOperation: function(index) {
+        var me = this,
+            operations = me.operations,
+            operation = operations[index],
+            onProxyReturn;
+
+        if (operation === undefined) {
+            me.isRunning = false;
+            me.isComplete = true;
+            me.fireEvent('complete', me, operations[operations.length - 1]);
+        } else {
+            me.current = index;
+
+            onProxyReturn = function(operation) {
+                var hasException = operation.hasException();
+
+                if (hasException) {
+                    me.hasException = true;
+                    me.exceptions.push(operation);
+                    me.fireEvent('exception', me, operation);
+                }
+
+                if (hasException && me.pauseOnException) {
+                    me.pause();
+                } else {
+                    operation.setCompleted();
+                    me.fireEvent('operationcomplete', me, operation);
+                    me.runNextOperation();
+                }
+            };
+
+            operation.setStarted();
+
+            me.proxy[operation.action](operation, onProxyReturn, me);
+        }
+        
+        return me;
     }
 });
+
 /**
  * Private utility class for Ext.resizer.Resizer.
  * @private
@@ -62411,243 +62608,6 @@ Ext.define('Ext.resizer.ResizeTracker', {
 });
 
 /**
- * @author Ed Spencer
- * @class Ext.data.Batch
- *
- * <p>Provides a mechanism to run one or more {@link Ext.data.Operation operations} in a given order. Fires the 'operationcomplete' event
- * after the completion of each Operation, and the 'complete' event when all Operations have been successfully executed. Fires an 'exception'
- * event if any of the Operations encounter an exception.</p>
- *
- * <p>Usually these are only used internally by {@link Ext.data.proxy.Proxy} classes</p>
- *
- */
-Ext.define('Ext.data.Batch', {
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
-
-    /**
-     * @cfg {Boolean} autoStart
-     * True to immediately start processing the batch as soon as it is constructed (defaults to false)
-     */
-    autoStart: false,
-    
-    /**
-     * @cfg {Boolean} pauseOnException
-     * True to pause the execution of the batch if any operation encounters an exception
-     * (defaults to false). If you set this to true you are responsible for implementing the appropriate
-     * handling logic and restarting or discarding the batch as needed. There are different ways you could 
-     * do this, e.g. by handling the batch's {@link #exception} event directly, or perhaps by overriding
-     * {@link Ext.data.AbstractStore#onBatchException onBatchException} at the store level. If you do pause
-     * and attempt to handle the exception you can call {@link #retry} to process the same operation again. 
-     * 
-     * Note that {@link Ext.data.Operation operations} are atomic, so any operations that may have succeeded
-     * prior to an exception (and up until pausing the batch) will be finalized at the server level and will
-     * not be automatically reversible. Any transactional / rollback behavior that might be desired would have
-     * to be implemented at the application level. Pausing on exception will likely be most beneficial when
-     * used in coordination with such a scheme, where an exception might actually affect subsequent operations
-     * in the same batch and so should be handled before continuing with the next operation.
-     * 
-     * If you have not implemented transactional operation handling then this option should typically be left 
-     * to the default of false (e.g. process as many operations as possible, and handle any exceptions 
-     * asynchronously without holding up the rest of the batch).
-     */
-    pauseOnException: false,
-
-    /**
-     * @property {Number} current
-     * The index of the current operation being executed. Read only
-     */
-    current: -1,
-
-    /**
-     * @property {Number} total
-     * The total number of operations in this batch. Read only
-     */
-    total: 0,
-
-    /**
-     * @property {Boolean} isRunning
-     * True if the batch is currently running. Read only
-     */
-    isRunning: false,
-
-    /**
-     * @property {Boolean} isComplete
-     * True if this batch has been executed completely. Read only
-     */
-    isComplete: false,
-
-    /**
-     * @property {Boolean} hasException
-     * True if this batch has encountered an exception. This is cleared at the start of each operation. Read only
-     */
-    hasException: false,
-
-    /**
-     * Creates new Batch object.
-     * @param {Object} [config] Config object
-     */
-    constructor: function(config) {
-        var me = this;
-
-        /**
-         * @event complete
-         * Fired when all operations of this batch have been completed
-         * @param {Ext.data.Batch} batch The batch object
-         * @param {Object} operation The last operation that was executed
-         */
-
-        /**
-         * @event exception
-         * Fired when a operation encountered an exception
-         * @param {Ext.data.Batch} batch The batch object
-         * @param {Object} operation The operation that encountered the exception
-         */
-
-        /**
-         * @event operationcomplete
-         * Fired when each operation of the batch completes
-         * @param {Ext.data.Batch} batch The batch object
-         * @param {Object} operation The operation that just completed
-         */
-
-        me.mixins.observable.constructor.call(me, config);
-
-        /**
-         * Ordered array of operations that will be executed by this batch
-         * @property {Ext.data.Operation[]} operations
-         */
-        me.operations = [];
-        
-        /**
-         * Ordered array of operations that raised an exception during the most recent
-         * batch execution and did not successfully complete
-         * @property {Ext.data.Operation[]} exceptions
-         */
-        me.exceptions = [];
-    },
-
-    /**
-     * Adds a new operation to this batch at the end of the {@link #operations} array
-     * @param {Object} operation The {@link Ext.data.Operation Operation} object
-     * @return {Ext.data.Batch} this
-     */
-    add: function(operation) {
-        this.total++;
-
-        operation.setBatch(this);
-
-        this.operations.push(operation);
-        
-        return this;
-    },
-
-    /**
-     * Kicks off execution of the batch, continuing from the next operation if the previous
-     * operation encountered an exception, or if execution was paused. Use this method to start
-     * the batch for the first time or to restart a paused batch by skipping the current
-     * unsuccessful operation.
-     * 
-     * To retry processing the current operation before continuing to the rest of the batch (e.g.
-     * because you explicitly handled the operation's exception), call {@link #retry} instead.
-     * 
-     * Note that if the batch is already running any call to start will be ignored.
-     * 
-     * @return {Ext.data.Batch} this
-     */
-    start: function(/* private */ index) {
-        var me = this;
-        
-        if (me.isRunning) {
-            return me;
-        }
-        
-        me.exceptions.length = 0;
-        me.hasException = false;
-        me.isRunning = true;
-
-        return me.runOperation(Ext.isDefined(index) ? index : me.current + 1);
-    },
-    
-    /**
-     * Kicks off execution of the batch, continuing from the current operation. This is intended
-     * for restarting a {@link #pause paused} batch after an exception, and the operation that raised
-     * the exception will now be retried. The batch will then continue with its normal processing until
-     * all operations are complete or another exception is encountered.
-     * 
-     * Note that if the batch is already running any call to retry will be ignored.
-     * 
-     * @return {Ext.data.Batch} this
-     */
-    retry: function() {
-        return this.start(this.current);
-    },
-
-    /**
-     * @private
-     * Runs the next operation, relative to this.current.
-     * @return {Ext.data.Batch} this
-     */
-    runNextOperation: function() {
-        return this.runOperation(this.current + 1);
-    },
-
-    /**
-     * Pauses execution of the batch, but does not cancel the current operation
-     * @return {Ext.data.Batch} this
-     */
-    pause: function() {
-        this.isRunning = false;
-        return this;
-    },
-
-    /**
-     * Executes an operation by its numeric index in the {@link #operations} array
-     * @param {Number} index The operation index to run
-     * @return {Ext.data.Batch} this
-     */
-    runOperation: function(index) {
-        var me = this,
-            operations = me.operations,
-            operation = operations[index],
-            onProxyReturn;
-
-        if (operation === undefined) {
-            me.isRunning = false;
-            me.isComplete = true;
-            me.fireEvent('complete', me, operations[operations.length - 1]);
-        } else {
-            me.current = index;
-
-            onProxyReturn = function(operation) {
-                var hasException = operation.hasException();
-
-                if (hasException) {
-                    me.hasException = true;
-                    me.exceptions.push(operation);
-                    me.fireEvent('exception', me, operation);
-                }
-
-                if (hasException && me.pauseOnException) {
-                    me.pause();
-                } else {
-                    operation.setCompleted();
-                    me.fireEvent('operationcomplete', me, operation);
-                    me.runNextOperation();
-                }
-            };
-
-            operation.setStarted();
-
-            me.proxy[operation.action](operation, onProxyReturn, me);
-        }
-        
-        return me;
-    }
-});
-
-/**
  * A utility class for exporting a {@link Ext.draw.Surface Surface} to a string
  * that may be saved or used for processing on the server.
  *
@@ -62939,31 +62899,43 @@ Ext.define('Ext.draw.engine.SvgExporter', function(){
    };
 });
 /**
- * @class Ext.util.Grouper
-
-Represents a single grouper that can be applied to a Store. The grouper works
-in the same fashion as the {@link Ext.util.Sorter}.
-
- * @markdown
+ * @author Ed Spencer
+ * 
+ * Simple class that represents a Request that will be made by any {@link Ext.data.proxy.Server} subclass.
+ * All this class does is standardize the representation of a Request as used by any ServerProxy subclass,
+ * it does not contain any actual logic or perform the request itself.
  */
- 
-Ext.define('Ext.util.Grouper', {
-
-    /* Begin Definitions */
-
-    extend: 'Ext.util.Sorter',
-
-    /* End Definitions */
-   
-   isGrouper: true,
+Ext.define('Ext.data.Request', {
+    /**
+     * @cfg {String} action
+     * The name of the action this Request represents. Usually one of 'create', 'read', 'update' or 'destroy'.
+     */
+    action: undefined,
+    
+    /**
+     * @cfg {Object} params
+     * HTTP request params. The Proxy and its Writer have access to and can modify this object.
+     */
+    params: undefined,
+    
+    /**
+     * @cfg {String} method
+     * The HTTP method to use on this Request. Should be one of 'GET', 'POST', 'PUT' or 'DELETE'.
+     */
+    method: 'GET',
+    
+    /**
+     * @cfg {String} url
+     * The url to access on this Request
+     */
+    url: undefined,
 
     /**
-     * Returns the value for grouping to be used.
-     * @param {Ext.data.Model} instance The Model instance
-     * @return {String} The group string for this model
+     * Creates the Request object.
+     * @param {Object} [config] Config object.
      */
-    getGroupString: function(instance) {
-        return instance.get(this.property);
+    constructor: function(config) {
+        Ext.apply(this, config);
     }
 });
 /**
@@ -63114,6 +63086,34 @@ Ext.define('Ext.draw.engine.ImageExporter', {
 
 });
 
+/**
+ * @class Ext.util.Grouper
+
+Represents a single grouper that can be applied to a Store. The grouper works
+in the same fashion as the {@link Ext.util.Sorter}.
+
+ * @markdown
+ */
+ 
+Ext.define('Ext.util.Grouper', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.util.Sorter',
+
+    /* End Definitions */
+   
+   isGrouper: true,
+
+    /**
+     * Returns the value for grouping to be used.
+     * @param {Ext.data.Model} instance The Model instance
+     * @return {String} The group string for this model
+     */
+    getGroupString: function(instance) {
+        return instance.get(this.property);
+    }
+});
 /**
  * @private
  */
@@ -64339,741 +64339,6 @@ Ext.define('Ext.draw.Sprite', {
 });
 
 /**
- * Provides specific methods to draw with SVG.
- */
-Ext.define('Ext.draw.engine.Svg', {
-
-    /* Begin Definitions */
-
-    extend: 'Ext.draw.Surface',
-
-    requires: ['Ext.draw.Draw', 'Ext.draw.Sprite', 'Ext.draw.Matrix', 'Ext.Element'],
-
-    /* End Definitions */
-
-    engine: 'Svg',
-
-    trimRe: /^\s+|\s+$/g,
-    spacesRe: /\s+/,
-    xlink: "http:/" + "/www.w3.org/1999/xlink",
-
-    translateAttrs: {
-        radius: "r",
-        radiusX: "rx",
-        radiusY: "ry",
-        path: "d",
-        lineWidth: "stroke-width",
-        fillOpacity: "fill-opacity",
-        strokeOpacity: "stroke-opacity",
-        strokeLinejoin: "stroke-linejoin"
-    },
-
-    parsers: {},
-
-    minDefaults: {
-        circle: {
-            cx: 0,
-            cy: 0,
-            r: 0,
-            fill: "none",
-            stroke: null,
-            "stroke-width": null,
-            opacity: null,
-            "fill-opacity": null,
-            "stroke-opacity": null
-        },
-        ellipse: {
-            cx: 0,
-            cy: 0,
-            rx: 0,
-            ry: 0,
-            fill: "none",
-            stroke: null,
-            "stroke-width": null,
-            opacity: null,
-            "fill-opacity": null,
-            "stroke-opacity": null
-        },
-        rect: {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            rx: 0,
-            ry: 0,
-            fill: "none",
-            stroke: null,
-            "stroke-width": null,
-            opacity: null,
-            "fill-opacity": null,
-            "stroke-opacity": null
-        },
-        text: {
-            x: 0,
-            y: 0,
-            "text-anchor": "start",
-            "font-family": null,
-            "font-size": null,
-            "font-weight": null,
-            "font-style": null,
-            fill: "#000",
-            stroke: null,
-            "stroke-width": null,
-            opacity: null,
-            "fill-opacity": null,
-            "stroke-opacity": null
-        },
-        path: {
-            d: "M0,0",
-            fill: "none",
-            stroke: null,
-            "stroke-width": null,
-            opacity: null,
-            "fill-opacity": null,
-            "stroke-opacity": null
-        },
-        image: {
-            x: 0,
-            y: 0,
-            width: 0,
-            height: 0,
-            preserveAspectRatio: "none",
-            opacity: null
-        }
-    },
-
-    createSvgElement: function(type, attrs) {
-        var el = this.domRef.createElementNS("http:/" + "/www.w3.org/2000/svg", type),
-            key;
-        if (attrs) {
-            for (key in attrs) {
-                el.setAttribute(key, String(attrs[key]));
-            }
-        }
-        return el;
-    },
-
-    createSpriteElement: function(sprite) {
-        // Create svg element and append to the DOM.
-        var el = this.createSvgElement(sprite.type);
-        el.id = sprite.id;
-        if (el.style) {
-            el.style.webkitTapHighlightColor = "rgba(0,0,0,0)";
-        }
-        sprite.el = Ext.get(el);
-        this.applyZIndex(sprite); //performs the insertion
-        sprite.matrix = new Ext.draw.Matrix();
-        sprite.bbox = {
-            plain: 0,
-            transform: 0
-        };
-        this.applyAttrs(sprite);
-        this.applyTransformations(sprite);
-        sprite.fireEvent("render", sprite);
-        return el;
-    },
-    
-    getBBoxText: function (sprite) {
-        var bbox = {},
-            bb, height, width, i, ln, el;
-
-        if (sprite && sprite.el) {
-            el = sprite.el.dom;
-            try {
-                bbox = el.getBBox();
-                return bbox;
-            } catch(e) {
-                // Firefox 3.0.x plays badly here
-            }
-            bbox = {x: bbox.x, y: Infinity, width: 0, height: 0};
-            ln = el.getNumberOfChars();
-            for (i = 0; i < ln; i++) {
-                bb = el.getExtentOfChar(i);
-                bbox.y = Math.min(bb.y, bbox.y);
-                height = bb.y + bb.height - bbox.y;
-                bbox.height = Math.max(bbox.height, height);
-                width = bb.x + bb.width - bbox.x;
-                bbox.width = Math.max(bbox.width, width);
-            }
-            return bbox;
-        }
-    },
-
-    hide: function() {
-        Ext.get(this.el).hide();
-    },
-
-    show: function() {
-        Ext.get(this.el).show();
-    },
-
-    hidePrim: function(sprite) {
-        this.addCls(sprite, Ext.baseCSSPrefix + 'hide-visibility');
-    },
-
-    showPrim: function(sprite) {
-        this.removeCls(sprite, Ext.baseCSSPrefix + 'hide-visibility');
-    },
-
-    getDefs: function() {
-        return this._defs || (this._defs = this.createSvgElement("defs"));
-    },
-
-    transform: function(sprite, matrixOnly) {
-        var me = this,
-            matrix = new Ext.draw.Matrix(),
-            transforms = sprite.transformations,
-            transformsLength = transforms.length,
-            i = 0,
-            transform, type;
-            
-        for (; i < transformsLength; i++) {
-            transform = transforms[i];
-            type = transform.type;
-            if (type == "translate") {
-                matrix.translate(transform.x, transform.y);
-            }
-            else if (type == "rotate") {
-                matrix.rotate(transform.degrees, transform.x, transform.y);
-            }
-            else if (type == "scale") {
-                matrix.scale(transform.x, transform.y, transform.centerX, transform.centerY);
-            }
-        }
-        sprite.matrix = matrix;
-        if (!matrixOnly) {
-            sprite.el.set({transform: matrix.toSvg()});
-        }
-    },
-
-    setSize: function(width, height) {
-        var me = this,
-            el = me.el;
-        
-        width = +width || me.width;
-        height = +height || me.height;
-        me.width = width;
-        me.height = height;
-
-        el.setSize(width, height);
-        el.set({
-            width: width,
-            height: height
-        });
-        me.callParent([width, height]);
-    },
-
-    /**
-     * Get the region for the surface's canvas area
-     * @returns {Ext.util.Region}
-     */
-    getRegion: function() {
-        // Mozilla requires using the background rect because the svg element returns an
-        // incorrect region. Webkit gives no region for the rect and must use the svg element.
-        var svgXY = this.el.getXY(),
-            rectXY = this.bgRect.getXY(),
-            max = Math.max,
-            x = max(svgXY[0], rectXY[0]),
-            y = max(svgXY[1], rectXY[1]);
-        return {
-            left: x,
-            top: y,
-            right: x + this.width,
-            bottom: y + this.height
-        };
-    },
-
-    onRemove: function(sprite) {
-        if (sprite.el) {
-            sprite.el.destroy();
-            delete sprite.el;
-        }
-        this.callParent(arguments);
-    },
-    
-    setViewBox: function(x, y, width, height) {
-        if (isFinite(x) && isFinite(y) && isFinite(width) && isFinite(height)) {
-            this.callParent(arguments);
-            this.el.dom.setAttribute("viewBox", [x, y, width, height].join(" "));
-        }
-    },
-
-    render: function (container) {
-        var me = this,
-            width,
-            height,
-            el,
-            defs,
-            bgRect,
-            webkitRect;
-        if (!me.el) {
-            width = me.width || 0;
-            height = me.height || 0;
-            el = me.createSvgElement('svg', {
-                xmlns: "http:/" + "/www.w3.org/2000/svg",
-                version: 1.1,
-                width: width,
-                height: height
-            });
-            defs = me.getDefs();
-
-            // Create a rect that is always the same size as the svg root; this serves 2 purposes:
-            // (1) It allows mouse events to be fired over empty areas in Webkit, and (2) we can
-            // use it rather than the svg element for retrieving the correct client rect of the
-            // surface in Mozilla (see https://bugzilla.mozilla.org/show_bug.cgi?id=530985)
-            bgRect = me.createSvgElement("rect", {
-                width: "100%",
-                height: "100%",
-                fill: "#000",
-                stroke: "none",
-                opacity: 0
-            });
-            
-            if (Ext.isSafari3) {
-                // Rect that we will show/hide to fix old WebKit bug with rendering issues.
-                webkitRect = me.createSvgElement("rect", {
-                    x: -10,
-                    y: -10,
-                    width: "110%",
-                    height: "110%",
-                    fill: "none",
-                    stroke: "#000"
-                });
-            }
-            el.appendChild(defs);
-            if (Ext.isSafari3) {
-                el.appendChild(webkitRect);
-            }
-            el.appendChild(bgRect);
-            container.appendChild(el);
-            me.el = Ext.get(el);
-            me.bgRect = Ext.get(bgRect);
-            if (Ext.isSafari3) {
-                me.webkitRect = Ext.get(webkitRect);
-                me.webkitRect.hide();
-            }
-            me.el.on({
-                scope: me,
-                mouseup: me.onMouseUp,
-                mousedown: me.onMouseDown,
-                mouseover: me.onMouseOver,
-                mouseout: me.onMouseOut,
-                mousemove: me.onMouseMove,
-                mouseenter: me.onMouseEnter,
-                mouseleave: me.onMouseLeave,
-                click: me.onClick,
-                dblclick: me.onDblClick
-            });
-        }
-        me.renderAll();
-    },
-
-    // private
-    onMouseEnter: function(e) {
-        if (this.el.parent().getRegion().contains(e.getPoint())) {
-            this.fireEvent('mouseenter', e);
-        }
-    },
-
-    // private
-    onMouseLeave: function(e) {
-        if (!this.el.parent().getRegion().contains(e.getPoint())) {
-            this.fireEvent('mouseleave', e);
-        }
-    },
-    // @private - Normalize a delegated single event from the main container to each sprite and sprite group
-    processEvent: function(name, e) {
-        var target = e.getTarget(),
-            surface = this.surface,
-            sprite;
-
-        this.fireEvent(name, e);
-        // We wrap text types in a tspan, sprite is the parent.
-        if (target.nodeName == "tspan" && target.parentNode) {
-            target = target.parentNode;
-        }
-        sprite = this.items.get(target.id);
-        if (sprite) {
-            sprite.fireEvent(name, sprite, e);
-        }
-    },
-
-    /* @private - Wrap SVG text inside a tspan to allow for line wrapping.  In addition this normallizes
-     * the baseline for text the vertical middle of the text to be the same as VML.
-     */
-    tuneText: function (sprite, attrs) {
-        var el = sprite.el.dom,
-            tspans = [],
-            height, tspan, text, i, ln, texts, factor, x;
-
-        if (attrs.hasOwnProperty("text")) {
-            //only create new tspans for text lines if the text has been 
-            //updated or if it's the first time we're setting the text
-            //into the sprite.
-
-            //get the actual rendered text.
-            text = sprite.tspans && Ext.Array.map(sprite.tspans, function(t) { return t.textContent; }).join('');
-
-            if (!sprite.tspans || attrs.text != text) {
-                tspans = this.setText(sprite, attrs.text);
-                sprite.tspans = tspans;
-            //for all other cases reuse the tspans previously created.
-            } else {
-                tspans = sprite.tspans || [];
-            }
-        }
-        // Normalize baseline via a DY shift of first tspan. Shift other rows by height * line height (1.2)
-        if (tspans.length) {
-            height = this.getBBoxText(sprite).height;
-            x = sprite.el.dom.getAttribute("x");
-            for (i = 0, ln = tspans.length; i < ln; i++) {
-                // The text baseline for FireFox 3.0 and 3.5 is different than other SVG implementations
-                // so we are going to normalize that here
-                factor = (Ext.isFF3_0 || Ext.isFF3_5) ? 2 : 4;
-                tspans[i].setAttribute("x", x);
-                tspans[i].setAttribute("dy", i ? height * 1.2 : height / factor);
-            }
-            sprite.dirty = true;
-        }
-    },
-
-    setText: function(sprite, textString) {
-         var me = this,
-             el = sprite.el.dom,
-             tspans = [],
-             height, tspan, text, i, ln, texts;
-        
-        while (el.firstChild) {
-            el.removeChild(el.firstChild);
-        }
-        // Wrap each row into tspan to emulate rows
-        texts = String(textString).split("\n");
-        for (i = 0, ln = texts.length; i < ln; i++) {
-            text = texts[i];
-            if (text) {
-                tspan = me.createSvgElement("tspan");
-                tspan.appendChild(document.createTextNode(Ext.htmlDecode(text)));
-                el.appendChild(tspan);
-                tspans[i] = tspan;
-            }
-        }
-        return tspans;
-    },
-
-    renderAll: function() {
-        this.items.each(this.renderItem, this);
-    },
-
-    renderItem: function (sprite) {
-        if (!this.el) {
-            return;
-        }
-        if (!sprite.el) {
-            this.createSpriteElement(sprite);
-        }
-        if (sprite.zIndexDirty) {
-            this.applyZIndex(sprite);
-        }
-        if (sprite.dirty) {
-            this.applyAttrs(sprite);
-            if (sprite.dirtyTransform) {
-                this.applyTransformations(sprite);
-            }
-        }
-    },
-
-    redraw: function(sprite) {
-        sprite.dirty = sprite.zIndexDirty = true;
-        this.renderItem(sprite);
-    },
-
-    applyAttrs: function (sprite) {
-        var me = this,
-            el = sprite.el,
-            group = sprite.group,
-            sattr = sprite.attr,
-            parsers = me.parsers,
-            //Safari does not handle linear gradients correctly in quirksmode
-            //ref: https://bugs.webkit.org/show_bug.cgi?id=41952
-            //ref: EXTJSIV-1472
-            gradientsMap = me.gradientsMap || {},
-            safariFix = Ext.isSafari && !Ext.isStrict,
-            groups, i, ln, attrs, font, key, style, name, rect;
-
-        if (group) {
-            groups = [].concat(group);
-            ln = groups.length;
-            for (i = 0; i < ln; i++) {
-                group = groups[i];
-                me.getGroup(group).add(sprite);
-            }
-            delete sprite.group;
-        }
-        attrs = me.scrubAttrs(sprite) || {};
-
-        // if (sprite.dirtyPath) {
-            sprite.bbox.plain = 0;
-            sprite.bbox.transform = 0;
-            if (sprite.type == "circle" || sprite.type == "ellipse") {
-                attrs.cx = attrs.cx || attrs.x;
-                attrs.cy = attrs.cy || attrs.y;
-            }
-            else if (sprite.type == "rect") {
-                attrs.rx = attrs.ry = attrs.r;
-            }
-            else if (sprite.type == "path" && attrs.d) {
-                attrs.d = Ext.draw.Draw.pathToString(Ext.draw.Draw.pathToAbsolute(attrs.d));
-            }
-            sprite.dirtyPath = false;
-        // }
-        // else {
-        //     delete attrs.d;
-        // }
-
-        if (attrs['clip-rect']) {
-            me.setClip(sprite, attrs);
-            delete attrs['clip-rect'];
-        }
-        if (sprite.type == 'text' && attrs.font && sprite.dirtyFont) {
-            el.set({ style: "font: " + attrs.font});
-        }
-        if (sprite.type == "image") {
-            el.dom.setAttributeNS(me.xlink, "href", attrs.src);
-        }
-        Ext.applyIf(attrs, me.minDefaults[sprite.type]);
-
-        if (sprite.dirtyHidden) {
-            (sattr.hidden) ? me.hidePrim(sprite) : me.showPrim(sprite);
-            sprite.dirtyHidden = false;
-        }
-        for (key in attrs) {
-            if (attrs.hasOwnProperty(key) && attrs[key] != null) {
-                //Safari does not handle linear gradients correctly in quirksmode
-                //ref: https://bugs.webkit.org/show_bug.cgi?id=41952
-                //ref: EXTJSIV-1472
-                //if we're Safari in QuirksMode and we're applying some color attribute and the value of that
-                //attribute is a reference to a gradient then assign a plain color to that value instead of the gradient.
-                if (safariFix && ('color|stroke|fill'.indexOf(key) > -1) && (attrs[key] in gradientsMap)) {
-                    attrs[key] = gradientsMap[attrs[key]];
-                }
-                //hidden is not a proper SVG attribute.
-                if (key == 'hidden' && sprite.type == 'text') {
-                    continue;
-                }
-                if (key in parsers) {
-                    el.dom.setAttribute(key, parsers[key](attrs[key], sprite, me));
-                } else {
-                    el.dom.setAttribute(key, attrs[key]);
-                }
-            }
-        }
-        
-        if (sprite.type == 'text') {
-            me.tuneText(sprite, attrs);
-        }
-        sprite.dirtyFont = false;
-
-        //set styles
-        style = sattr.style;
-        if (style) {
-            el.setStyle(style);
-        }
-
-        sprite.dirty = false;
-
-        if (Ext.isSafari3) {
-            // Refreshing the view to fix bug EXTJSIV-1: rendering issue in old Safari 3
-            me.webkitRect.show();
-            setTimeout(function () {
-                me.webkitRect.hide();
-            });
-        }
-    },
-
-    setClip: function(sprite, params) {
-        var me = this,
-            rect = params["clip-rect"],
-            clipEl, clipPath;
-        if (rect) {
-            if (sprite.clip) {
-                sprite.clip.parentNode.parentNode.removeChild(sprite.clip.parentNode);
-            }
-            clipEl = me.createSvgElement('clipPath');
-            clipPath = me.createSvgElement('rect');
-            clipEl.id = Ext.id(null, 'ext-clip-');
-            clipPath.setAttribute("x", rect.x);
-            clipPath.setAttribute("y", rect.y);
-            clipPath.setAttribute("width", rect.width);
-            clipPath.setAttribute("height", rect.height);
-            clipEl.appendChild(clipPath);
-            me.getDefs().appendChild(clipEl);
-            sprite.el.dom.setAttribute("clip-path", "url(#" + clipEl.id + ")");
-            sprite.clip = clipPath;
-        } 
-        // if (!attrs[key]) {
-        //     var clip = Ext.getDoc().dom.getElementById(sprite.el.getAttribute("clip-path").replace(/(^url\(#|\)$)/g, ""));
-        //     clip && clip.parentNode.removeChild(clip);
-        //     sprite.el.setAttribute("clip-path", "");
-        //     delete attrss.clip;
-        // }
-    },
-
-    /**
-     * Insert or move a given sprite's element to the correct place in the DOM list for its zIndex
-     * @param {Ext.draw.Sprite} sprite
-     */
-    applyZIndex: function(sprite) {
-        var me = this,
-            items = me.items,
-            idx = items.indexOf(sprite),
-            el = sprite.el,
-            prevEl;
-        if (me.el.dom.childNodes[idx + 2] !== el.dom) { //shift by 2 to account for defs and bg rect
-            if (idx > 0) {
-                // Find the first previous sprite which has its DOM element created already
-                do {
-                    prevEl = items.getAt(--idx).el;
-                } while (!prevEl && idx > 0);
-            }
-            el.insertAfter(prevEl || me.bgRect);
-        }
-        sprite.zIndexDirty = false;
-    },
-
-    createItem: function (config) {
-        var sprite = new Ext.draw.Sprite(config);
-        sprite.surface = this;
-        return sprite;
-    },
-
-    addGradient: function(gradient) {
-        gradient = Ext.draw.Draw.parseGradient(gradient);
-        var me = this,
-            ln = gradient.stops.length,
-            vector = gradient.vector,
-            //Safari does not handle linear gradients correctly in quirksmode
-            //ref: https://bugs.webkit.org/show_bug.cgi?id=41952
-            //ref: EXTJSIV-1472
-            usePlain = Ext.isSafari && !Ext.isStrict,
-            gradientEl, stop, stopEl, i, gradientsMap;
-            
-        gradientsMap = me.gradientsMap || {};
-        
-        if (!usePlain) {
-            if (gradient.type == "linear") {
-                gradientEl = me.createSvgElement("linearGradient");
-                gradientEl.setAttribute("x1", vector[0]);
-                gradientEl.setAttribute("y1", vector[1]);
-                gradientEl.setAttribute("x2", vector[2]);
-                gradientEl.setAttribute("y2", vector[3]);
-            }
-            else {
-                gradientEl = me.createSvgElement("radialGradient");
-                gradientEl.setAttribute("cx", gradient.centerX);
-                gradientEl.setAttribute("cy", gradient.centerY);
-                gradientEl.setAttribute("r", gradient.radius);
-                if (Ext.isNumber(gradient.focalX) && Ext.isNumber(gradient.focalY)) {
-                    gradientEl.setAttribute("fx", gradient.focalX);
-                    gradientEl.setAttribute("fy", gradient.focalY);
-                }
-            }
-            gradientEl.id = gradient.id;
-            me.getDefs().appendChild(gradientEl);
-            for (i = 0; i < ln; i++) {
-                stop = gradient.stops[i];
-                stopEl = me.createSvgElement("stop");
-                stopEl.setAttribute("offset", stop.offset + "%");
-                stopEl.setAttribute("stop-color", stop.color);
-                stopEl.setAttribute("stop-opacity",stop.opacity);
-                gradientEl.appendChild(stopEl);
-            }
-        } else {
-            gradientsMap['url(#' + gradient.id + ')'] = gradient.stops[0].color;
-        }
-        me.gradientsMap = gradientsMap;
-    },
-
-    /**
-     * Checks if the specified CSS class exists on this element's DOM node.
-     * @param {Ext.draw.Sprite} sprite The sprite to look into.
-     * @param {String} className The CSS class to check for
-     * @return {Boolean} True if the class exists, else false
-     */
-    hasCls: function(sprite, className) {
-        return className && (' ' + (sprite.el.dom.getAttribute('class') || '') + ' ').indexOf(' ' + className + ' ') != -1;
-    },
-
-    addCls: function(sprite, className) {
-        var el = sprite.el,
-            i,
-            len,
-            v,
-            cls = [],
-            curCls =  el.getAttribute('class') || '';
-        // Separate case is for speed
-        if (!Ext.isArray(className)) {
-            if (typeof className == 'string' && !this.hasCls(sprite, className)) {
-                el.set({ 'class': curCls + ' ' + className });
-            }
-        }
-        else {
-            for (i = 0, len = className.length; i < len; i++) {
-                v = className[i];
-                if (typeof v == 'string' && (' ' + curCls + ' ').indexOf(' ' + v + ' ') == -1) {
-                    cls.push(v);
-                }
-            }
-            if (cls.length) {
-                el.set({ 'class': ' ' + cls.join(' ') });
-            }
-        }
-    },
-
-    removeCls: function(sprite, className) {
-        var me = this,
-            el = sprite.el,
-            curCls =  el.getAttribute('class') || '',
-            i, idx, len, cls, elClasses;
-        if (!Ext.isArray(className)){
-            className = [className];
-        }
-        if (curCls) {
-            elClasses = curCls.replace(me.trimRe, ' ').split(me.spacesRe);
-            for (i = 0, len = className.length; i < len; i++) {
-                cls = className[i];
-                if (typeof cls == 'string') {
-                    cls = cls.replace(me.trimRe, '');
-                    idx = Ext.Array.indexOf(elClasses, cls);
-                    if (idx != -1) {
-                        Ext.Array.erase(elClasses, idx, 1);
-                    }
-                }
-            }
-            el.set({ 'class': elClasses.join(' ') });
-        }
-    },
-
-    destroy: function() {
-        var me = this;
-        
-        me.callParent();
-        if (me.el) {
-            me.el.remove();
-        }
-        if (me._defs) {
-            Ext.get(me._defs).destroy();
-        }
-        if (me.bgRect) {
-            Ext.get(me.bgRect).destroy();
-        }
-        if (me.webkitRect) {
-            Ext.get(me.webkitRect).destroy();
-        }
-        delete me.el;
-    }
-});
-
-/**
  * Provides specific methods to draw with VML.
  */
 Ext.define('Ext.draw.engine.Vml', {
@@ -65988,101 +65253,751 @@ Ext.define('Ext.draw.engine.Vml', {
     }
 });
 
-Ext.define('AM.controller.Departments', {
-    extend: 'Ext.app.Controller',
-    config: {
-        stores: ['Departments'],
-        models: ['Department'],
-        views: ['department.List']
+/**
+ * Provides specific methods to draw with SVG.
+ */
+Ext.define('Ext.draw.engine.Svg', {
+
+    /* Begin Definitions */
+
+    extend: 'Ext.draw.Surface',
+
+    requires: ['Ext.draw.Draw', 'Ext.draw.Sprite', 'Ext.draw.Matrix', 'Ext.Element'],
+
+    /* End Definitions */
+
+    engine: 'Svg',
+
+    trimRe: /^\s+|\s+$/g,
+    spacesRe: /\s+/,
+    xlink: "http:/" + "/www.w3.org/1999/xlink",
+
+    translateAttrs: {
+        radius: "r",
+        radiusX: "rx",
+        radiusY: "ry",
+        path: "d",
+        lineWidth: "stroke-width",
+        fillOpacity: "fill-opacity",
+        strokeOpacity: "stroke-opacity",
+        strokeLinejoin: "stroke-linejoin"
     },
-    init: function() {
-        this.control({
-            'departmentlist': {
-                itemclick: this.showDepartmentUser
-            } });
+
+    parsers: {},
+
+    minDefaults: {
+        circle: {
+            cx: 0,
+            cy: 0,
+            r: 0,
+            fill: "none",
+            stroke: null,
+            "stroke-width": null,
+            opacity: null,
+            "fill-opacity": null,
+            "stroke-opacity": null
+        },
+        ellipse: {
+            cx: 0,
+            cy: 0,
+            rx: 0,
+            ry: 0,
+            fill: "none",
+            stroke: null,
+            "stroke-width": null,
+            opacity: null,
+            "fill-opacity": null,
+            "stroke-opacity": null
+        },
+        rect: {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            rx: 0,
+            ry: 0,
+            fill: "none",
+            stroke: null,
+            "stroke-width": null,
+            opacity: null,
+            "fill-opacity": null,
+            "stroke-opacity": null
+        },
+        text: {
+            x: 0,
+            y: 0,
+            "text-anchor": "start",
+            "font-family": null,
+            "font-size": null,
+            "font-weight": null,
+            "font-style": null,
+            fill: "#000",
+            stroke: null,
+            "stroke-width": null,
+            opacity: null,
+            "fill-opacity": null,
+            "stroke-opacity": null
+        },
+        path: {
+            d: "M0,0",
+            fill: "none",
+            stroke: null,
+            "stroke-width": null,
+            opacity: null,
+            "fill-opacity": null,
+            "stroke-opacity": null
+        },
+        image: {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+            preserveAspectRatio: "none",
+            opacity: null
+        }
     },
-    showDepartmentUser: function(grid, model, itemEl, idx, e, eOpts) {
-        var app = this.application;
-        app.fireEvent('departmentselected', app, model);
+
+    createSvgElement: function(type, attrs) {
+        var el = this.domRef.createElementNS("http:/" + "/www.w3.org/2000/svg", type),
+            key;
+        if (attrs) {
+            for (key in attrs) {
+                el.setAttribute(key, String(attrs[key]));
+            }
+        }
+        return el;
+    },
+
+    createSpriteElement: function(sprite) {
+        // Create svg element and append to the DOM.
+        var el = this.createSvgElement(sprite.type);
+        el.id = sprite.id;
+        if (el.style) {
+            el.style.webkitTapHighlightColor = "rgba(0,0,0,0)";
+        }
+        sprite.el = Ext.get(el);
+        this.applyZIndex(sprite); //performs the insertion
+        sprite.matrix = new Ext.draw.Matrix();
+        sprite.bbox = {
+            plain: 0,
+            transform: 0
+        };
+        this.applyAttrs(sprite);
+        this.applyTransformations(sprite);
+        sprite.fireEvent("render", sprite);
+        return el;
+    },
+    
+    getBBoxText: function (sprite) {
+        var bbox = {},
+            bb, height, width, i, ln, el;
+
+        if (sprite && sprite.el) {
+            el = sprite.el.dom;
+            try {
+                bbox = el.getBBox();
+                return bbox;
+            } catch(e) {
+                // Firefox 3.0.x plays badly here
+            }
+            bbox = {x: bbox.x, y: Infinity, width: 0, height: 0};
+            ln = el.getNumberOfChars();
+            for (i = 0; i < ln; i++) {
+                bb = el.getExtentOfChar(i);
+                bbox.y = Math.min(bb.y, bbox.y);
+                height = bb.y + bb.height - bbox.y;
+                bbox.height = Math.max(bbox.height, height);
+                width = bb.x + bb.width - bbox.x;
+                bbox.width = Math.max(bbox.width, width);
+            }
+            return bbox;
+        }
+    },
+
+    hide: function() {
+        Ext.get(this.el).hide();
+    },
+
+    show: function() {
+        Ext.get(this.el).show();
+    },
+
+    hidePrim: function(sprite) {
+        this.addCls(sprite, Ext.baseCSSPrefix + 'hide-visibility');
+    },
+
+    showPrim: function(sprite) {
+        this.removeCls(sprite, Ext.baseCSSPrefix + 'hide-visibility');
+    },
+
+    getDefs: function() {
+        return this._defs || (this._defs = this.createSvgElement("defs"));
+    },
+
+    transform: function(sprite, matrixOnly) {
+        var me = this,
+            matrix = new Ext.draw.Matrix(),
+            transforms = sprite.transformations,
+            transformsLength = transforms.length,
+            i = 0,
+            transform, type;
+            
+        for (; i < transformsLength; i++) {
+            transform = transforms[i];
+            type = transform.type;
+            if (type == "translate") {
+                matrix.translate(transform.x, transform.y);
+            }
+            else if (type == "rotate") {
+                matrix.rotate(transform.degrees, transform.x, transform.y);
+            }
+            else if (type == "scale") {
+                matrix.scale(transform.x, transform.y, transform.centerX, transform.centerY);
+            }
+        }
+        sprite.matrix = matrix;
+        if (!matrixOnly) {
+            sprite.el.set({transform: matrix.toSvg()});
+        }
+    },
+
+    setSize: function(width, height) {
+        var me = this,
+            el = me.el;
+        
+        width = +width || me.width;
+        height = +height || me.height;
+        me.width = width;
+        me.height = height;
+
+        el.setSize(width, height);
+        el.set({
+            width: width,
+            height: height
+        });
+        me.callParent([width, height]);
+    },
+
+    /**
+     * Get the region for the surface's canvas area
+     * @returns {Ext.util.Region}
+     */
+    getRegion: function() {
+        // Mozilla requires using the background rect because the svg element returns an
+        // incorrect region. Webkit gives no region for the rect and must use the svg element.
+        var svgXY = this.el.getXY(),
+            rectXY = this.bgRect.getXY(),
+            max = Math.max,
+            x = max(svgXY[0], rectXY[0]),
+            y = max(svgXY[1], rectXY[1]);
+        return {
+            left: x,
+            top: y,
+            right: x + this.width,
+            bottom: y + this.height
+        };
+    },
+
+    onRemove: function(sprite) {
+        if (sprite.el) {
+            sprite.el.destroy();
+            delete sprite.el;
+        }
+        this.callParent(arguments);
+    },
+    
+    setViewBox: function(x, y, width, height) {
+        if (isFinite(x) && isFinite(y) && isFinite(width) && isFinite(height)) {
+            this.callParent(arguments);
+            this.el.dom.setAttribute("viewBox", [x, y, width, height].join(" "));
+        }
+    },
+
+    render: function (container) {
+        var me = this,
+            width,
+            height,
+            el,
+            defs,
+            bgRect,
+            webkitRect;
+        if (!me.el) {
+            width = me.width || 0;
+            height = me.height || 0;
+            el = me.createSvgElement('svg', {
+                xmlns: "http:/" + "/www.w3.org/2000/svg",
+                version: 1.1,
+                width: width,
+                height: height
+            });
+            defs = me.getDefs();
+
+            // Create a rect that is always the same size as the svg root; this serves 2 purposes:
+            // (1) It allows mouse events to be fired over empty areas in Webkit, and (2) we can
+            // use it rather than the svg element for retrieving the correct client rect of the
+            // surface in Mozilla (see https://bugzilla.mozilla.org/show_bug.cgi?id=530985)
+            bgRect = me.createSvgElement("rect", {
+                width: "100%",
+                height: "100%",
+                fill: "#000",
+                stroke: "none",
+                opacity: 0
+            });
+            
+            if (Ext.isSafari3) {
+                // Rect that we will show/hide to fix old WebKit bug with rendering issues.
+                webkitRect = me.createSvgElement("rect", {
+                    x: -10,
+                    y: -10,
+                    width: "110%",
+                    height: "110%",
+                    fill: "none",
+                    stroke: "#000"
+                });
+            }
+            el.appendChild(defs);
+            if (Ext.isSafari3) {
+                el.appendChild(webkitRect);
+            }
+            el.appendChild(bgRect);
+            container.appendChild(el);
+            me.el = Ext.get(el);
+            me.bgRect = Ext.get(bgRect);
+            if (Ext.isSafari3) {
+                me.webkitRect = Ext.get(webkitRect);
+                me.webkitRect.hide();
+            }
+            me.el.on({
+                scope: me,
+                mouseup: me.onMouseUp,
+                mousedown: me.onMouseDown,
+                mouseover: me.onMouseOver,
+                mouseout: me.onMouseOut,
+                mousemove: me.onMouseMove,
+                mouseenter: me.onMouseEnter,
+                mouseleave: me.onMouseLeave,
+                click: me.onClick,
+                dblclick: me.onDblClick
+            });
+        }
+        me.renderAll();
+    },
+
+    // private
+    onMouseEnter: function(e) {
+        if (this.el.parent().getRegion().contains(e.getPoint())) {
+            this.fireEvent('mouseenter', e);
+        }
+    },
+
+    // private
+    onMouseLeave: function(e) {
+        if (!this.el.parent().getRegion().contains(e.getPoint())) {
+            this.fireEvent('mouseleave', e);
+        }
+    },
+    // @private - Normalize a delegated single event from the main container to each sprite and sprite group
+    processEvent: function(name, e) {
+        var target = e.getTarget(),
+            surface = this.surface,
+            sprite;
+
+        this.fireEvent(name, e);
+        // We wrap text types in a tspan, sprite is the parent.
+        if (target.nodeName == "tspan" && target.parentNode) {
+            target = target.parentNode;
+        }
+        sprite = this.items.get(target.id);
+        if (sprite) {
+            sprite.fireEvent(name, sprite, e);
+        }
+    },
+
+    /* @private - Wrap SVG text inside a tspan to allow for line wrapping.  In addition this normallizes
+     * the baseline for text the vertical middle of the text to be the same as VML.
+     */
+    tuneText: function (sprite, attrs) {
+        var el = sprite.el.dom,
+            tspans = [],
+            height, tspan, text, i, ln, texts, factor, x;
+
+        if (attrs.hasOwnProperty("text")) {
+            //only create new tspans for text lines if the text has been 
+            //updated or if it's the first time we're setting the text
+            //into the sprite.
+
+            //get the actual rendered text.
+            text = sprite.tspans && Ext.Array.map(sprite.tspans, function(t) { return t.textContent; }).join('');
+
+            if (!sprite.tspans || attrs.text != text) {
+                tspans = this.setText(sprite, attrs.text);
+                sprite.tspans = tspans;
+            //for all other cases reuse the tspans previously created.
+            } else {
+                tspans = sprite.tspans || [];
+            }
+        }
+        // Normalize baseline via a DY shift of first tspan. Shift other rows by height * line height (1.2)
+        if (tspans.length) {
+            height = this.getBBoxText(sprite).height;
+            x = sprite.el.dom.getAttribute("x");
+            for (i = 0, ln = tspans.length; i < ln; i++) {
+                // The text baseline for FireFox 3.0 and 3.5 is different than other SVG implementations
+                // so we are going to normalize that here
+                factor = (Ext.isFF3_0 || Ext.isFF3_5) ? 2 : 4;
+                tspans[i].setAttribute("x", x);
+                tspans[i].setAttribute("dy", i ? height * 1.2 : height / factor);
+            }
+            sprite.dirty = true;
+        }
+    },
+
+    setText: function(sprite, textString) {
+         var me = this,
+             el = sprite.el.dom,
+             tspans = [],
+             height, tspan, text, i, ln, texts;
+        
+        while (el.firstChild) {
+            el.removeChild(el.firstChild);
+        }
+        // Wrap each row into tspan to emulate rows
+        texts = String(textString).split("\n");
+        for (i = 0, ln = texts.length; i < ln; i++) {
+            text = texts[i];
+            if (text) {
+                tspan = me.createSvgElement("tspan");
+                tspan.appendChild(document.createTextNode(Ext.htmlDecode(text)));
+                el.appendChild(tspan);
+                tspans[i] = tspan;
+            }
+        }
+        return tspans;
+    },
+
+    renderAll: function() {
+        this.items.each(this.renderItem, this);
+    },
+
+    renderItem: function (sprite) {
+        if (!this.el) {
+            return;
+        }
+        if (!sprite.el) {
+            this.createSpriteElement(sprite);
+        }
+        if (sprite.zIndexDirty) {
+            this.applyZIndex(sprite);
+        }
+        if (sprite.dirty) {
+            this.applyAttrs(sprite);
+            if (sprite.dirtyTransform) {
+                this.applyTransformations(sprite);
+            }
+        }
+    },
+
+    redraw: function(sprite) {
+        sprite.dirty = sprite.zIndexDirty = true;
+        this.renderItem(sprite);
+    },
+
+    applyAttrs: function (sprite) {
+        var me = this,
+            el = sprite.el,
+            group = sprite.group,
+            sattr = sprite.attr,
+            parsers = me.parsers,
+            //Safari does not handle linear gradients correctly in quirksmode
+            //ref: https://bugs.webkit.org/show_bug.cgi?id=41952
+            //ref: EXTJSIV-1472
+            gradientsMap = me.gradientsMap || {},
+            safariFix = Ext.isSafari && !Ext.isStrict,
+            groups, i, ln, attrs, font, key, style, name, rect;
+
+        if (group) {
+            groups = [].concat(group);
+            ln = groups.length;
+            for (i = 0; i < ln; i++) {
+                group = groups[i];
+                me.getGroup(group).add(sprite);
+            }
+            delete sprite.group;
+        }
+        attrs = me.scrubAttrs(sprite) || {};
+
+        // if (sprite.dirtyPath) {
+            sprite.bbox.plain = 0;
+            sprite.bbox.transform = 0;
+            if (sprite.type == "circle" || sprite.type == "ellipse") {
+                attrs.cx = attrs.cx || attrs.x;
+                attrs.cy = attrs.cy || attrs.y;
+            }
+            else if (sprite.type == "rect") {
+                attrs.rx = attrs.ry = attrs.r;
+            }
+            else if (sprite.type == "path" && attrs.d) {
+                attrs.d = Ext.draw.Draw.pathToString(Ext.draw.Draw.pathToAbsolute(attrs.d));
+            }
+            sprite.dirtyPath = false;
+        // }
+        // else {
+        //     delete attrs.d;
+        // }
+
+        if (attrs['clip-rect']) {
+            me.setClip(sprite, attrs);
+            delete attrs['clip-rect'];
+        }
+        if (sprite.type == 'text' && attrs.font && sprite.dirtyFont) {
+            el.set({ style: "font: " + attrs.font});
+        }
+        if (sprite.type == "image") {
+            el.dom.setAttributeNS(me.xlink, "href", attrs.src);
+        }
+        Ext.applyIf(attrs, me.minDefaults[sprite.type]);
+
+        if (sprite.dirtyHidden) {
+            (sattr.hidden) ? me.hidePrim(sprite) : me.showPrim(sprite);
+            sprite.dirtyHidden = false;
+        }
+        for (key in attrs) {
+            if (attrs.hasOwnProperty(key) && attrs[key] != null) {
+                //Safari does not handle linear gradients correctly in quirksmode
+                //ref: https://bugs.webkit.org/show_bug.cgi?id=41952
+                //ref: EXTJSIV-1472
+                //if we're Safari in QuirksMode and we're applying some color attribute and the value of that
+                //attribute is a reference to a gradient then assign a plain color to that value instead of the gradient.
+                if (safariFix && ('color|stroke|fill'.indexOf(key) > -1) && (attrs[key] in gradientsMap)) {
+                    attrs[key] = gradientsMap[attrs[key]];
+                }
+                //hidden is not a proper SVG attribute.
+                if (key == 'hidden' && sprite.type == 'text') {
+                    continue;
+                }
+                if (key in parsers) {
+                    el.dom.setAttribute(key, parsers[key](attrs[key], sprite, me));
+                } else {
+                    el.dom.setAttribute(key, attrs[key]);
+                }
+            }
+        }
+        
+        if (sprite.type == 'text') {
+            me.tuneText(sprite, attrs);
+        }
+        sprite.dirtyFont = false;
+
+        //set styles
+        style = sattr.style;
+        if (style) {
+            el.setStyle(style);
+        }
+
+        sprite.dirty = false;
+
+        if (Ext.isSafari3) {
+            // Refreshing the view to fix bug EXTJSIV-1: rendering issue in old Safari 3
+            me.webkitRect.show();
+            setTimeout(function () {
+                me.webkitRect.hide();
+            });
+        }
+    },
+
+    setClip: function(sprite, params) {
+        var me = this,
+            rect = params["clip-rect"],
+            clipEl, clipPath;
+        if (rect) {
+            if (sprite.clip) {
+                sprite.clip.parentNode.parentNode.removeChild(sprite.clip.parentNode);
+            }
+            clipEl = me.createSvgElement('clipPath');
+            clipPath = me.createSvgElement('rect');
+            clipEl.id = Ext.id(null, 'ext-clip-');
+            clipPath.setAttribute("x", rect.x);
+            clipPath.setAttribute("y", rect.y);
+            clipPath.setAttribute("width", rect.width);
+            clipPath.setAttribute("height", rect.height);
+            clipEl.appendChild(clipPath);
+            me.getDefs().appendChild(clipEl);
+            sprite.el.dom.setAttribute("clip-path", "url(#" + clipEl.id + ")");
+            sprite.clip = clipPath;
+        } 
+        // if (!attrs[key]) {
+        //     var clip = Ext.getDoc().dom.getElementById(sprite.el.getAttribute("clip-path").replace(/(^url\(#|\)$)/g, ""));
+        //     clip && clip.parentNode.removeChild(clip);
+        //     sprite.el.setAttribute("clip-path", "");
+        //     delete attrss.clip;
+        // }
+    },
+
+    /**
+     * Insert or move a given sprite's element to the correct place in the DOM list for its zIndex
+     * @param {Ext.draw.Sprite} sprite
+     */
+    applyZIndex: function(sprite) {
+        var me = this,
+            items = me.items,
+            idx = items.indexOf(sprite),
+            el = sprite.el,
+            prevEl;
+        if (me.el.dom.childNodes[idx + 2] !== el.dom) { //shift by 2 to account for defs and bg rect
+            if (idx > 0) {
+                // Find the first previous sprite which has its DOM element created already
+                do {
+                    prevEl = items.getAt(--idx).el;
+                } while (!prevEl && idx > 0);
+            }
+            el.insertAfter(prevEl || me.bgRect);
+        }
+        sprite.zIndexDirty = false;
+    },
+
+    createItem: function (config) {
+        var sprite = new Ext.draw.Sprite(config);
+        sprite.surface = this;
+        return sprite;
+    },
+
+    addGradient: function(gradient) {
+        gradient = Ext.draw.Draw.parseGradient(gradient);
+        var me = this,
+            ln = gradient.stops.length,
+            vector = gradient.vector,
+            //Safari does not handle linear gradients correctly in quirksmode
+            //ref: https://bugs.webkit.org/show_bug.cgi?id=41952
+            //ref: EXTJSIV-1472
+            usePlain = Ext.isSafari && !Ext.isStrict,
+            gradientEl, stop, stopEl, i, gradientsMap;
+            
+        gradientsMap = me.gradientsMap || {};
+        
+        if (!usePlain) {
+            if (gradient.type == "linear") {
+                gradientEl = me.createSvgElement("linearGradient");
+                gradientEl.setAttribute("x1", vector[0]);
+                gradientEl.setAttribute("y1", vector[1]);
+                gradientEl.setAttribute("x2", vector[2]);
+                gradientEl.setAttribute("y2", vector[3]);
+            }
+            else {
+                gradientEl = me.createSvgElement("radialGradient");
+                gradientEl.setAttribute("cx", gradient.centerX);
+                gradientEl.setAttribute("cy", gradient.centerY);
+                gradientEl.setAttribute("r", gradient.radius);
+                if (Ext.isNumber(gradient.focalX) && Ext.isNumber(gradient.focalY)) {
+                    gradientEl.setAttribute("fx", gradient.focalX);
+                    gradientEl.setAttribute("fy", gradient.focalY);
+                }
+            }
+            gradientEl.id = gradient.id;
+            me.getDefs().appendChild(gradientEl);
+            for (i = 0; i < ln; i++) {
+                stop = gradient.stops[i];
+                stopEl = me.createSvgElement("stop");
+                stopEl.setAttribute("offset", stop.offset + "%");
+                stopEl.setAttribute("stop-color", stop.color);
+                stopEl.setAttribute("stop-opacity",stop.opacity);
+                gradientEl.appendChild(stopEl);
+            }
+        } else {
+            gradientsMap['url(#' + gradient.id + ')'] = gradient.stops[0].color;
+        }
+        me.gradientsMap = gradientsMap;
+    },
+
+    /**
+     * Checks if the specified CSS class exists on this element's DOM node.
+     * @param {Ext.draw.Sprite} sprite The sprite to look into.
+     * @param {String} className The CSS class to check for
+     * @return {Boolean} True if the class exists, else false
+     */
+    hasCls: function(sprite, className) {
+        return className && (' ' + (sprite.el.dom.getAttribute('class') || '') + ' ').indexOf(' ' + className + ' ') != -1;
+    },
+
+    addCls: function(sprite, className) {
+        var el = sprite.el,
+            i,
+            len,
+            v,
+            cls = [],
+            curCls =  el.getAttribute('class') || '';
+        // Separate case is for speed
+        if (!Ext.isArray(className)) {
+            if (typeof className == 'string' && !this.hasCls(sprite, className)) {
+                el.set({ 'class': curCls + ' ' + className });
+            }
+        }
+        else {
+            for (i = 0, len = className.length; i < len; i++) {
+                v = className[i];
+                if (typeof v == 'string' && (' ' + curCls + ' ').indexOf(' ' + v + ' ') == -1) {
+                    cls.push(v);
+                }
+            }
+            if (cls.length) {
+                el.set({ 'class': ' ' + cls.join(' ') });
+            }
+        }
+    },
+
+    removeCls: function(sprite, className) {
+        var me = this,
+            el = sprite.el,
+            curCls =  el.getAttribute('class') || '',
+            i, idx, len, cls, elClasses;
+        if (!Ext.isArray(className)){
+            className = [className];
+        }
+        if (curCls) {
+            elClasses = curCls.replace(me.trimRe, ' ').split(me.spacesRe);
+            for (i = 0, len = className.length; i < len; i++) {
+                cls = className[i];
+                if (typeof cls == 'string') {
+                    cls = cls.replace(me.trimRe, '');
+                    idx = Ext.Array.indexOf(elClasses, cls);
+                    if (idx != -1) {
+                        Ext.Array.erase(elClasses, idx, 1);
+                    }
+                }
+            }
+            el.set({ 'class': elClasses.join(' ') });
+        }
+    },
+
+    destroy: function() {
+        var me = this;
+        
+        me.callParent();
+        if (me.el) {
+            me.el.remove();
+        }
+        if (me._defs) {
+            Ext.get(me._defs).destroy();
+        }
+        if (me.bgRect) {
+            Ext.get(me.bgRect).destroy();
+        }
+        if (me.webkitRect) {
+            Ext.get(me.webkitRect).destroy();
+        }
+        delete me.el;
     }
 });
-Ext.define('AM.controller.Users', {
+
+Ext.define('FORM.controller.Users', {
     extend: 'Ext.app.Controller',
     config: {
         stores: ['Users'],
         models: ['User'],
-        views: ['user.Edit', 'user.List'],
+        views: ['user.List'],
         refs: [{
             ref: 'usersList',
             selector: 'userlist'
         }] },
-    init: function(app) {
-        this.control({
-            'userlist dataview': {
-                itemdblclick: this.editUser
-            },
-            'useredit button[action=save]': {
-                click: this.updateUser
-            },
-            'useredit button[action=cancel]': {
-                click: this.cancelEditUser
-            } });
-        app.on('departmentselected', function(app, model) {
-            this.getUsersStore().filterUsersByDepartment(model.
-                get('code'));
-            this.getUsersList().setTitle(model.get('name') + ' Users');
-        }, this);
-    },
-    editUser: function(grid, record) {
-        var edit = Ext.create('AM.view.user.Edit').show();
-        edit.down('form').loadRecord(record);
-    },
-    updateUser: function(button) {
-        var win    = button.up('window'),
-            form   = win.down('form'),
-            record = form.getRecord(),
-            values = form.getValues();
-        record.set(values);
-
-
-        if(false && form.getForm().isValid()){
-            //if there are no errors then send the Add request to server
-            Ext.Ajax.request({
-                url: 'user/update',
-                params: {
-                    company: 1,
-                    //this encodes the form values to a JSON object
-                    addData: Ext.encode(form.getValues())
-                },
-                scope:this,
-                //method to call when the request is successful
-                success: this.onSaveSuccess,
-                //method to call when the request is a failure
-                failure: this.onSaveFailure
-            });
-        }
-
-
-        //var store = this.getUsersStore();
-        //store.add(values);
-        //store.sync();
-
-        /*
-        var user = Ext.create('User',{
-            id : 1,
-            name : 'test',
-            email : '@',
-            department : 'IT'
-            });
-        user.save();
-        */
-        //console.log('record: '+record);
-        //console.log('values: '+values);
-
-        win.close();
-
-        this.getUsersStore().sync();
-    },
     cancelEditUser: function(button) {
         var win    = button.up('window');
         win.close();
@@ -71422,16 +71337,7 @@ Ext.define('Ext.grid.Panel', {
      * @param {Object[]} columns (Optional) An array of column configs
      */
 });
-Ext.define('AM.view.department.List' ,{
-    extend: 'Ext.grid.Panel',
-    alias : 'widget.departmentlist',
-    title : 'Departments',
-    store: 'Departments',
-    columns: [
-        {header: 'Name', dataIndex: 'name', flex: 1},
-        {header: 'Location', dataIndex: 'location', flex: 1}
-    ] });
-Ext.define('AM.view.user.List' ,{
+Ext.define('FORM.view.user.List' ,{
     extend: 'Ext.grid.Panel',
     alias : 'widget.userlist',
     title : 'All Users',
@@ -71440,19 +71346,13 @@ Ext.define('AM.view.user.List' ,{
         {header: 'Name',  dataIndex: 'name',  flex: 1},
         {header: 'Email', dataIndex: 'email', flex: 1}
     ],
-    /*dockedItems: [{
+    dockedItems: [{
         xtype: 'pagingtoolbar',
         store: 'Users',   // same store GridPanel is using
         dock: 'bottom',
         displayInfo: true
-    }],*/
+    }],
     tools:[
-        {
-            type:'plus',
-            tooltip: 'Add User',
-            handler: function(){
-            }
-        },
         {
         type:'refresh',
         tooltip: 'Refresh',
@@ -71460,20 +71360,14 @@ Ext.define('AM.view.user.List' ,{
             var pnl = this.up('userlist');
             pnl.getStore().refresh();
             pnl.setTitle('All Users');
-        } }],
-    filterUsersByDepartment: function(deptCode) {
-        this.getStore().filterUsersByDepartment(deptCode);
-    } });
-Ext.define('AM.view.Viewport', {
+        } }]
+});
+Ext.define('FORM.view.Viewport', {
     extend: 'Ext.container.Viewport',
-    requires: ['AM.view.department.List', 'AM.view.user.List'],
+    requires: ['FORM.view.user.List'],
     layout: 'border',
     config: {
         items: [{
-            region: 'west',
-            width: 200,
-            xtype: 'departmentlist'
-        }, {
             region: 'center',
             xtype: 'userlist'
         }]
@@ -71995,693 +71889,6 @@ Ext.define('Ext.selection.RowModel', {
         return success;
     }
 });
-/**
- *
- */
-Ext.define('Ext.selection.CellModel', {
-    extend: 'Ext.selection.Model',
-    alias: 'selection.cellmodel',
-    requires: ['Ext.util.KeyNav'],
-
-    isCellModel: true,
-
-    /**
-     * @cfg {Boolean} enableKeyNav
-     * Turns on/off keyboard navigation within the grid.
-     */
-    enableKeyNav: true,
-
-    /**
-     * @cfg {Boolean} preventWrap
-     * Set this configuration to true to prevent wrapping around of selection as
-     * a user navigates to the first or last column.
-     */
-    preventWrap: false,
-
-    // private property to use when firing a deselect when no old selection exists.
-    noSelection: {
-        row: -1,
-        column: -1
-    },
-
-    constructor: function() {
-        this.addEvents(
-            /**
-             * @event deselect
-             * Fired after a cell is deselected
-             * @param {Ext.selection.CellModel} this
-             * @param {Ext.data.Model} record The record of the deselected cell
-             * @param {Number} row The row index deselected
-             * @param {Number} column The column index deselected
-             */
-            'deselect',
-
-            /**
-             * @event select
-             * Fired after a cell is selected
-             * @param {Ext.selection.CellModel} this
-             * @param {Ext.data.Model} record The record of the selected cell
-             * @param {Number} row The row index selected
-             * @param {Number} column The column index selected
-             */
-            'select'
-        );
-        this.callParent(arguments);
-    },
-
-    bindComponent: function(view) {
-        var me = this,
-            grid = view.ownerCt;
-        me.primaryView = view;
-        me.views = me.views || [];
-        me.views.push(view);
-        me.bindStore(view.getStore(), true);
-
-        view.on({
-            cellmousedown: me.onMouseDown,
-            refresh: me.onViewRefresh,
-            scope: me
-        });
-        if (grid.optimizedColumnMove !== false) {
-            grid.on('columnmove', me.onColumnMove, me);
-        }
-
-        if (me.enableKeyNav) {
-            me.initKeyNav(view);
-        }
-    },
-
-    initKeyNav: function(view) {
-        var me = this;
-
-        if (!view.rendered) {
-            view.on('render', Ext.Function.bind(me.initKeyNav, me, [view], 0), me, {single: true});
-            return;
-        }
-
-        view.el.set({
-            tabIndex: -1
-        });
-
-        // view.el has tabIndex -1 to allow for
-        // keyboard events to be passed to it.
-        me.keyNav = new Ext.util.KeyNav({
-            target: view.el,
-            ignoreInputFields: true,
-            up: me.onKeyUp,
-            down: me.onKeyDown,
-            right: me.onKeyRight,
-            left: me.onKeyLeft,
-            tab: me.onKeyTab,
-            scope: me
-        });
-    },
-
-    getHeaderCt: function() {
-        var selection = this.getCurrentPosition(),
-            view = selection ? selection.view : this.primaryView;
-
-        return view.headerCt;
-    },
-
-    onKeyUp: function(e, t) {
-        this.keyNavigation = true;
-        this.move('up', e);
-        this.keyNavigation = false;
-    },
-
-    onKeyDown: function(e, t) {
-        this.keyNavigation = true;
-        this.move('down', e);
-        this.keyNavigation = false;
-    },
-
-    onKeyLeft: function(e, t) {
-        this.keyNavigation = true;
-        this.move('left', e);
-        this.keyNavigation = false;
-    },
-
-    onKeyRight: function(e, t) {
-        this.keyNavigation = true;
-        this.move('right', e);
-        this.keyNavigation = false;
-    },
-
-    move: function(dir, e) {
-        var me = this,
-            pos = me.getCurrentPosition(),
-            
-            // Calculate the new row and column position
-            newPos = pos.view.walkCells(pos, dir, e, me.preventWrap);
-
-        // If walk was successful, select new Position
-        if (newPos) {
-            newPos.view = pos.view;
-            return me.setCurrentPosition(newPos);
-        }
-        // Enforce code correctness in unbuilt source.
-        return null;
-    },
-
-    /**
-     * Returns the current position in the format {row: row, column: column}
-     */
-    getCurrentPosition: function() {
-        return this.selection;
-    },
-
-    /**
-     * Sets the current position
-     * @param {Object} position The position to set.
-     */
-    setCurrentPosition: function(pos) {
-        var me = this;
-
-        // onSelectChange uses lastSelection and nextSelection
-        me.lastSelection = me.selection;
-        if (me.selection) {
-            me.onCellDeselect(me.selection);
-        }
-
-        if (pos) {
-            me.nextSelection = new me.Selection(me);
-            me.nextSelection.setPosition(pos);
-            me.onCellSelect(me.nextSelection);
-
-            // Deselect triggered by new selection will kill the selection property, so restore it here.
-            return me.selection = me.nextSelection;
-        }
-        // Enforce code correctness in unbuilt source.
-        return null;
-    },
-
-    // Keep selection model in consistent state upon record deletion.
-    onStoreRemove: function(store, record, index) {
-        var me = this,
-            pos = me.getCurrentPosition();
-
-        me.callParent(arguments);
-        if (pos) {
-            // Deleting the row containing the selection.
-            // Attempt to reselect the same cell which has moved up if there is one
-            if (pos.row == index) {
-                if (index < store.getCount() - 1) {
-                    pos.setPosition(index, pos.column);
-                    me.setCurrentPosition(pos);
-                } else {
-                    delete me.selection;
-                }
-            }
-            // Deleting a row before the selection.
-            // Move the selection up by one row
-            else if (index < pos.row) {
-                pos.setPosition(pos.row - 1, pos.column);
-                me.setCurrentPosition(pos);
-            }
-        }
-    },
-
-    /**
-     * Set the current position based on where the user clicks.
-     * @private
-     */
-    onMouseDown: function(view, cell, cellIndex, record, row, rowIndex, e) {
-        this.setCurrentPosition({
-            view: view,
-            row: rowIndex,
-            column: cellIndex
-        });
-    },
-
-    // notify the view that the cell has been selected to update the ui
-    // appropriately and bring the cell into focus
-    onCellSelect: function(position, supressEvent) {
-        if (position && position.row !== undefined && position.row > -1) {
-            this.doSelect(position.view.getStore().getAt(position.row), /*keepExisting*/false, supressEvent);
-        }
-    },
-
-    // notify view that the cell has been deselected to update the ui
-    // appropriately
-    onCellDeselect: function(position, supressEvent) {
-        if (position && position.row !== undefined) {
-            this.doDeselect(position.view.getStore().getAt(position.row), supressEvent);
-        }
-    },
-
-    onSelectChange: function(record, isSelected, suppressEvent, commitFn) {
-        var me = this,
-            pos,
-            eventName,
-            view;
-
-        if (isSelected) {
-            pos = me.nextSelection;
-            eventName = 'select';
-        } else {
-            pos = me.lastSelection || me.noSelection;
-            eventName = 'deselect';
-        }
-
-        // CellModel may be shared between two sides of a Lockable.
-        // The position must include a reference to the view in which the selection is current.
-        // Ensure we use the view specifiied by the position.
-        view = pos.view || me.primaryView;
-
-        if ((suppressEvent || me.fireEvent('before' + eventName, me, record, pos.row, pos.column)) !== false &&
-                commitFn() !== false) {
-
-            if (isSelected) {
-                view.onCellSelect(pos);
-                view.onCellFocus(pos);
-            } else {
-                view.onCellDeselect(pos);
-                delete me.selection;
-            }
-
-            if (!suppressEvent) {
-                me.fireEvent(eventName, me, record, pos.row, pos.column);
-            }
-        }
-    },
-
-    // Tab key from the View's KeyNav, *not* from an editor.
-    onKeyTab: function(e, t) {
-        var me = this,
-            editingPlugin = me.getCurrentPosition().view.editingPlugin;
-
-        // If we were in editing mode, but just focused on a non-editable cell, behave as if we tabbed off an editable field
-        if (editingPlugin && me.wasEditing) {
-            me.onEditorTab(editingPlugin, e)
-        } else {
-            me.move(e.shiftKey ? 'left' : 'right', e);
-        }
-    },
-
-    onEditorTab: function(editingPlugin, e) {
-        var me = this,
-            direction = e.shiftKey ? 'left' : 'right',
-            position  = me.move(direction, e);
-
-        // Navigation had somewhere to go.... not hit the buffers.
-        if (position) {
-            // If we were able to begin editing clear the wasEditing flag. It gets set during navigation off an active edit.
-            if (editingPlugin.startEditByPosition(position)) {
-                me.wasEditing = false;
-            }
-            // If we could not continue editing...
-            // Set a flag that we should go back into editing mode upon next onKeyTab call
-            else {
-                me.wasEditing = true;
-                if (!position.columnHeader.dataIndex) {
-                    me.onEditorTab(editingPlugin, e);
-                }
-            }
-        }
-    },
-
-    refresh: function() {
-        var pos = this.getCurrentPosition(),
-            selRowIdx;
-
-        // Synchronize the current position's row with the row of the last selected record.
-        if (pos && (selRowIdx = this.store.indexOf(this.selected.last())) !== -1) {
-            pos.row = selRowIdx;
-        }
-    },
-
-    /**
-     * @private
-     * When grid uses {@link Ext.panel.Table#optimizedColumnMove optimizedColumnMove} (the default), this is added as a
-     * {@link Ext.panel.Table#columnmove columnmove} handler to correctly maintain the
-     * selected column using the same column header.
-     * 
-     * If optimizedColumnMove === false, (which some grid Features set) then the view is refreshed,
-     * so this is not added as a handler because the selected column.
-     */
-    onColumnMove: function(headerCt, header, fromIdx, toIdx) {
-        var grid = headerCt.up('tablepanel');
-        if (grid) {
-            this.onViewRefresh(grid.view);
-        }
-    },
-
-    onViewRefresh: function(view) {
-        var me = this,
-            pos = me.getCurrentPosition(),
-            headerCt = view.headerCt,
-            record, columnHeader;
-
-        // Re-establish selection of the same cell coordinate.
-        // DO NOT fire events because the selected 
-        if (pos && pos.view === view) {
-            record = pos.record;
-            columnHeader = pos.columnHeader;
-
-            // After a refresh, recreate the selection using the same record and grid column as before
-            if (!columnHeader.isDescendantOf(headerCt)) {
-                // column header is not a child of the header container
-                // this happens when the grid is reconfigured with new columns
-                // make a best effor to select something by matching on id, then text, then dataIndex
-                columnHeader = headerCt.queryById(columnHeader.id) || 
-                               headerCt.down('[text="' + columnHeader.text + '"]') ||
-                               headerCt.down('[dataIndex="' + columnHeader.dataIndex + '"]');
-            }
-
-            // If we have a columnHeader (either the column header that already exists in
-            // the headerCt, or a suitable match that was found after reconfiguration)
-            // AND the record still exists in the store (or a record matching the id of
-            // the previously selected record) We are ok to go ahead and set the selection
-            if (columnHeader && (view.store.indexOfId(record.getId()) !== -1)) {
-                me.setCurrentPosition({
-                    row: record,
-                    column: columnHeader,
-                    view: view
-                });
-            }
-        }
-    },
-
-    selectByPosition: function(position) {
-        this.setCurrentPosition(position);
-    }
-}, function() {
-    
-    // Encapsulate a single selection position.
-    // Maintains { row: n, column: n, record: r, columnHeader: c}
-    var Selection = this.prototype.Selection = function(model) {
-        this.model = model;
-    };
-    // Selection row/record & column/columnHeader
-    Selection.prototype.setPosition = function(row, col) {
-        var me = this,
-            view;
-
-        // We were passed {row: 1, column: 2, view: myView}
-        if (arguments.length === 1) {
-            
-            // SelectionModel is shared between both sides of a locking grid.
-            // It can be positioned on either view.
-            if (row.view) {
-                me.view = view = row.view;
-            }
-            col = row.column;
-            row = row.row;
-        }
-        
-        // If setting the position without specifying a view, and the position is already without a view
-        // use the owning Model's primary view
-        if (!view) {
-            me.view = view = me.model.primaryView;
-        }
-
-        // Row index passed
-        if (typeof row === 'number') {
-            me.row = row;
-            me.record = view.store.getAt(row);
-        }
-        // row is a Record
-        else if (row.isModel) {
-            me.record = row;
-            me.row = view.indexOf(row);
-        }
-        // row is a grid row
-        else if (row.tagName) {
-            me.record = view.getRecord(row);
-            me.row = view.indexOf(me.record);
-        }
-        
-        // column index passed
-        if (typeof col === 'number') {
-            me.column = col;
-            me.columnHeader = view.getHeaderAtIndex(col);
-        }
-        // col is a column Header
-        else {
-            me.columnHeader = col;
-            me.column = col.getIndex();
-        }
-        return me;
-    }
-});
-/**
- * A selection model that renders a column of checkboxes that can be toggled to
- * select or deselect rows. The default mode for this selection model is MULTI.
- *
- * The selection model will inject a header for the checkboxes in the first view
- * and according to the 'injectCheckbox' configuration.
- */
-Ext.define('Ext.selection.CheckboxModel', {
-    alias: 'selection.checkboxmodel',
-    extend: 'Ext.selection.RowModel',
-
-    /**
-     * @cfg {String} mode
-     * Modes of selection.
-     * Valid values are SINGLE, SIMPLE, and MULTI.
-     */
-    mode: 'MULTI',
-
-    /**
-     * @cfg {Number/String} [injectCheckbox=0]
-     * The index at which to insert the checkbox column.
-     * Supported values are a numeric index, and the strings 'first' and 'last'.
-     */
-    injectCheckbox: 0,
-
-    /**
-     * @cfg {Boolean} checkOnly
-     * True if rows can only be selected by clicking on the checkbox column.
-     */
-    checkOnly: false,
-    
-    /**
-     * @cfg {Boolean} showHeaderCheckbox
-     * Configure as `false` to not display the header checkbox at the top of the column.
-     */
-    showHeaderCheckbox: true,
-
-    headerWidth: 24,
-
-    // private
-    checkerOnCls: Ext.baseCSSPrefix + 'grid-hd-checker-on',
-
-    // private
-    refreshOnRemove: true,
-
-    beforeViewRender: function(view) {
-        var me = this;
-        me.callParent(arguments);
-
-        // if we have a locked header, only hook up to the first
-        if (!me.hasLockedHeader() || view.headerCt.lockedCt) {
-            if (me.showHeaderCheckbox !== false) {
-                view.headerCt.on('headerclick', me.onHeaderClick, me);
-            }
-            me.addCheckbox(view, true);
-            me.mon(view.ownerCt, 'reconfigure', me.onReconfigure, me);
-        }
-    },
-
-    bindComponent: function(view) {
-        var me = this;
-        me.sortable = false;
-        me.callParent(arguments);
-    },
-
-    hasLockedHeader: function(){
-        var views     = this.views,
-            vLen      = views.length,
-            v;
-
-        for (v = 0; v < vLen; v++) {
-            if (views[v].headerCt.lockedCt) {
-                return true;
-            }
-        }
-        return false;
-    },
-
-    /**
-     * Add the header checkbox to the header row
-     * @private
-     * @param {Boolean} initial True if we're binding for the first time.
-     */
-    addCheckbox: function(view, initial){
-        var me = this,
-            checkbox = me.injectCheckbox,
-            headerCt = view.headerCt;
-
-        // Preserve behaviour of false, but not clear why that would ever be done.
-        if (checkbox !== false) {
-            if (checkbox == 'first') {
-                checkbox = 0;
-            } else if (checkbox == 'last') {
-                checkbox = headerCt.getColumnCount();
-            }
-            Ext.suspendLayouts();
-            headerCt.add(checkbox,  me.getHeaderConfig());
-            Ext.resumeLayouts();
-        }
-
-        if (initial !== true) {
-            view.refresh();
-        }
-    },
-
-    /**
-     * Handles the grid's reconfigure event.  Adds the checkbox header if the columns have been reconfigured.
-     * @private
-     * @param {Ext.panel.Table} grid
-     * @param {Ext.data.Store} store
-     * @param {Object[]} columns
-     */
-    onReconfigure: function(grid, store, columns) {
-        if(columns) {
-            this.addCheckbox(this.views[0]);
-        }
-    },
-
-    /**
-     * Toggle the ui header between checked and unchecked state.
-     * @param {Boolean} isChecked
-     * @private
-     */
-    toggleUiHeader: function(isChecked) {
-        var view     = this.views[0],
-            headerCt = view.headerCt,
-            checkHd  = headerCt.child('gridcolumn[isCheckerHd]');
-
-        if (checkHd) {
-            if (isChecked) {
-                checkHd.el.addCls(this.checkerOnCls);
-            } else {
-                checkHd.el.removeCls(this.checkerOnCls);
-            }
-        }
-    },
-
-    /**
-     * Toggle between selecting all and deselecting all when clicking on
-     * a checkbox header.
-     */
-    onHeaderClick: function(headerCt, header, e) {
-        if (header.isCheckerHd) {
-            e.stopEvent();
-            var me = this,
-                isChecked = header.el.hasCls(Ext.baseCSSPrefix + 'grid-hd-checker-on');
-                
-            // Prevent focus changes on the view, since we're selecting/deselecting all records
-            me.preventFocus = true;
-            if (isChecked) {
-                me.deselectAll();
-            } else {
-                me.selectAll();
-            }
-            delete me.preventFocus;
-        }
-    },
-
-    /**
-     * Retrieve a configuration to be used in a HeaderContainer.
-     * This should be used when injectCheckbox is set to false.
-     */
-    getHeaderConfig: function() {
-        var me = this,
-            showCheck = me.showHeaderCheckbox !== false;
-
-        return {
-            isCheckerHd: showCheck,
-            text : '&#160;',
-            width: me.headerWidth,
-            sortable: false,
-            draggable: false,
-            resizable: false,
-            hideable: false,
-            menuDisabled: true,
-            dataIndex: '',
-            cls: showCheck ? Ext.baseCSSPrefix + 'column-header-checkbox ' : '',
-            renderer: Ext.Function.bind(me.renderer, me),
-            editRenderer: me.editRenderer || me.renderEmpty,
-            locked: me.hasLockedHeader()
-        };
-    },
-    
-    renderEmpty: function(){
-        return '&#160;';    
-    },
-
-    /**
-     * Generates the HTML to be rendered in the injected checkbox column for each row.
-     * Creates the standard checkbox markup by default; can be overridden to provide custom rendering.
-     * See {@link Ext.grid.column.Column#renderer} for description of allowed parameters.
-     */
-    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
-        var baseCSSPrefix = Ext.baseCSSPrefix;
-        metaData.tdCls = baseCSSPrefix + 'grid-cell-special ' + baseCSSPrefix + 'grid-cell-row-checker';
-        return '<div class="' + baseCSSPrefix + 'grid-row-checker">&#160;</div>';
-    },
-
-    // override
-    onRowMouseDown: function(view, record, item, index, e) {
-        view.el.focus();
-        var me = this,
-            checker = e.getTarget('.' + Ext.baseCSSPrefix + 'grid-row-checker'),
-            mode;
-            
-        if (!me.allowRightMouseSelection(e)) {
-            return;
-        }
-
-        // checkOnly set, but we didn't click on a checker.
-        if (me.checkOnly && !checker) {
-            return;
-        }
-
-        if (checker) {
-            mode = me.getSelectionMode();
-            // dont change the mode if its single otherwise
-            // we would get multiple selection
-            if (mode !== 'SINGLE') {
-                me.setSelectionMode('SIMPLE');
-            }
-            me.selectWithEvent(record, e);
-            me.setSelectionMode(mode);
-        } else {
-            me.selectWithEvent(record, e);
-        }
-    },
-
-    /**
-     * Synchronize header checker value as selection changes.
-     * @private
-     */
-    onSelectChange: function() {
-        var me = this;
-        me.callParent(arguments);
-        me.updateHeaderState();
-    },
-
-    /**
-     * @private
-     */
-    onStoreLoad: function() {
-        var me = this;
-        me.callParent(arguments);
-        me.updateHeaderState();
-    },
-
-    /**
-     * @private
-     */
-    updateHeaderState: function() {
-        // check to see if all records are selected
-        var hdSelectStatus = this.selected.getCount() === this.store.getCount();
-        this.toggleUiHeader(hdSelectStatus);
-    }
-});
-
 /**
  * Implements infinite scrolling of a grid, allowing users can scroll
  * through thousands of records without the performance penalties of
@@ -73372,6 +72579,693 @@ Ext.define('Ext.grid.PagingScroller', {
 });
 
 /**
+ *
+ */
+Ext.define('Ext.selection.CellModel', {
+    extend: 'Ext.selection.Model',
+    alias: 'selection.cellmodel',
+    requires: ['Ext.util.KeyNav'],
+
+    isCellModel: true,
+
+    /**
+     * @cfg {Boolean} enableKeyNav
+     * Turns on/off keyboard navigation within the grid.
+     */
+    enableKeyNav: true,
+
+    /**
+     * @cfg {Boolean} preventWrap
+     * Set this configuration to true to prevent wrapping around of selection as
+     * a user navigates to the first or last column.
+     */
+    preventWrap: false,
+
+    // private property to use when firing a deselect when no old selection exists.
+    noSelection: {
+        row: -1,
+        column: -1
+    },
+
+    constructor: function() {
+        this.addEvents(
+            /**
+             * @event deselect
+             * Fired after a cell is deselected
+             * @param {Ext.selection.CellModel} this
+             * @param {Ext.data.Model} record The record of the deselected cell
+             * @param {Number} row The row index deselected
+             * @param {Number} column The column index deselected
+             */
+            'deselect',
+
+            /**
+             * @event select
+             * Fired after a cell is selected
+             * @param {Ext.selection.CellModel} this
+             * @param {Ext.data.Model} record The record of the selected cell
+             * @param {Number} row The row index selected
+             * @param {Number} column The column index selected
+             */
+            'select'
+        );
+        this.callParent(arguments);
+    },
+
+    bindComponent: function(view) {
+        var me = this,
+            grid = view.ownerCt;
+        me.primaryView = view;
+        me.views = me.views || [];
+        me.views.push(view);
+        me.bindStore(view.getStore(), true);
+
+        view.on({
+            cellmousedown: me.onMouseDown,
+            refresh: me.onViewRefresh,
+            scope: me
+        });
+        if (grid.optimizedColumnMove !== false) {
+            grid.on('columnmove', me.onColumnMove, me);
+        }
+
+        if (me.enableKeyNav) {
+            me.initKeyNav(view);
+        }
+    },
+
+    initKeyNav: function(view) {
+        var me = this;
+
+        if (!view.rendered) {
+            view.on('render', Ext.Function.bind(me.initKeyNav, me, [view], 0), me, {single: true});
+            return;
+        }
+
+        view.el.set({
+            tabIndex: -1
+        });
+
+        // view.el has tabIndex -1 to allow for
+        // keyboard events to be passed to it.
+        me.keyNav = new Ext.util.KeyNav({
+            target: view.el,
+            ignoreInputFields: true,
+            up: me.onKeyUp,
+            down: me.onKeyDown,
+            right: me.onKeyRight,
+            left: me.onKeyLeft,
+            tab: me.onKeyTab,
+            scope: me
+        });
+    },
+
+    getHeaderCt: function() {
+        var selection = this.getCurrentPosition(),
+            view = selection ? selection.view : this.primaryView;
+
+        return view.headerCt;
+    },
+
+    onKeyUp: function(e, t) {
+        this.keyNavigation = true;
+        this.move('up', e);
+        this.keyNavigation = false;
+    },
+
+    onKeyDown: function(e, t) {
+        this.keyNavigation = true;
+        this.move('down', e);
+        this.keyNavigation = false;
+    },
+
+    onKeyLeft: function(e, t) {
+        this.keyNavigation = true;
+        this.move('left', e);
+        this.keyNavigation = false;
+    },
+
+    onKeyRight: function(e, t) {
+        this.keyNavigation = true;
+        this.move('right', e);
+        this.keyNavigation = false;
+    },
+
+    move: function(dir, e) {
+        var me = this,
+            pos = me.getCurrentPosition(),
+            
+            // Calculate the new row and column position
+            newPos = pos.view.walkCells(pos, dir, e, me.preventWrap);
+
+        // If walk was successful, select new Position
+        if (newPos) {
+            newPos.view = pos.view;
+            return me.setCurrentPosition(newPos);
+        }
+        // Enforce code correctness in unbuilt source.
+        return null;
+    },
+
+    /**
+     * Returns the current position in the format {row: row, column: column}
+     */
+    getCurrentPosition: function() {
+        return this.selection;
+    },
+
+    /**
+     * Sets the current position
+     * @param {Object} position The position to set.
+     */
+    setCurrentPosition: function(pos) {
+        var me = this;
+
+        // onSelectChange uses lastSelection and nextSelection
+        me.lastSelection = me.selection;
+        if (me.selection) {
+            me.onCellDeselect(me.selection);
+        }
+
+        if (pos) {
+            me.nextSelection = new me.Selection(me);
+            me.nextSelection.setPosition(pos);
+            me.onCellSelect(me.nextSelection);
+
+            // Deselect triggered by new selection will kill the selection property, so restore it here.
+            return me.selection = me.nextSelection;
+        }
+        // Enforce code correctness in unbuilt source.
+        return null;
+    },
+
+    // Keep selection model in consistent state upon record deletion.
+    onStoreRemove: function(store, record, index) {
+        var me = this,
+            pos = me.getCurrentPosition();
+
+        me.callParent(arguments);
+        if (pos) {
+            // Deleting the row containing the selection.
+            // Attempt to reselect the same cell which has moved up if there is one
+            if (pos.row == index) {
+                if (index < store.getCount() - 1) {
+                    pos.setPosition(index, pos.column);
+                    me.setCurrentPosition(pos);
+                } else {
+                    delete me.selection;
+                }
+            }
+            // Deleting a row before the selection.
+            // Move the selection up by one row
+            else if (index < pos.row) {
+                pos.setPosition(pos.row - 1, pos.column);
+                me.setCurrentPosition(pos);
+            }
+        }
+    },
+
+    /**
+     * Set the current position based on where the user clicks.
+     * @private
+     */
+    onMouseDown: function(view, cell, cellIndex, record, row, rowIndex, e) {
+        this.setCurrentPosition({
+            view: view,
+            row: rowIndex,
+            column: cellIndex
+        });
+    },
+
+    // notify the view that the cell has been selected to update the ui
+    // appropriately and bring the cell into focus
+    onCellSelect: function(position, supressEvent) {
+        if (position && position.row !== undefined && position.row > -1) {
+            this.doSelect(position.view.getStore().getAt(position.row), /*keepExisting*/false, supressEvent);
+        }
+    },
+
+    // notify view that the cell has been deselected to update the ui
+    // appropriately
+    onCellDeselect: function(position, supressEvent) {
+        if (position && position.row !== undefined) {
+            this.doDeselect(position.view.getStore().getAt(position.row), supressEvent);
+        }
+    },
+
+    onSelectChange: function(record, isSelected, suppressEvent, commitFn) {
+        var me = this,
+            pos,
+            eventName,
+            view;
+
+        if (isSelected) {
+            pos = me.nextSelection;
+            eventName = 'select';
+        } else {
+            pos = me.lastSelection || me.noSelection;
+            eventName = 'deselect';
+        }
+
+        // CellModel may be shared between two sides of a Lockable.
+        // The position must include a reference to the view in which the selection is current.
+        // Ensure we use the view specifiied by the position.
+        view = pos.view || me.primaryView;
+
+        if ((suppressEvent || me.fireEvent('before' + eventName, me, record, pos.row, pos.column)) !== false &&
+                commitFn() !== false) {
+
+            if (isSelected) {
+                view.onCellSelect(pos);
+                view.onCellFocus(pos);
+            } else {
+                view.onCellDeselect(pos);
+                delete me.selection;
+            }
+
+            if (!suppressEvent) {
+                me.fireEvent(eventName, me, record, pos.row, pos.column);
+            }
+        }
+    },
+
+    // Tab key from the View's KeyNav, *not* from an editor.
+    onKeyTab: function(e, t) {
+        var me = this,
+            editingPlugin = me.getCurrentPosition().view.editingPlugin;
+
+        // If we were in editing mode, but just focused on a non-editable cell, behave as if we tabbed off an editable field
+        if (editingPlugin && me.wasEditing) {
+            me.onEditorTab(editingPlugin, e)
+        } else {
+            me.move(e.shiftKey ? 'left' : 'right', e);
+        }
+    },
+
+    onEditorTab: function(editingPlugin, e) {
+        var me = this,
+            direction = e.shiftKey ? 'left' : 'right',
+            position  = me.move(direction, e);
+
+        // Navigation had somewhere to go.... not hit the buffers.
+        if (position) {
+            // If we were able to begin editing clear the wasEditing flag. It gets set during navigation off an active edit.
+            if (editingPlugin.startEditByPosition(position)) {
+                me.wasEditing = false;
+            }
+            // If we could not continue editing...
+            // Set a flag that we should go back into editing mode upon next onKeyTab call
+            else {
+                me.wasEditing = true;
+                if (!position.columnHeader.dataIndex) {
+                    me.onEditorTab(editingPlugin, e);
+                }
+            }
+        }
+    },
+
+    refresh: function() {
+        var pos = this.getCurrentPosition(),
+            selRowIdx;
+
+        // Synchronize the current position's row with the row of the last selected record.
+        if (pos && (selRowIdx = this.store.indexOf(this.selected.last())) !== -1) {
+            pos.row = selRowIdx;
+        }
+    },
+
+    /**
+     * @private
+     * When grid uses {@link Ext.panel.Table#optimizedColumnMove optimizedColumnMove} (the default), this is added as a
+     * {@link Ext.panel.Table#columnmove columnmove} handler to correctly maintain the
+     * selected column using the same column header.
+     * 
+     * If optimizedColumnMove === false, (which some grid Features set) then the view is refreshed,
+     * so this is not added as a handler because the selected column.
+     */
+    onColumnMove: function(headerCt, header, fromIdx, toIdx) {
+        var grid = headerCt.up('tablepanel');
+        if (grid) {
+            this.onViewRefresh(grid.view);
+        }
+    },
+
+    onViewRefresh: function(view) {
+        var me = this,
+            pos = me.getCurrentPosition(),
+            headerCt = view.headerCt,
+            record, columnHeader;
+
+        // Re-establish selection of the same cell coordinate.
+        // DO NOT fire events because the selected 
+        if (pos && pos.view === view) {
+            record = pos.record;
+            columnHeader = pos.columnHeader;
+
+            // After a refresh, recreate the selection using the same record and grid column as before
+            if (!columnHeader.isDescendantOf(headerCt)) {
+                // column header is not a child of the header container
+                // this happens when the grid is reconfigured with new columns
+                // make a best effor to select something by matching on id, then text, then dataIndex
+                columnHeader = headerCt.queryById(columnHeader.id) || 
+                               headerCt.down('[text="' + columnHeader.text + '"]') ||
+                               headerCt.down('[dataIndex="' + columnHeader.dataIndex + '"]');
+            }
+
+            // If we have a columnHeader (either the column header that already exists in
+            // the headerCt, or a suitable match that was found after reconfiguration)
+            // AND the record still exists in the store (or a record matching the id of
+            // the previously selected record) We are ok to go ahead and set the selection
+            if (columnHeader && (view.store.indexOfId(record.getId()) !== -1)) {
+                me.setCurrentPosition({
+                    row: record,
+                    column: columnHeader,
+                    view: view
+                });
+            }
+        }
+    },
+
+    selectByPosition: function(position) {
+        this.setCurrentPosition(position);
+    }
+}, function() {
+    
+    // Encapsulate a single selection position.
+    // Maintains { row: n, column: n, record: r, columnHeader: c}
+    var Selection = this.prototype.Selection = function(model) {
+        this.model = model;
+    };
+    // Selection row/record & column/columnHeader
+    Selection.prototype.setPosition = function(row, col) {
+        var me = this,
+            view;
+
+        // We were passed {row: 1, column: 2, view: myView}
+        if (arguments.length === 1) {
+            
+            // SelectionModel is shared between both sides of a locking grid.
+            // It can be positioned on either view.
+            if (row.view) {
+                me.view = view = row.view;
+            }
+            col = row.column;
+            row = row.row;
+        }
+        
+        // If setting the position without specifying a view, and the position is already without a view
+        // use the owning Model's primary view
+        if (!view) {
+            me.view = view = me.model.primaryView;
+        }
+
+        // Row index passed
+        if (typeof row === 'number') {
+            me.row = row;
+            me.record = view.store.getAt(row);
+        }
+        // row is a Record
+        else if (row.isModel) {
+            me.record = row;
+            me.row = view.indexOf(row);
+        }
+        // row is a grid row
+        else if (row.tagName) {
+            me.record = view.getRecord(row);
+            me.row = view.indexOf(me.record);
+        }
+        
+        // column index passed
+        if (typeof col === 'number') {
+            me.column = col;
+            me.columnHeader = view.getHeaderAtIndex(col);
+        }
+        // col is a column Header
+        else {
+            me.columnHeader = col;
+            me.column = col.getIndex();
+        }
+        return me;
+    }
+});
+/**
+ * A selection model that renders a column of checkboxes that can be toggled to
+ * select or deselect rows. The default mode for this selection model is MULTI.
+ *
+ * The selection model will inject a header for the checkboxes in the first view
+ * and according to the 'injectCheckbox' configuration.
+ */
+Ext.define('Ext.selection.CheckboxModel', {
+    alias: 'selection.checkboxmodel',
+    extend: 'Ext.selection.RowModel',
+
+    /**
+     * @cfg {String} mode
+     * Modes of selection.
+     * Valid values are SINGLE, SIMPLE, and MULTI.
+     */
+    mode: 'MULTI',
+
+    /**
+     * @cfg {Number/String} [injectCheckbox=0]
+     * The index at which to insert the checkbox column.
+     * Supported values are a numeric index, and the strings 'first' and 'last'.
+     */
+    injectCheckbox: 0,
+
+    /**
+     * @cfg {Boolean} checkOnly
+     * True if rows can only be selected by clicking on the checkbox column.
+     */
+    checkOnly: false,
+    
+    /**
+     * @cfg {Boolean} showHeaderCheckbox
+     * Configure as `false` to not display the header checkbox at the top of the column.
+     */
+    showHeaderCheckbox: true,
+
+    headerWidth: 24,
+
+    // private
+    checkerOnCls: Ext.baseCSSPrefix + 'grid-hd-checker-on',
+
+    // private
+    refreshOnRemove: true,
+
+    beforeViewRender: function(view) {
+        var me = this;
+        me.callParent(arguments);
+
+        // if we have a locked header, only hook up to the first
+        if (!me.hasLockedHeader() || view.headerCt.lockedCt) {
+            if (me.showHeaderCheckbox !== false) {
+                view.headerCt.on('headerclick', me.onHeaderClick, me);
+            }
+            me.addCheckbox(view, true);
+            me.mon(view.ownerCt, 'reconfigure', me.onReconfigure, me);
+        }
+    },
+
+    bindComponent: function(view) {
+        var me = this;
+        me.sortable = false;
+        me.callParent(arguments);
+    },
+
+    hasLockedHeader: function(){
+        var views     = this.views,
+            vLen      = views.length,
+            v;
+
+        for (v = 0; v < vLen; v++) {
+            if (views[v].headerCt.lockedCt) {
+                return true;
+            }
+        }
+        return false;
+    },
+
+    /**
+     * Add the header checkbox to the header row
+     * @private
+     * @param {Boolean} initial True if we're binding for the first time.
+     */
+    addCheckbox: function(view, initial){
+        var me = this,
+            checkbox = me.injectCheckbox,
+            headerCt = view.headerCt;
+
+        // Preserve behaviour of false, but not clear why that would ever be done.
+        if (checkbox !== false) {
+            if (checkbox == 'first') {
+                checkbox = 0;
+            } else if (checkbox == 'last') {
+                checkbox = headerCt.getColumnCount();
+            }
+            Ext.suspendLayouts();
+            headerCt.add(checkbox,  me.getHeaderConfig());
+            Ext.resumeLayouts();
+        }
+
+        if (initial !== true) {
+            view.refresh();
+        }
+    },
+
+    /**
+     * Handles the grid's reconfigure event.  Adds the checkbox header if the columns have been reconfigured.
+     * @private
+     * @param {Ext.panel.Table} grid
+     * @param {Ext.data.Store} store
+     * @param {Object[]} columns
+     */
+    onReconfigure: function(grid, store, columns) {
+        if(columns) {
+            this.addCheckbox(this.views[0]);
+        }
+    },
+
+    /**
+     * Toggle the ui header between checked and unchecked state.
+     * @param {Boolean} isChecked
+     * @private
+     */
+    toggleUiHeader: function(isChecked) {
+        var view     = this.views[0],
+            headerCt = view.headerCt,
+            checkHd  = headerCt.child('gridcolumn[isCheckerHd]');
+
+        if (checkHd) {
+            if (isChecked) {
+                checkHd.el.addCls(this.checkerOnCls);
+            } else {
+                checkHd.el.removeCls(this.checkerOnCls);
+            }
+        }
+    },
+
+    /**
+     * Toggle between selecting all and deselecting all when clicking on
+     * a checkbox header.
+     */
+    onHeaderClick: function(headerCt, header, e) {
+        if (header.isCheckerHd) {
+            e.stopEvent();
+            var me = this,
+                isChecked = header.el.hasCls(Ext.baseCSSPrefix + 'grid-hd-checker-on');
+                
+            // Prevent focus changes on the view, since we're selecting/deselecting all records
+            me.preventFocus = true;
+            if (isChecked) {
+                me.deselectAll();
+            } else {
+                me.selectAll();
+            }
+            delete me.preventFocus;
+        }
+    },
+
+    /**
+     * Retrieve a configuration to be used in a HeaderContainer.
+     * This should be used when injectCheckbox is set to false.
+     */
+    getHeaderConfig: function() {
+        var me = this,
+            showCheck = me.showHeaderCheckbox !== false;
+
+        return {
+            isCheckerHd: showCheck,
+            text : '&#160;',
+            width: me.headerWidth,
+            sortable: false,
+            draggable: false,
+            resizable: false,
+            hideable: false,
+            menuDisabled: true,
+            dataIndex: '',
+            cls: showCheck ? Ext.baseCSSPrefix + 'column-header-checkbox ' : '',
+            renderer: Ext.Function.bind(me.renderer, me),
+            editRenderer: me.editRenderer || me.renderEmpty,
+            locked: me.hasLockedHeader()
+        };
+    },
+    
+    renderEmpty: function(){
+        return '&#160;';    
+    },
+
+    /**
+     * Generates the HTML to be rendered in the injected checkbox column for each row.
+     * Creates the standard checkbox markup by default; can be overridden to provide custom rendering.
+     * See {@link Ext.grid.column.Column#renderer} for description of allowed parameters.
+     */
+    renderer: function(value, metaData, record, rowIndex, colIndex, store, view) {
+        var baseCSSPrefix = Ext.baseCSSPrefix;
+        metaData.tdCls = baseCSSPrefix + 'grid-cell-special ' + baseCSSPrefix + 'grid-cell-row-checker';
+        return '<div class="' + baseCSSPrefix + 'grid-row-checker">&#160;</div>';
+    },
+
+    // override
+    onRowMouseDown: function(view, record, item, index, e) {
+        view.el.focus();
+        var me = this,
+            checker = e.getTarget('.' + Ext.baseCSSPrefix + 'grid-row-checker'),
+            mode;
+            
+        if (!me.allowRightMouseSelection(e)) {
+            return;
+        }
+
+        // checkOnly set, but we didn't click on a checker.
+        if (me.checkOnly && !checker) {
+            return;
+        }
+
+        if (checker) {
+            mode = me.getSelectionMode();
+            // dont change the mode if its single otherwise
+            // we would get multiple selection
+            if (mode !== 'SINGLE') {
+                me.setSelectionMode('SIMPLE');
+            }
+            me.selectWithEvent(record, e);
+            me.setSelectionMode(mode);
+        } else {
+            me.selectWithEvent(record, e);
+        }
+    },
+
+    /**
+     * Synchronize header checker value as selection changes.
+     * @private
+     */
+    onSelectChange: function() {
+        var me = this;
+        me.callParent(arguments);
+        me.updateHeaderState();
+    },
+
+    /**
+     * @private
+     */
+    onStoreLoad: function() {
+        var me = this;
+        me.callParent(arguments);
+        me.updateHeaderState();
+    },
+
+    /**
+     * @private
+     */
+    updateHeaderState: function() {
+        // check to see if all records are selected
+        var hdSelectStatus = this.selected.getCount() === this.store.getCount();
+        this.toggleUiHeader(hdSelectStatus);
+    }
+});
+
+/**
  * Produces optimized XTemplates for chunks of tables to be
  * used in grids, trees and other table based widgets.
  */
@@ -73623,6 +73517,175 @@ Ext.define('Ext.view.TableLayout', {
     }
 });
 /**
+ * This class is used internally to provide a single interface when using
+ * a locking grid. Internally, the locking grid creates two separate grids,
+ * so this class is used to map calls appropriately.
+ * @private
+ */
+Ext.define('Ext.grid.LockingView', {
+
+    mixins: {
+        observable: 'Ext.util.Observable'
+    },
+
+    eventRelayRe: /^(beforeitem|beforecontainer|item|container|cell)/,
+
+    constructor: function(config){
+        var me = this,
+            eventNames = [],
+            eventRe = me.eventRelayRe,
+            locked = config.locked.getView(),
+            normal = config.normal.getView(),
+            events,
+            event;
+
+        Ext.apply(me, {
+            lockedView: locked,
+            normalView: normal,
+            lockedGrid: config.locked,
+            normalGrid: config.normal,
+            panel: config.panel
+        });
+        me.mixins.observable.constructor.call(me, config);
+
+        // relay events
+        events = locked.events;
+        for (event in events) {
+            if (events.hasOwnProperty(event) && eventRe.test(event)) {
+                eventNames.push(event);
+            }
+        }
+        me.relayEvents(locked, eventNames);
+        me.relayEvents(normal, eventNames);
+
+        normal.on({
+            scope: me,
+            itemmouseleave: me.onItemMouseLeave,
+            itemmouseenter: me.onItemMouseEnter
+        });
+
+        locked.on({
+            scope: me,
+            itemmouseleave: me.onItemMouseLeave,
+            itemmouseenter: me.onItemMouseEnter
+        });
+    },
+
+    getGridColumns: function() {
+        var cols = this.lockedGrid.headerCt.getGridColumns();
+        return cols.concat(this.normalGrid.headerCt.getGridColumns());
+    },
+
+    getEl: function(column){
+        return this.getViewForColumn(column).getEl();
+    },
+
+    getViewForColumn: function(column) {
+        var view = this.lockedView,
+            inLocked;
+
+        view.headerCt.cascade(function(col){
+            if (col === column) {
+                inLocked = true;
+                return false;
+            }
+        });
+
+        return inLocked ? view : this.normalView;
+    },
+
+    onItemMouseEnter: function(view, record){
+        var me = this,
+            locked = me.lockedView,
+            other = me.normalView,
+            item;
+
+        if (view.trackOver) {
+            if (view !== locked) {
+                other = locked;
+            }
+            item = other.getNode(record);
+            other.highlightItem(item);
+        }
+    },
+
+    onItemMouseLeave: function(view, record){
+        var me = this,
+            locked = me.lockedView,
+            other = me.normalView;
+
+        if (view.trackOver) {
+            if (view !== locked) {
+                other = locked;
+            }
+            other.clearHighlight();
+        }
+    },
+
+    relayFn: function(name, args){
+        args = args || [];
+
+        var view = this.lockedView;
+        view[name].apply(view, args || []);
+        view = this.normalView;
+        view[name].apply(view, args || []);
+    },
+
+    getSelectionModel: function(){
+        return this.panel.getSelectionModel();
+    },
+
+    getStore: function(){
+        return this.panel.store;
+    },
+
+    getNode: function(nodeInfo){
+        // default to the normal view
+        return this.normalView.getNode(nodeInfo);
+    },
+
+    getCell: function(record, column){
+        var view = this.getViewForColumn(column),
+            row;
+
+        row = view.getNode(record);
+        return Ext.fly(row).down(column.getCellSelector());
+    },
+
+    getRecord: function(node){
+        var result = this.lockedView.getRecord(node);
+        if (!node) {
+            result = this.normalView.getRecord(node);
+        }
+        return result;
+    },
+
+    addElListener: function(eventName, fn, scope){
+        this.relayFn('addElListener', arguments);
+    },
+
+    refreshNode: function(){
+        this.relayFn('refreshNode', arguments);
+    },
+
+    refresh: function(){
+        this.relayFn('refresh', arguments);
+    },
+
+    bindStore: function(){
+        this.relayFn('bindStore', arguments);
+    },
+
+    addRowCls: function(){
+        this.relayFn('addRowCls', arguments);
+    },
+
+    removeRowCls: function(){
+        this.relayFn('removeRowCls', arguments);
+    }
+
+});
+/**
  * @private
  *
  * This class is used only by the grid's HeaderContainer docked child.
@@ -73835,175 +73898,6 @@ Ext.define('Ext.grid.ColumnLayout', {
     }
 });
 
-/**
- * This class is used internally to provide a single interface when using
- * a locking grid. Internally, the locking grid creates two separate grids,
- * so this class is used to map calls appropriately.
- * @private
- */
-Ext.define('Ext.grid.LockingView', {
-
-    mixins: {
-        observable: 'Ext.util.Observable'
-    },
-
-    eventRelayRe: /^(beforeitem|beforecontainer|item|container|cell)/,
-
-    constructor: function(config){
-        var me = this,
-            eventNames = [],
-            eventRe = me.eventRelayRe,
-            locked = config.locked.getView(),
-            normal = config.normal.getView(),
-            events,
-            event;
-
-        Ext.apply(me, {
-            lockedView: locked,
-            normalView: normal,
-            lockedGrid: config.locked,
-            normalGrid: config.normal,
-            panel: config.panel
-        });
-        me.mixins.observable.constructor.call(me, config);
-
-        // relay events
-        events = locked.events;
-        for (event in events) {
-            if (events.hasOwnProperty(event) && eventRe.test(event)) {
-                eventNames.push(event);
-            }
-        }
-        me.relayEvents(locked, eventNames);
-        me.relayEvents(normal, eventNames);
-
-        normal.on({
-            scope: me,
-            itemmouseleave: me.onItemMouseLeave,
-            itemmouseenter: me.onItemMouseEnter
-        });
-
-        locked.on({
-            scope: me,
-            itemmouseleave: me.onItemMouseLeave,
-            itemmouseenter: me.onItemMouseEnter
-        });
-    },
-
-    getGridColumns: function() {
-        var cols = this.lockedGrid.headerCt.getGridColumns();
-        return cols.concat(this.normalGrid.headerCt.getGridColumns());
-    },
-
-    getEl: function(column){
-        return this.getViewForColumn(column).getEl();
-    },
-
-    getViewForColumn: function(column) {
-        var view = this.lockedView,
-            inLocked;
-
-        view.headerCt.cascade(function(col){
-            if (col === column) {
-                inLocked = true;
-                return false;
-            }
-        });
-
-        return inLocked ? view : this.normalView;
-    },
-
-    onItemMouseEnter: function(view, record){
-        var me = this,
-            locked = me.lockedView,
-            other = me.normalView,
-            item;
-
-        if (view.trackOver) {
-            if (view !== locked) {
-                other = locked;
-            }
-            item = other.getNode(record);
-            other.highlightItem(item);
-        }
-    },
-
-    onItemMouseLeave: function(view, record){
-        var me = this,
-            locked = me.lockedView,
-            other = me.normalView;
-
-        if (view.trackOver) {
-            if (view !== locked) {
-                other = locked;
-            }
-            other.clearHighlight();
-        }
-    },
-
-    relayFn: function(name, args){
-        args = args || [];
-
-        var view = this.lockedView;
-        view[name].apply(view, args || []);
-        view = this.normalView;
-        view[name].apply(view, args || []);
-    },
-
-    getSelectionModel: function(){
-        return this.panel.getSelectionModel();
-    },
-
-    getStore: function(){
-        return this.panel.store;
-    },
-
-    getNode: function(nodeInfo){
-        // default to the normal view
-        return this.normalView.getNode(nodeInfo);
-    },
-
-    getCell: function(record, column){
-        var view = this.getViewForColumn(column),
-            row;
-
-        row = view.getNode(record);
-        return Ext.fly(row).down(column.getCellSelector());
-    },
-
-    getRecord: function(node){
-        var result = this.lockedView.getRecord(node);
-        if (!node) {
-            result = this.normalView.getRecord(node);
-        }
-        return result;
-    },
-
-    addElListener: function(eventName, fn, scope){
-        this.relayFn('addElListener', arguments);
-    },
-
-    refreshNode: function(){
-        this.relayFn('refreshNode', arguments);
-    },
-
-    refresh: function(){
-        this.relayFn('refresh', arguments);
-    },
-
-    bindStore: function(){
-        this.relayFn('bindStore', arguments);
-    },
-
-    addRowCls: function(){
-        this.relayFn('addRowCls', arguments);
-    },
-
-    removeRowCls: function(){
-        this.relayFn('removeRowCls', arguments);
-    }
-
-});
 /**
  * The AbstractPlugin class is the base class from which user-implemented plugins should inherit.
  *

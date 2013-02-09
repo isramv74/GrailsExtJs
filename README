@@ -11,6 +11,12 @@ Crea la app optimizada
 sencha build -p app.jsb3 -d .
 
 
+sencha create jsb -a http://localhost:8080/GrailsExtJs/paginatedGrid/index.html  -p app.jsb3
+sencha build -p app.jsb3 -d .
+
+
+
+
 Para acceder la app optimizada:
 
 http://localhost:8080/GrailsExtJs/

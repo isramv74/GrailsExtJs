@@ -9,6 +9,7 @@ Ext.onReady(function() {
         title: 'Form Panel',
         bodyStyle: 'padding:5px 5px 0',
         width: 600,
+        url: 'save-form.php',
         fieldDefaults: {
             labelAlign: 'top',
             msgTarget: 'side'
