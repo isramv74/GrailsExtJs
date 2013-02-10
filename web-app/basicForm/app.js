@@ -4,12 +4,12 @@ Ext.require([
 ]);
 
 Ext.onReady(function() {
-    Ext.create('Ext.form.Panel', {
+    var formPanel =Ext.create('Ext.form.Panel', {
         renderTo: Ext.getBody(),
         title: 'Form Panel',
         bodyStyle: 'padding:5px 5px 0',
         width: 600,
-        url: 'save-form.php',
+        //url: 'save-form.php',
         fieldDefaults: {
             labelAlign: 'top',
             msgTarget: 'side'
@@ -27,7 +27,7 @@ Ext.onReady(function() {
                 xtype:'textfield',
                 fieldLabel: 'First Name',
                 anchor: '-5',
-                name: 'first'
+                name: 'name'
             }, {
                 xtype:'textfield',
                 fieldLabel: 'Company',
@@ -53,6 +53,16 @@ Ext.onReady(function() {
         }, {
             text: 'Cancel'
         }]
+    });
+
+    // load form data
+    formPanel.getForm().load({
+        method: 'GET',
+        url: '/GrailsExtJs/user/getUser',
+        failure: function() {
+            Ext.Msg.alert('Error', 'Unable to load form data');
+        },
+        waitTitle: 'Loading...'
     });
 });
 

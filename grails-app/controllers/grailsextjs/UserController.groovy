@@ -37,6 +37,12 @@ class UserController {
         render listResult as JSON
     }
 
+
+    def getUser = {
+        def user = User.list(params).first()
+        render( [ success:"true", data: user ] as JSON )
+    }
+
     def more = {
         (1..100).each {
             new User(name:'Sunil'+it, email: 'sunil@wtc.com', department: 'FIN').save()
