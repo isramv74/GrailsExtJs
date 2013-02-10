@@ -52,6 +52,12 @@ Ext.onReady(function() {
             text: 'Save'
         }, {
             text: 'Cancel'
+        }],
+        dockedItems: [{
+            xtype: 'pagingtoolbar',
+            //store: store,   // same store GridPanel is using
+            dock: 'bottom',
+            displayInfo: true
         }]
     });
 
