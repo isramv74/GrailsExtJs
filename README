@@ -15,17 +15,21 @@ sencha create jsb -a http://localhost:8080/GrailsExtJs/paginatedGrid/index.html 
 sencha build -p app.jsb3 -d .
 
 
+sencha create jsb -a http://localhost:8080/GrailsExtJs/paginatedForm/index.html  -p app.jsb3
 
 
 Para acceder la app optimizada:
 
-http://localhost:8080/GrailsExtJs/
+http://localhost:8080/GrailsExtJs/index-prod.html
 
 Tambien se instalo ui-performance, basicamente para comprimir los js y css
 
 
 Paginated Grid
 http://localhost:8080/GrailsExtJs/paginatedGrid/index.html
+
+Paginated Form
+http://localhost:8080/GrailsExtJs/paginatedForm/index.html
 
 Cargar 100 usuarios
 http://localhost:8080/GrailsExtJs/user/more
