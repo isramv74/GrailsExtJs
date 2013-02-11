@@ -32,11 +32,6 @@ Ext.onReady(function() {
                 save: 'user/saveJSON',
                 destroy: 'app/data/users/destroy'
             },
-            /*reader: {
-             type: 'json',
-             root: 'users',
-             successProperty: 'success'
-             },*/
             limitParam : 'max',
             //pageParam : 'offset',
             startParam : 'offset',
