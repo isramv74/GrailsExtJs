@@ -36,7 +36,7 @@ Ext.define('AM.controller.Users', {
             values = form.getValues();
         record.set(values);
 
-
+        /*
         if(false && form.getForm().isValid()){
             //if there are no errors then send the Add request to server
             Ext.Ajax.request({
@@ -52,22 +52,9 @@ Ext.define('AM.controller.Users', {
                 //method to call when the request is a failure
                 failure: this.onSaveFailure
             });
-        }
+        } */
 
 
-        //var store = this.getUsersStore();
-        //store.add(values);
-        //store.sync();
-
-        /*
-        var user = Ext.create('User',{
-            id : 1,
-            name : 'test',
-            email : '@',
-            department : 'IT'
-            });
-        user.save();
-        */
         //console.log('record: '+record);
         //console.log('values: '+values);
 

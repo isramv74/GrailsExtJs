@@ -19,15 +19,16 @@ Ext.onReady(function() {
         listeners: {
                 load : function() {
                     formPanel.loadRecord(myStore.data.first());
-                    Ext.Msg.alert('App',"load");
+                    //Ext.Msg.alert('App',"load");
                 }
             },
+        pageSize : 1,
         proxy: {
             type: 'ajax',
             api: {
                 read: '/GrailsExtJs/user/listJSON',
                 create: 'app/data/user/saveJSON',
-                update: 'user/saveJSON',
+                update: '/GrailsExtJs/user/saveJSON',
                 save: 'user/saveJSON',
                 destroy: 'app/data/users/destroy'
             },
@@ -36,7 +37,9 @@ Ext.onReady(function() {
              root: 'users',
              successProperty: 'success'
              },*/
-
+            limitParam : 'max',
+            //pageParam : 'offset',
+            startParam : 'offset',
             reader: new Ext.data.JsonReader({
                     results: 'total',
                     root:'items',
@@ -54,12 +57,10 @@ Ext.onReady(function() {
                 root: 'data'
             },
             listeners: {
-                load : function() {
-                    //var record = myStore.getAt(0);
-                    //formPanel.getForm().loadRecord(record);
-                    //var form = Ext.getCmp('formPanel');
-                    //formPanel.loadRecord(myStore.data.first());
-                    Ext.Msg.alert('App',"load");
+                load : function(store) {
+                    store.each(function(record) {
+                        record.commit();
+                    });
                 },
                 exception: function(proxy, response, operation){
                     Ext.MessageBox.show({
@@ -122,7 +123,15 @@ Ext.onReady(function() {
             }]
         }],
         buttons: ['->', {
-            text: 'Save'
+            text: 'Save',
+            handler: function() {
+                //Ext.Msg.alert('App',"Saving");
+                record = formPanel.getRecord();
+                values = formPanel.getValues();
+                record.set(values);
+
+                myStore.sync();
+            }
         }, {
             text: 'Cancel'
         }],
@@ -130,6 +139,7 @@ Ext.onReady(function() {
             xtype: 'pagingtoolbar',
             store: myStore,
             dock: 'bottom',
+            beforePageText : 'Record',
             displayInfo: true
         }]
     });
