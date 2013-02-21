@@ -1,0 +1,9 @@
+#Ignores
+.classpath
+.project
+.settings
+/target
+/.idea
+/web-app/extjs/*
+*GrailsExtJs.iml
+*GrailsExtJs-grailsPlugins.iml
