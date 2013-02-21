@@ -8,3 +8,5 @@ Ext.define('FORM.view.Viewport', {
             xtype: 'userlist'
         }]
     } });
+
+console.log ("Log view.Viewport");

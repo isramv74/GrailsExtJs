@@ -14,4 +14,6 @@ Ext.define('FORM.controller.Users', {
     }
 });
 
+console.log ("Log controller.Users");
+
 

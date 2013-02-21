@@ -23,3 +23,5 @@ Ext.define('FORM.view.user.List' ,{
             pnl.setTitle('All Users');
         } }]
 });
+
+console.log ("Log view.user.Viewport");

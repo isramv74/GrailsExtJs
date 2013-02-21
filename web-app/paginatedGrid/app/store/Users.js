@@ -54,3 +54,5 @@ Ext.define('FORM.store.Users', {
         this.clearFilter();
         this.loadPage(1);
     } });
+
+console.log ("Log store.Users");
