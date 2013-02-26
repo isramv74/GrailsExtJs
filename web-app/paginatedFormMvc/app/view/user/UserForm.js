@@ -1,6 +1,6 @@
 console.log("Entra a pintar el formulario");
 Ext.define('FormExtMVC.view.user.UserForm' ,{
-    extend: 'Ext.grid.Panel',
+    extend: 'Ext.form.Panel',
     alias : 'widget.UserForm',
     title : 'Formulario',
     frame: true,
@@ -14,33 +14,31 @@ Ext.define('FormExtMVC.view.user.UserForm' ,{
             msgTarget: 'side'
      },
 
-     items: [{
-        xtype: 'fieldset',
-        title: 'User Information',
-        defaultType: 'textfield',
-        defaults: {
-            width: 280
-        },
+    items: [{
         items: [{
-                xtype:'textfield',
-                fieldLabel: 'First Name',
-                anchor: '-5',
-                name: 'name'
-            }, {
-                xtype:'textfield',
-                fieldLabel: 'departament',
-                anchor: '-5',
-                name: 'departament'
-            }]
+            xtype:'textfield',
+            fieldLabel: 'First Name',
+            anchor: '-5',
+            name: 'name'
         }, {
-            items: [{
-                xtype:'textfield',
-                fieldLabel: 'Email',
-                anchor: '100%',
-                name: 'email',
-                vtype:'email'
-            }
-        ]
+            xtype:'textfield',
+            fieldLabel: 'Company',
+            anchor: '-5',
+            name: 'company'
+        }]
+    }, {
+        items: [{
+            xtype:'textfield',
+            fieldLabel: 'Last Name',
+            anchor: '100%',
+            name: 'last'
+        },{
+            xtype:'textfield',
+            fieldLabel: 'Email',
+            anchor: '100%',
+            name: 'email',
+            vtype:'email'
+        }]
     }],
 
     buttons: ['->', {
