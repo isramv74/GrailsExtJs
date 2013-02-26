@@ -1,6 +1,6 @@
 Ext.define('FormExtMVC.store.Users', {
     extend: 'Ext.data.Store',
-    model: 'FormExtjMVC.model.User',
+    model: 'FormExtMVC.model.User',
     autoLoad: true,  //loads data as soon as the store is initialized
     proxy: {
         type: 'ajax',

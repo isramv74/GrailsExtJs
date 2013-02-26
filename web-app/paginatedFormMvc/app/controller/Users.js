@@ -3,10 +3,10 @@ Ext.define('FormExtMVC.controller.Users', {
     config: {
         stores: ['Users'],
         models: ['User'],
-        views: ['user.UserFrom'],
+        views: ['user.UserForm'],
         refs: [{
-            ref: 'userFrom',
-            selector: 'userFrom'
+            ref: 'UserForm',
+            selector: 'UserForm'
         }] },
     cancelEditUser: function(button) {
         var win    = button.up('window');

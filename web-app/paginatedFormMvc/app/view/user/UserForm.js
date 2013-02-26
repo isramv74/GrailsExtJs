@@ -1,7 +1,7 @@
 console.log("Entra a pintar el formulario");
-Ext.define('FormExtMVC.view.user.UserFrom' ,{
+Ext.define('FormExtMVC.view.user.UserForm' ,{
     extend: 'Ext.grid.Panel',
-    alias : 'widget.UserFrom',
+    alias : 'widget.UserForm',
     title : 'Formulario',
     frame: true,
     bodyStyle: 'padding:0 5px',
