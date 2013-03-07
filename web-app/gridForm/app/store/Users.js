@@ -1,13 +1,15 @@
-Ext.define('FormExtMVC.store.Users', {
+Ext.define('AM.store.Users', {
     extend: 'Ext.data.Store',
-    model: 'FormExtMVC.model.User',
-    autoLoad: true,  //loads data as soon as the store is initialized
+    model: 'AM.model.User',
+    autoLoad: true,
+    autoSync: true,
     proxy: {
         type: 'ajax',
+        //startParam: undefined,
         api: {
             read: '../user/listJSON',
             create: 'app/data/user/saveJSON',
-            update: 'user/saveJSON',
+            update: 'user/updateJSON',
             save: 'user/saveJSON',
             destroy: 'app/data/users/destroy'
         },
@@ -18,11 +20,11 @@ Ext.define('FormExtMVC.store.Users', {
                 id:'id'
             },
             [
-                {id:'id',name: 'name',email: 'email'}
+                {name: 'name',email: 'email', department: 'department'}
             ]
         ),
+
         limitParam : 'max',
-        //pageParam : 'offset',
         startParam : 'offset',
         writer: {
             type: 'json',
@@ -30,7 +32,6 @@ Ext.define('FormExtMVC.store.Users', {
             encode: false,
             root: 'data'
         },
-
         listeners: {
             load : function(store) {
                 store.each(function(record) {
@@ -46,11 +47,8 @@ Ext.define('FormExtMVC.store.Users', {
                 });
             }
         } },
-
-        refresh: function() {
-            this.clearFilter();
-            this.loadPage(1);
-        } 
+    refresh: function() {
+        this.clearFilter();
+        this.loadPage(1);
+    }
 });
-
-console.log ("Log store.Users");

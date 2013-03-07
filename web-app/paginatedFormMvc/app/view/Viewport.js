@@ -1,7 +1,9 @@
 Ext.define('FormExtMVC.view.Viewport', {
-    extend: 'Ext.container.Viewport',
+    extend: 'Ext.form.Panel',
     requires: ['FormExtMVC.view.user.UserForm'],
     layout: 'border',
+    frame: true,
+    bodyPadding: 5,
     config: {
         items: [{
             region: 'center',
@@ -10,3 +12,4 @@ Ext.define('FormExtMVC.view.Viewport', {
     } });
 
 console.log ("Log view.ViewPort");
+

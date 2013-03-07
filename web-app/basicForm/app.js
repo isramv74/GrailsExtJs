@@ -23,7 +23,7 @@ Ext.onReady(function() {
 
         layout: 'hbox',
         items: [{
-            items: [{
+            items: [{ 
                 xtype:'textfield',
                 fieldLabel: 'First Name',
                 anchor: '-5',
