@@ -1,66 +1,71 @@
 console.log("Entra a pintar el formulario");
 Ext.define('FormExtMVC.view.user.UserForm' ,{
     extend: 'Ext.form.Panel',
+    title : 'FormularioMVC',
     alias : 'widget.UserForm',
-    title : 'Formulario',
-    frame: true,
-    bodyStyle: 'padding:0 5px',
-    width: 600,
-    store: 'Users',
+    width: 400, height: 230,
+    store: 'Users', 
+
+    refs: [{
+        ref: 'UserForm',
+        selector: 'UserForm'
+    }],
 
     fieldDefaults: {
-            labelAlign: 'right',
-            labelWidth: 85,
-            msgTarget: 'side'
-     },
+        labelAlign: 'middle'
+    },
+
+    defaults: {
+        border: false,
+        layout: 'anchor'
+    },
 
     items: [{
-        items: [{
-            xtype:'textfield',
-            fieldLabel: 'First Name',
-            anchor: '-5',
-            name: 'name'
-        }, {
-            xtype:'textfield',
-            fieldLabel: 'Company',
-            anchor: '-5',
-            name: 'company'
-        }]
+        xtype:'textfield',
+        fieldLabel: 'id',
+        anchor: '70%',
+        name: 'id'
     }, {
-        items: [{
-            xtype:'textfield',
-            fieldLabel: 'Last Name',
-            anchor: '100%',
-            name: 'last'
-        },{
-            xtype:'textfield',
-            fieldLabel: 'Email',
-            anchor: '100%',
-            name: 'email',
-            vtype:'email'
-        }]
+        xtype:'textfield',
+        fieldLabel: 'Name',
+        anchor: '70%',
+        name: 'name'
+    },{
+        xtype:'textfield',
+        fieldLabel: 'Email',
+        anchor: '70%',
+        name: 'email',
+        vtype:'email'
     }],
 
-    buttons: ['->', {
-        text: 'Save',
-        handler: function() {
-            //Ext.Msg.alert('App',"Saving");
-            record = formPanel.getRecord();
-            values = formPanel.getValues();
-            record.set(values);
 
-            'Users'.sync();
+    buttons: [{
+        text: 'Load',
+        handler: function() {
+            //Ext.Msg.alert('form',"load");
+            //record = UserForm.getRecord();
+            console.log("Load");
+            //values = UserForm.getValues();
+            //record.set(values);
+            //'Users'.sync();
         }
     }, {
-        text: 'Cancel'
+        text: 'Submit',
+        disabled: true,
+        formBind: true,
+        action: 'submit'
     }],
+
     dockedItems: [{
         xtype: 'pagingtoolbar',
         store: 'Users',
         dock: 'bottom',
         beforePageText : 'Record',
         displayInfo: true
-    }]
+    }],
+
+    renderTo: Ext.getBody() 
+
 });
 
 console.log ("Log view.user.UserForm");

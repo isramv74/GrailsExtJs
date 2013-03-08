@@ -11,7 +11,7 @@ class UserController {
     def saveJSON(){
 
         String json = request.reader.text.toString()
-        println "Got request " + json
+        println "Got request saveJson" + json
 
         def o = JSON.parse(json)
 
@@ -30,7 +30,7 @@ class UserController {
 
     def listJSON = {
 
-        println "Got request " + request.reader.text
+        println "Got request listJson" + request.reader.text
         println "params: "+params
 
         def listResult = [ total: User.count(), items: User.list(params)]
@@ -41,6 +41,14 @@ class UserController {
     def getUser = {
         def user = User.list(params).first()
         render( [ success:"true", data: user ] as JSON )
+    }
+
+    def updateJSON={
+
+        println ("update Json")
+        def update = 'hola'
+        render( [ success:"true", data: update ] as JSON )   
+    
     }
 
     def more = {
