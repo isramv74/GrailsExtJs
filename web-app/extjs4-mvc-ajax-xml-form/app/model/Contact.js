@@ -1,8 +1,8 @@
 Ext.define('ExtMVC.model.Contact',{
     extend: 'Ext.data.Model',
     fields: [
-        {name: 'first', mapping: 'name > first'},
-        {name: 'last', mapping: 'name > last'},
+        'first',
+        'last',
         'company', 
         'email', 
         'state',

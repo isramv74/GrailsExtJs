@@ -17,9 +17,9 @@ Ext.define('ExtMVC.view.Viewport', {
             items: [
                 {
                     xtype: 'contactform',
-                    reader : Ext.create('Ext.data.reader.Xml', {
+                    reader : Ext.create('Ext.data.reader.Json', {
                         model: 'ExtMVC.model.Contact',
-                        record : 'contact',
+                        record : 'data',
                         successProperty: '@success'
                     }),
                     errorReader: Ext.create('Ext.data.reader.Xml', {

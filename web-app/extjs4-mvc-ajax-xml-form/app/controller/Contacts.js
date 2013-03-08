@@ -27,7 +27,8 @@ Ext.define('ExtMVC.controller.Contacts', {
     loadFormData: function() {
 
     	this.getContactForm().getForm().load({
-            url: 'data/xml-form-data.xml',
+            method: 'GET',
+            url: '/GrailsExtJs/contact/getContact',
             waitMsg: 'Loading...'
 		});
 	},
