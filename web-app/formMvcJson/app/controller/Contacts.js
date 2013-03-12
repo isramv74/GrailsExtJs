@@ -3,12 +3,12 @@ Ext.define('ExtMVC.controller.Contacts', {
 
     models: ['Contact', 'FieldError', 'State'],
 
-   	stores: ['States'],
+   	stores: ['States','Contacts'],
 
     views: ['contact.ContactForm'],
 
     refs: [{
-        ref: 'contactForm',
+        ref: 'ref1',
         selector: 'contactform'
     }],
 
@@ -20,17 +20,34 @@ Ext.define('ExtMVC.controller.Contacts', {
         	},
         	'contactform button[action=submit]': {
         		click: this.submitFormData
-        	}
+        	},
+            /*'contactform pagingtoolbar #afterNext': {
+                click: this.loadFormData
+            },
+            'contactform pagingtoolbar #previous': {
+                click: this.loadFormData
+            },*/
+            'contactform pagingtoolbar': {
+                change: this.loadFormData
+            }
+
+
         });
     },
 
     loadFormData: function() {
 
-    	this.getContactForm().getForm().load({
+    	/*this.getRef1().getForm().load({
             method: 'GET',
             url: '/GrailsExtJs/contact/getContact',
             waitMsg: 'Loading...'
-		});
+		});*/
+
+        //formPanel.loadRecord(myStore.data.first());
+
+        this.getRef1().getForm().loadRecord(this.getContactsStore().data.first());
+        this.getRef1().getForm().loadRecord(this.getContactsStore().data.first());
+
 	},
 	
 	submitFormData: function() {

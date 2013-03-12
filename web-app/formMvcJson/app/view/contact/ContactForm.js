@@ -7,6 +7,8 @@ Ext.define('ExtMVC.view.contact.ContactForm' ,{
     bodyPadding: 5,
     waitMsgTarget: true,
 
+    store: 'Contacts',
+
     fieldDefaults: {
             labelAlign: 'right',
             labelWidth: 85,
@@ -66,7 +68,7 @@ Ext.define('ExtMVC.view.contact.ContactForm' ,{
     }],
     dockedItems: [{
         xtype: 'pagingtoolbar',
-        //store: myStore,
+        store: 'Contacts',
         dock: 'bottom',
         beforePageText : 'Record',
         displayInfo: true
