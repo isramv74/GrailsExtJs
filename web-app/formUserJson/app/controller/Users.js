@@ -2,14 +2,12 @@ Ext.define('FormXml.controller.Users', {
     extend: 'Ext.app.Controller',
 
     models: ['User', 'FieldError'],
-    //stores: ['Users'],
-
+    stores: ['Users'],
     views: ['user.UserForm'],
 
-    refs: [{
-        ref: 'userForm',
-        selector: 'userform'
-    }],
+    refs: [{ref: 'ref1', selector: 'userform'},
+            {ref: 'viewport', selector: 'viewport'}
+        ],
 
     init: function() {
 
@@ -21,23 +19,21 @@ Ext.define('FormXml.controller.Users', {
                 click: this.submitFormData
             },
             'viewport > panel': {
-                render: this.loadFormData,
-            }, 
-
+                render: this.onPanelRendered
+            },
+            'userform pagingtoolbar': {
+                change: this.loadFormData
+            } 
         });
     },
 
     onPanelRendered: function() {
-        console.log('The panel was rendered');
+        console.log('Selector');
     },
 
     loadFormData: function() {
-        this.getUserForm().getForm().load({
-            url: '/GrailsExtJs/user/getUser',
-            failure: function(form, action) {
-                Ext.Msg.alert("Load failed", action.result.errorMessage);
-            }
-        });  
+        this.getRef1().getForm().loadRecord(this.getUsersStore().data.first());
+        this.getRef1().getForm().loadRecord(this.getUsersStore().data.first());
     },
     
     submitFormData: function() {

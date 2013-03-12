@@ -2,20 +2,16 @@ Ext.define('FormXml.store.Users', {
     extend: 'Ext.data.Store',
     model: 'FormXml.model.User',
     autoLoad: true,  //loads data as soon as the store is initialized
+    pageSize : 1,
     proxy: {
         type: 'ajax',
         api: {
-            read: '../user/getUser',
-            create: 'app/data/user/saveJSON',
-            update: 'user/saveJSON',
-            save: 'user/saveJSON',
-            destroy: 'app/data/users/destroy'
+            read: '/GrailsExtJs/user/listJSON',
+            create: '/GrailsExtJs/user/saveJSON',
+            update: '/GrailsExtJs/user/saveJSON',
+            save: '/GrailsExtJs/user/saveJSON',
+            destroy: '/GrailsExtJs/user/delete'
         },
-        /*reader: {
-            type: 'json',
-            root: 'users',
-            successProperty: 'success'
-        },*/
 
         reader: new Ext.data.JsonReader({
                 results: 'total',
@@ -27,7 +23,6 @@ Ext.define('FormXml.store.Users', {
             ]
         ),
         limitParam : 'max',
-        //pageParam : 'offset',
         startParam : 'offset',
         writer: {
             type: 'json',
@@ -55,6 +50,10 @@ Ext.define('FormXml.store.Users', {
             }
         }         
     },
+
+    refresh: function() {
+        this.clearFilter();
+    }
 });
 
 console.log ("Log store.Users");

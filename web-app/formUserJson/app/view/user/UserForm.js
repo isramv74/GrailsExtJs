@@ -14,6 +14,10 @@ Ext.define('FormXml.view.user.UserForm' ,{
             msgTarget: 'side'
      },
 
+     
+
+
+
     items: [{
         xtype: 'fieldset',
         title: 'User Information',
@@ -52,7 +56,7 @@ Ext.define('FormXml.view.user.UserForm' ,{
 
     dockedItems: [{
         xtype: 'pagingtoolbar',
-        //store: 'store', 
+        store: 'Users', 
         dock: 'bottom',
         displayInfo: true,
         beforePageText : 'Record'

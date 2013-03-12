@@ -66,6 +66,7 @@ Ext.define('ExtMVC.view.contact.ContactForm' ,{
         formBind: true,
         action: 'submit'
     }],
+    
     dockedItems: [{
         xtype: 'pagingtoolbar',
         store: 'Contacts',

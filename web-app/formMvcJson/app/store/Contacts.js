@@ -1,7 +1,6 @@
 Ext.define('ExtMVC.store.Contacts',{
     extend: 'Ext.data.Store',
     model: 'ExtMVC.model.Contact',
-
     autoLoad: true,  //loads data as soon as the store is initialized
     listeners: {
         load : function() {
